@@ -1,0 +1,1126 @@
+#
+# M68K libcpu support. See the PowerPC BSP file for details.
+#
+def libcpu_cache(ctx):
+	source = [
+		"src/lib/libcpu/m68k/shared/cache/cache.c",
+		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		includes=["%s/c/src/lib/libcpu/m68k/shared/cache" % ctx.srcnode.abspath()],
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_misc(ctx):
+	source = [
+		"src/lib/libcpu/m68k/shared/misc/m68kidle.c",
+		"src/lib/libcpu/m68k/shared/misc/memProbe.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_m68040_fpsp(ctx):
+	# need logic to control this based on the bsp option.
+	source = [
+		"src/lib/libcpu/m68k/m68040/fpsp/rtems_fpsp.c",
+		"src/lib/libcpu/m68k/m68040/fpsp/bindec.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/binstr.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/bugfix.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/decbin.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/do_func.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/gen_except.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/get_op.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/kernel_ex.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/res_func.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/round.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/rtems_skel.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/sacos.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/sasin.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/satan.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/satanh.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/scale.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/scosh.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/setox.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/sgetem.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/sint.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/slog2.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/slogn.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/smovecr.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/srem_mod.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/ssin.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/ssinh.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/stan.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/stanh.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/sto_res.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/stwotox.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/tbldo.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/util.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_bsun.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_fline.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_operr.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_ovfl.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_snan.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_store.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_unfl.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_unimp.S",
+		"src/lib/libcpu/m68k/m68040/fpsp/x_unsupp.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5206_clock(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5206/clock/ckinit.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5206_mcfuart(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5206/console/mcfuart.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5206_mbus(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5206/mbus/mcfmbus.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5206_timer(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5206/timer/timer.c",
+		"src/lib/libcpu/m68k/mcf5206/timer/timerisr.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5223x_cachepd(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5223x/cache/cachepd.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5235_cachepd(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5235/cache/cachepd.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf532x_cachepd(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf532x/cache/cachepd.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5272_clock(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5272/clock/ckinit.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf5272_timer(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf5272/timer/timer.c",
+		"src/lib/libcpu/m68k/mcf5272/timer/timerisr.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mcf548x_mcdma(ctx):
+	source = [
+		"src/lib/libcpu/m68k/mcf548x/mcdma/MCD_dmaApi.c",
+		"src/lib/libcpu/m68k/mcf548x/mcdma/MCD_tasksInit.c",
+		"src/lib/libcpu/m68k/mcf548x/mcdma/MCD_tasks.c",
+		"src/lib/libcpu/m68k/mcf548x/mcdma/mcdma_glue.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		includes=["%s/include/mcf548x" % ctx.srcnode.abspath()],
+		features="src_include"
+	)
+
+def av5282(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/av5282/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/av5282/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/av5282/clock/clock.c",
+		"src/lib/libbsp/m68k/av5282/console/console.c",
+		"src/lib/libbsp/m68k/av5282/startup/bspstart.c",
+		"src/lib/libbsp/m68k/av5282/startup/init5282.c",
+		"src/lib/libbsp/m68k/av5282/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_loop.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def csb360(ctx):
+
+	libcpu_misc(ctx)
+	libcpu_mcf5272_clock(ctx)
+	libcpu_mcf5272_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/csb360/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/csb360/console/console-io.c",
+		"src/lib/libbsp/m68k/csb360/startup/init5272.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def gen68302(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/gen68302/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/gen68302/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/gen68302/clock/ckinit.c",
+		"src/lib/libbsp/m68k/gen68302/console/console.c",
+		"src/lib/libbsp/m68k/gen68302/timer/timer.c",
+		"src/lib/libbsp/m68k/gen68302/timer/timerisr.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def gen68340(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/gen68340/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/gen68340/clock/ckinit.c",
+		"src/lib/libbsp/m68k/gen68340/console/console.c",
+		"src/lib/libbsp/m68k/gen68340/console/m340uart.c",
+		"src/lib/libbsp/m68k/gen68340/startup/dumpanic.c",
+		"src/lib/libbsp/m68k/gen68340/startup/init68340.c",
+		"src/lib/libbsp/m68k/gen68340/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def gen68360_shared(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/gen68360/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/gen68360/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/gen68360/clock/clock.c",
+		"src/lib/libbsp/m68k/gen68360/console/console.c",
+		"src/lib/libbsp/m68k/gen68360/startup/alloc360.c",
+		"src/lib/libbsp/m68k/gen68360/startup/init68360.c",
+		"src/lib/libbsp/m68k/gen68360/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def genmcf548x_shared(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+	libcpu_mcf548x_mcdma(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/genmcf548x/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/genmcf548x/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/genmcf548x/clock/clock.c",
+		"src/lib/libbsp/m68k/genmcf548x/console/console.c",
+		"src/lib/libbsp/m68k/genmcf548x/startup/bspstart.c",
+		"src/lib/libbsp/m68k/genmcf548x/startup/init548x.c",
+		"src/lib/libbsp/m68k/genmcf548x/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_loop.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def idp(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/shared/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/idp/clock/ckinit.c",
+		"src/lib/libbsp/m68k/idp/console/console.c",
+		"src/lib/libbsp/m68k/idp/console/duart.c",
+		"src/lib/libbsp/m68k/idp/console/leds.c",
+		"src/lib/libbsp/m68k/idp/console/mc68ec.c",
+		"src/lib/libbsp/m68k/idp/startup/bspstart.c",
+		"src/lib/libbsp/m68k/idp/timer/timer.c",
+		"src/lib/libbsp/m68k/idp/timer/timerisr.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mcf5206elite(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+	libcpu_mcf5206_clock(ctx)
+	libcpu_mcf5206_mcfuart(ctx)
+	libcpu_mcf5206_timer(ctx)
+	libcpu_mcf5206_mbus(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/mcf5206elite/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/mcf5206elite/console/console.c",
+		"src/lib/libbsp/m68k/mcf5206elite/i2c/i2c.c",
+		"src/lib/libbsp/m68k/mcf5206elite/i2c/i2cdrv.c",
+		"src/lib/libbsp/m68k/mcf5206elite/nvram/nvram.c",
+		"src/lib/libbsp/m68k/mcf5206elite/startup/init5206e.c",
+		"src/lib/libbsp/m68k/mcf5206elite/tod/ds1307.c",
+		"src/lib/libbsp/m68k/mcf5206elite/tod/todcfg.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/tod.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mcf52235(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_mcf5223x_cachepd(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/mcf52235/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/mcf52235/clock/clock.c",
+		"src/lib/libbsp/m68k/mcf52235/console/console.c",
+		"src/lib/libbsp/m68k/mcf52235/console/debugio.c",
+		"src/lib/libbsp/m68k/mcf52235/startup/bspgetcpuclockspeed.c",
+		"src/lib/libbsp/m68k/mcf52235/startup/cfinit.c",
+		"src/lib/libbsp/m68k/mcf52235/startup/init52235.c",
+		"src/lib/libbsp/m68k/mcf52235/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_loop.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mcf5225x(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/mcf5225x/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/mcf5225x/clock/clock.c",
+		"src/lib/libbsp/m68k/mcf5225x/console/console.c",
+		"src/lib/libbsp/m68k/mcf5225x/console/debugio.c",
+		"src/lib/libbsp/m68k/mcf5225x/startup/bspstart.c",
+		"src/lib/libbsp/m68k/mcf5225x/startup/init5225x.c",
+		"src/lib/libbsp/m68k/mcf5225x/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_loop.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mcf5235(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_mcf5235_cachepd(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/mcf5235/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/mcf5235/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/mcf5235/clock/clock.c",
+		"src/lib/libbsp/m68k/mcf5235/console/console.c",
+		"src/lib/libbsp/m68k/mcf5235/startup/bspgetcpuclockspeed.c",
+		"src/lib/libbsp/m68k/mcf5235/startup/bspstart.c",
+		"src/lib/libbsp/m68k/mcf5235/startup/init5235.c",
+		"src/lib/libbsp/m68k/mcf5235/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bspinit.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_loop.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libcpu/m68k/shared/misc/m68kidle.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mcf5329(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+	libcpu_mcf532x_cachepd(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/mcf5329/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/mcf5329/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/mcf5329/clock/clock.c",
+		"src/lib/libbsp/m68k/mcf5329/console/console.c",
+		"src/lib/libbsp/m68k/mcf5329/startup/bspstart.c",
+		"src/lib/libbsp/m68k/mcf5329/startup/cfinit.c",
+		"src/lib/libbsp/m68k/mcf5329/startup/init5329.c",
+		"src/lib/libbsp/m68k/mcf5329/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_loop.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mrm332(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/mrm332/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/mrm332/clock/ckinit.c",
+		"src/lib/libbsp/m68k/mrm332/console/console.c",
+		"src/lib/libbsp/m68k/mrm332/console/sci.c",
+		"src/lib/libbsp/m68k/mrm332/spurious/spinit.c",
+		"src/lib/libbsp/m68k/mrm332/startup/bsppredriverhook.c",
+		"src/lib/libbsp/m68k/mrm332/startup/except_vect_332_ROM.S",
+		"src/lib/libbsp/m68k/mrm332/startup/start_c.c",
+		"src/lib/libbsp/m68k/mrm332/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mvme136(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/shared/start.S"])
+
+	mp_source = [
+		"src/lib/libbsp/m68k/mvme136/shmsupp/addrconv.c",
+		"src/lib/libbsp/m68k/mvme136/shmsupp/getcfg.c",
+		"src/lib/libbsp/m68k/mvme136/shmsupp/lock.c",
+		"src/lib/libbsp/m68k/mvme136/shmsupp/mpisr.c"
+	]
+
+	ctx.bsp.mp(
+		mp_source,
+		features="src_include",
+		includes = ["%s/c/src/libchip/shmdr" % ctx.srcnode.abspath()]
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/mvme136/clock/ckinit.c",
+		"src/lib/libbsp/m68k/mvme136/console/console.c",
+		"src/lib/libbsp/m68k/mvme136/startup/bspclean.c",
+		"src/lib/libbsp/m68k/mvme136/startup/bspstart.c",
+		"src/lib/libbsp/m68k/mvme136/timer/timer.c",
+		"src/lib/libbsp/m68k/mvme136/timer/timerisr.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mvme147(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/shared/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/mvme147/clock/ckinit.c",
+		"src/lib/libbsp/m68k/mvme147/console/console.c",
+		"src/lib/libbsp/m68k/mvme147/startup/bspclean.c",
+		"src/lib/libbsp/m68k/mvme147/startup/bspstart.c",
+		"src/lib/libbsp/m68k/mvme147/timer/timer.c",
+		"src/lib/libbsp/m68k/mvme147/timer/timerisr.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mvme147s(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/shared/start.S"])
+
+	mp_source = [
+		"src/lib/libbsp/m68k/mvme147s/shmsupp/addrconv.c",
+		"src/lib/libbsp/m68k/mvme147s/shmsupp/getcfg.c",
+		"src/lib/libbsp/m68k/mvme147s/shmsupp/lock.c",
+		"src/lib/libbsp/m68k/mvme147s/shmsupp/mpisr.c"
+	]
+
+	ctx.bsp.mp(
+		mp_source,
+		features="src_include",
+		includes = ["%s/c/src/libchip/shmdr" % ctx.srcnode.abspath()]
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/mvme147/clock/ckinit.c",
+		"src/lib/libbsp/m68k/mvme147/console/console.c",
+		"src/lib/libbsp/m68k/mvme147/timer/timer.c",
+		"src/lib/libbsp/m68k/mvme147/timer/timerisr.S",
+		"src/lib/libbsp/m68k/mvme147s/startup/bspstart.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mvme162_shared(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+	libcpu_m68040_fpsp(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/shared/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/mvme167/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/mvme162/clock/ckinit.c",
+		"src/lib/libbsp/m68k/mvme162/console/console.c",
+		"src/lib/libbsp/m68k/mvme162/startup/bspclean.c",
+		"src/lib/libbsp/m68k/mvme162/startup/bspstart.c",
+		"src/lib/libbsp/m68k/mvme162/startup/page_table.c",
+		"src/lib/libbsp/m68k/mvme162/timer/timer.c",
+		"src/lib/libbsp/m68k/mvme162/timer/timerisr.S",
+		"src/lib/libbsp/m68k/mvme162/tod/tod.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def mvme167(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+	libcpu_m68040_fpsp(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/shared/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/mvme167/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/m68k/mvme167/clock/ckinit.c",
+		"src/lib/libbsp/m68k/mvme167/console/console.c",
+		"src/lib/libbsp/m68k/mvme167/startup/bspclean.c",
+		"src/lib/libbsp/m68k/mvme167/startup/bspstart.c",
+		"src/lib/libbsp/m68k/mvme167/startup/page_table.c",
+		"src/lib/libbsp/m68k/mvme167/timer/timer.c",
+		"src/lib/libbsp/m68k/mvme167/timer/timerisr.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def ods68302(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/ods68302/start/reset.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/ods68302/clock/ckinit.c",
+		"src/lib/libbsp/m68k/ods68302/console/console.c",
+		"src/lib/libbsp/m68k/ods68302/startup/cpuboot.c",
+		"src/lib/libbsp/m68k/ods68302/startup/crc.c",
+		"src/lib/libbsp/m68k/ods68302/startup/debugport.c",
+		"src/lib/libbsp/m68k/ods68302/startup/gdb-hooks.c",
+		"src/lib/libbsp/m68k/ods68302/startup/m68302scc.c",
+		"src/lib/libbsp/m68k/ods68302/startup/m68k-stub.c",
+		"src/lib/libbsp/m68k/ods68302/startup/memcheck.c",
+		"src/lib/libbsp/m68k/ods68302/startup/trace.c",
+		"src/lib/libbsp/m68k/ods68302/timer/timer.c",
+		"src/lib/libbsp/m68k/ods68302/timer/timerisr.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def sim68000_shared(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/sim68000/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m68k/shared/bspspuriousinit.c",
+		"src/lib/libbsp/m68k/shared/m68000spurious.c",
+		"src/lib/libbsp/m68k/sim68000/clock/clockdrv.c",
+		"src/lib/libbsp/m68k/sim68000/console/conscfg.c",
+		"src/lib/libbsp/m68k/sim68000/console/debugio.c",
+		"src/lib/libbsp/m68k/sim68000/startup/bsppredriverhook.c",
+		"src/lib/libbsp/m68k/sim68000/startup/spurious_assistant.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/timerstub.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def uc5282(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_misc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m68k/uC5282/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/m68k/uC5282/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+	source += [
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/m68k/uC5282/startup/bspreset.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/m68k/uC5282/startup/init5282.c",
+		"src/lib/libbsp/m68k/uC5282/startup/bspstart.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/m68k/uC5282/clock/clock.c",
+		"src/lib/libbsp/m68k/uC5282/console/console.c",
+		"src/lib/libbsp/m68k/uC5282/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def build(ctx):
+	source = []
+
+
+	source += [
+		"src/lib/libbsp/shared/setvec.c"
+	]
+
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"av5282":		av5282,
+		"csb360":		csb360,
+		"gen68302":		gen68302,
+		"gen68340":		gen68340,
+		"gen68360":		gen68360_shared,
+		"gen68360_040":		gen68360_shared,
+		"pgh360":		gen68360_shared,
+		"cobra5475":		genmcf548x_shared,
+		"m5484fireengine":	genmcf548x_shared,
+		"idp":			idp,
+		"mcf5206elite":		mcf5206elite,
+		"mcf52235":		mcf52235,
+		"mcf5225x":		mcf5225x,
+		"mcf5235":		mcf5235,
+		"mcf5329":		mcf5329,
+		"mrm332":		mrm332,
+		"mvme136":		mvme136,
+		"mvme147":		mvme147,
+		"mvme147s":		mvme147s,
+		"mvme162":		mvme162_shared,
+		"mvme162lx":		mvme162_shared,
+		"mvme167":		mvme167,
+		"ods68302":		ods68302,
+		"sim68000":		sim68000_shared,
+		"simcpu32":		sim68000_shared,
+		"uc5282":		uc5282
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_m68k(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

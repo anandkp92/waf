@@ -1,0 +1,92 @@
+def build(ctx):
+	srcnode = ctx.srcnode. abspath()
+
+	includes_common = [
+		"%s/testsuites/fstests/support" % srcnode,
+		"%s/testsuites/psxtests/include" % srcnode,
+		"%s/testsuites/support/include" % srcnode,
+	]
+
+	def test(target, source, includes=[], use=[]):
+		ctx.rtems_test(
+			"fstests_%s" % target,
+			source,
+			includes	= includes_common + includes,
+			use = use
+		)
+
+	def objects_common(target, source):
+		ctx.objects(
+			source		= source,
+			name		= "fstests_%s_common" % target,
+			includes	= ["%s/testsuites/fstests/%s_support" % (srcnode, target)] + includes_common,
+			features	= "bld_include src_include"
+		)
+
+
+	def imfs(target, source):
+		test(
+			target,
+			source,
+			includes	= ["%s/testsuites/fstests/imfs_support" % srcnode],
+			use			= "fstests_imfs_common"
+		)
+	objects_common("imfs", ["imfs_support/fs_support.c", "support/fstest_support.c"])
+	imfs("imfs_fserror", ["fserror/test.c"])
+	imfs("imfs_fslink", ["fslink/test.c"])
+	imfs("imfs_fspatheval", ["fspatheval/test.c"])
+	imfs("imfs_fspermission", ["fspermission/test.c"])
+	imfs("imfs_fsrdwr", ["fsrdwr/init.c"])
+	imfs("imfs_fssymlink", ["fssymlink/test.c"])
+	imfs("imfs_fstime", ["fstime/test.c"])
+
+
+
+	def mdosfs(target, source):
+		test(
+			target,
+			source,
+			includes	= ["%s/testsuites/fstests/mdosfs_support" % srcnode],
+			use			= "fstests_mdosfs_common"
+		)
+	objects_common("mdosfs", ["mdosfs_support/fs_support.c", "support/fstest_support.c", "support/ramdisk_support.c"])
+	mdosfs("mdosfs_fserror", ["fserror/test.c"])
+	mdosfs("mdosfs_fspatheval", ["fspatheval/test.c"])
+	mdosfs("mdosfs_fsrdwr", ["fsrdwr/init.c"])
+	mdosfs("mdosfs_fstime", ["fstime/test.c"])
+
+
+
+	def mimfs(target, source):
+		test(
+			target,
+			source,
+			includes	= ["%s/testsuites/fstests/mimfs_support" % srcnode],
+			use			= "fstests_mimfs_common"
+		)
+	objects_common("mimfs", ["mimfs_support/fs_support.c", "support/fstest_support.c"])
+	mimfs("mimfs_fserror", ["fserror/test.c"])
+	mimfs("mimfs_fslink", ["fslink/test.c"])
+	mimfs("mimfs_fspatheval", ["fspatheval/test.c"])
+	mimfs("mimfs_fspermission", ["fspermission/test.c"])
+	mimfs("mimfs_fsrdwr", ["fsrdwr/init.c"])
+	mimfs("mimfs_fssymlink", ["fssymlink/test.c"])
+	mimfs("mimfs_fstime", ["fstime/test.c"])
+
+
+
+	def mrfs(target, source):
+		test(
+			target,
+			source,
+			includes	= ["%s/testsuites/fstests/mimfs_support" % srcnode],
+			use			= "fstests_mrfs_common"
+		)
+	objects_common("mrfs", ["mrfs_support/fs_support.c", "support/fstest_support.c", "support/ramdisk_support.c"])
+	mrfs("mrfs_fserror", ["fserror/test.c"])
+	mrfs("mrfs_fslink", ["fslink/test.c"])
+	mrfs("mrfs_fspatheval", ["fspatheval/test.c"])
+	mrfs("mrfs_fspermission", ["fspermission/test.c"])
+	mrfs("mrfs_fsrdwr", ["fsrdwr/init.c"])
+	mrfs("mrfs_fssymlink", ["fssymlink/test.c"])
+	mrfs("mrfs_fstime", ["fstime/test.c"])

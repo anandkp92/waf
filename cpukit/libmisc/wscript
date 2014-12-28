@@ -1,0 +1,221 @@
+def build(ctx):
+	source = []
+
+	# shell
+	source_shell = [
+		"shell/cat_file.c",
+		"shell/cmds.c",
+		"shell/cmp-ls.c",
+		"shell/dd-args.c",
+		"shell/dd-conv.c",
+		"shell/dd-conv_tab.c",
+		"shell/dd-misc.c",
+		"shell/dd-position.c",
+		"shell/err.c",
+		"shell/errx.c",
+		"shell/fdisk.c",
+		"shell/filemode.c",
+		"shell/fts.c",
+		"shell/hexdump-conv.c",
+		"shell/hexdump-display.c",
+		"shell/hexdump-odsyntax.c",
+		"shell/hexdump-parse.c",
+		"shell/hexsyntax.c",
+		"shell/login_check.c",
+		"shell/login_prompt.c",
+		"shell/main_alias.c",
+		"shell/main_blksync.c",
+		"shell/main_cat.c",
+		"shell/main_cd.c",
+		"shell/main_chdir.c",
+		"shell/main_chmod.c",
+		"shell/main_chroot.c",
+		"shell/main_cp.c",
+		"shell/main_cpuuse.c",
+		"shell/main_date.c",
+		"shell/main_dd.c",
+		"shell/main_debugrfs.c",
+		"shell/main_dir.c",
+		"shell/main_echo.c",
+		"shell/main_exit.c",
+		"shell/main_getenv.c",
+		"shell/main_halt.c",
+		"shell/main_help.c",
+		"shell/main_hexdump.c",
+		"shell/main_id.c",
+		"shell/main_ln.c",
+		"shell/main_logoff.c",
+		"shell/main_ls.c",
+		"shell/main_mallocinfo.c",
+		"shell/main_mdump.c",
+		"shell/main_medit.c",
+		"shell/main_mfill.c",
+		"shell/main_mkdir.c",
+		"shell/main_mknod.c",
+		"shell/main_mkrfs.c",
+		"shell/main_mmove.c",
+		"shell/main_mount.c",
+		"shell/main_msdosfmt.c",
+		"shell/main_mv.c",
+		"shell/main_perioduse.c",
+		"shell/main_pwd.c",
+		"shell/main_rm.c",
+		"shell/main_rmdir.c",
+		"shell/main_rtc.c",
+		"shell/main_setenv.c",
+		"shell/main_sleep.c",
+		"shell/main_stackuse.c",
+		"shell/main_time.c",
+		"shell/main_tty.c",
+		"shell/main_umask.c",
+		"shell/main_unmount.c",
+		"shell/main_unsetenv.c",
+		"shell/main_whoami.c",
+		"shell/main_wkspaceinfo.c",
+		"shell/print-ls.c",
+		"shell/print_heapinfo.c",
+		"shell/pwcache.c",
+		"shell/shell.c",
+		"shell/shell_cmdset.c",
+		"shell/shell_getchar.c",
+		"shell/shell_getprompt.c",
+		"shell/shell_makeargs.c",
+		"shell/shell_script.c",
+		"shell/shellconfig.c",
+		"shell/utils-cp.c",
+		"shell/utils-ls.c",
+		"shell/verr.c",
+		"shell/verrx.c",
+		"shell/vis.c",
+		"shell/vwarn.c",
+		"shell/vwarnx.c",
+		"shell/warn.c",
+		"shell/warnx.c",
+		"shell/write_file.c"
+	]
+	ctx.cpu.shell(
+		source_shell,
+		includes="%s/shell" % ctx.path.abspath(),
+		features="src_include src_include_rtems")
+
+
+	source_shell_networking = [
+		"shell/main_ifconfig.c",
+		"shell/main_netstats.c",
+		"shell/main_route.c"
+	]
+	ctx.cpu.shell(
+		source_shell_networking,
+		test=ctx.env.ENABLE_NETWORKING, # extra test
+		alias="libmisc_shell",
+		includes="%s/shell" % ctx.path.abspath(),
+		features="src_include src_include_rtems")
+
+
+	source_serdbg = [
+		"serdbg/serdbg.c",
+		"serdbg/serdbgio.c",
+		"serdbg/termios_printk.c"
+	]
+	ctx.cpu.serdbg(source_serdbg)
+
+
+	source_networking = ["monitor/mon-network.c"]
+	ctx.cpu.networking(source_networking,
+			   features="src_include src_include_rtems")
+
+
+	source_mp= ["monitor/mon-mpci.c"]
+	ctx.cpu.mp(
+		source_mp,
+		features="src_include"
+	)
+
+
+	source_uuid = [
+		"uuid/clear.c",
+		"uuid/compare.c",
+		"uuid/copy.c",
+		"uuid/gen_uuid.c",
+		"uuid/isnull.c",
+		"uuid/pack.c",
+		"uuid/parse.c",
+		"uuid/unpack.c",
+		"uuid/unparse.c",
+		"uuid/uuid_time.c"
+	]
+	ctx.cpu.source(
+		source_uuid,
+		alias="libmisc_uuid",
+		features="src_include",
+		cflags=["-DHAVE_INTTYPES_H"]
+	)
+
+
+	source_monitor = [
+		"monitor/mon-command.c",
+		"monitor/mon-config.c",
+		"monitor/mon-driver.c",
+		"monitor/mon-editor.c",
+		"monitor/mon-extension.c",
+		"monitor/mon-itask.c",
+		"monitor/mon-manager.c",
+		"monitor/mon-monitor.c",
+		"monitor/mon-object.c",
+		"monitor/mon-part.c",
+		"monitor/mon-prmisc.c",
+		"monitor/mon-queue.c",
+		"monitor/mon-region.c",
+		"monitor/mon-sema.c",
+		"monitor/mon-server.c",
+		"monitor/mon-symbols.c",
+		"monitor/mon-task.c"
+	]
+	ctx.cpu.source(
+		source_monitor,
+		alias="libmisc_monitor",
+		features="src_include src_include_rtems",
+		cflags=["-DHAVE_INTTYPES_H"]
+	)
+
+
+	source += [
+		"bspcmdline/bspcmdline_get.c",
+		"bspcmdline/bspcmdline_getparam.c",
+		"bspcmdline/bspcmdline_getparamraw.c",
+		"bspcmdline/bspcmdline_getparamrhs.c",
+		"capture/capture-cli.c",
+		"capture/capture.c",
+		"cpuuse/cpuusagedata.c",
+		"cpuuse/cpuusagereport.c",
+		"cpuuse/cpuusagereset.c",
+		"devnull/devnull.c",
+		"devnull/devzero.c",
+		"dummy/dummy-networking.c",
+#		"dummy/dummy.c",
+		"dumpbuf/dumpbuf.c",
+		"fb/mw_print.c",
+		"fb/mw_uid.c",
+		"fsmount/fsmount.c",
+		"mouse/mouse_parser.c",
+		"mouse/serial_mouse.c",
+		"stackchk/check.c",
+		"stringto/stringtodouble.c",
+		"stringto/stringtofloat.c",
+		"stringto/stringtoint.c",
+		"stringto/stringtolong.c",
+		"stringto/stringtolongdouble.c",
+		"stringto/stringtolonglong.c",
+		"stringto/stringtopointer.c",
+		"stringto/stringtounsignedchar.c",
+		"stringto/stringtounsignedint.c",
+		"stringto/stringtounsignedlong.c",
+		"stringto/stringtounsignedlonglong.c",
+		"untar/untar.c"
+	]
+	ctx.cpu.source(
+		source,
+		alias="libmisc",
+		features="src_include src_include_rtems"
+	)
+

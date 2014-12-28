@@ -1,0 +1,203 @@
+def build(ctx):
+	def test(target, source, **kwarg):
+		ctx.rtems_test(
+			"sptests_%s" % target,
+			source,
+			features	= "test_include",
+			**kwarg
+		)
+
+	test("sp01", ["sp01/init.c", "sp01/task1.c"])
+	test("sp02", ["sp02/init.c", "sp02/preempt.c", "sp02/task1.c", "sp02/task2.c", "sp02/task3.c"])
+	test("sp03", ["sp03/init.c", "sp03/task1.c", "sp03/task2.c"])
+	test("sp04", ["sp04/init.c", "sp04/task1.c", "sp04/task2.c", "sp04/task3.c", "sp04/tswitch.c"])
+	test("sp05", ["sp05/init.c", "sp05/task1.c", "sp05/task2.c", "sp05/task3.c"])
+	test("sp06", ["sp06/init.c", "sp06/task1.c", "sp06/task2.c", "sp06/task3.c"])
+	test("sp07", ["sp07/init.c", "sp07/task1.c", "sp07/task2.c", "sp07/task3.c", "sp07/task4.c", "sp07/taskexit.c", "sp07/tcreate.c", "sp07/tdelete.c", "sp07/trestart.c", "sp07/tstart.c"])
+	test("sp08", ["sp08/init.c"])
+#	test("sp09", ["sp09/init.c", "sp09/isr.c", "sp09/screen01.c", "sp09/screen02.c", "sp09/screen03.c", "sp09/screen04.c", "sp09/screen05.c", "sp09/screen06.c", "sp09/screen07.c", "sp09/screen08.c", "sp09/screen09.c", "sp09/screen10.c", "sp09/screen11.c", "sp09/screen12.c", "sp09/screen13.c", "sp09/screen14.c", "sp09/task1.c", "sp09/task2.c", "sp09/task3.c", "sp09/task4.c"])
+	test("sp10", ["sp10/init.c"])
+	test("sp11", ["sp11/init.c", "sp11/task1.c", "sp11/task2.c", "sp11/timer.c"])
+	test("sp12", ["sp12/init.c", "sp12/pridrv.c", "sp12/pritask.c", "sp12/task1.c", "sp12/task2.c", "sp12/task3.c", "sp12/task4.c", "sp12/task5.c"])
+	test("sp13", ["sp13/fillbuff.c", "sp13/init.c", "sp13/putbuff.c", "sp13/task1.c", "sp13/task2.c", "sp13/task3.c"])
+	test("sp14", ["sp14/asr.c", "sp14/init.c", "sp14/task1.c", "sp14/task2.c"])
+	test("sp15", ["sp15/init.c", "sp15/task1.c"])
+	test("sp16", ["sp16/init.c", "sp16/task1.c", "sp16/task2.c", "sp16/task3.c", "sp16/task4.c", "sp16/task5.c"])
+	test("sp17", ["sp17/asr.c", "sp17/init.c", "sp17/task1.c", "sp17/task2.c"])
+	test("sp18", ["sp18/init.c"])
+	test("sp19", ["sp19/first.c", "sp19/fptask.c", "sp19/init.c", "sp19/task1.c"])
+	test("sp20", ["sp20/getall.c", "sp20/init.c", "sp20/task1.c"])
+	test("sp21", ["sp21/init.c"])
+	test("sp22", ["sp22/delay.c", "sp22/init.c", "sp22/prtime.c", "sp22/task1.c"])
+	test("sp23", ["sp23/init.c", "sp23/task1.c"])
+	test("sp24", ["sp24/init.c", "sp24/resume.c", "sp24/task1.c"])
+	test("sp25", ["sp25/init.c", "sp25/task1.c"])
+	test("sp26", ["sp26/init.c", "sp26/task1.c"])
+	test("sp27", ["sp27/init.c"])
+	test("sp27a", ["sp27/init.c"])
+	test("sp28", ["sp28/init.c"])
+	test("sp29", ["sp29/init.c"])
+	test("sp30", ["sp30/init.c", "sp30/resume.c", "sp30/task1.c"])
+	test("sp31", ["sp31/delay.c", "sp31/init.c", "sp31/prtime.c", "sp31/task1.c"])
+	test("sp32", ["sp32/init.c"])
+	test("sp33", ["sp33/init.c"])
+	test("sp34", ["sp34/changepri.c"])
+	test("sp35", ["sp35/priinv.c"])
+	test("sp36", ["sp36/strict_order_mut.c"])
+	test("sp37", ["sp37/init.c"])
+	test("sp38", ["sp38/init.c"])
+#	test("sp39", ["sp39/init.c"])
+	test("sp40", ["sp40/init.c"])
+	test("sp41", ["sp41/init.c"])
+	test("sp42", ["sp42/init.c"])
+	test("sp43", ["sp43/init.c"])
+	test("sp44", ["sp44/init.c"])
+	test("sp45", ["sp45/init.c"])
+	test("sp46", ["sp46/init.c"])
+	test("sp47", ["sp47/init.c"])
+	test("sp48", ["sp48/init.c"])
+	test("sp49", ["sp49/init.c"])
+	test("sp50", ["sp50/init.c"])
+	test("sp51", ["sp51/init.c"])
+	test("sp52", ["sp52/init.c"])
+	test("sp53", ["sp52/init.c"], defines=["USE_TIMER_SERVER"])
+	test("sp54", ["sp54/init.c"])
+	test("sp55", ["sp55/init.c"])
+	test("sp56", ["sp56/init.c"])
+	test("sp57", ["sp57/init.c"])
+	test("sp58", ["sp58/init.c"])
+	test("sp59", ["sp59/init.c"])
+	test("sp60", ["sp60/init.c"])
+	test("sp62", ["sp62/init.c"])
+	test("sp63", ["sp63/init.c"])
+	test("sp64", ["sp64/init.c"])
+	test("sp65", ["sp65/init.c"])
+	test("sp66", ["sp65/init.c"])
+	test("sp67", ["sp67/init.c"])
+	test("sp68", ["sp68/init.c"])
+#support/src/spin.c	test("sp69", ["sp69/init.c"])
+	test("sp70", ["sp70/init.c"])
+	test("sp71", ["sp71/init.c"])
+	test("sp72", ["sp72/init.c"])
+	test("sp73", ["sp73/init.c"])
+	test("sp74", ["sp74/init.c"])
+	test("sp75", ["sp75/init.c"])
+	test("sp76", ["sp76/init.c"])
+	test("spassoc01", ["spassoc01/init.c"])
+	test("spchain", ["spchain/init.c"])
+	test("spclockget", ["spclockget/init.c"])
+	test("spcoverage", ["spcoverage/init.c"])
+	test("sperror01", ["sperror01/init.c"])
+	test("sperror02", ["sperror02/init.c"])
+	test("sperror03", ["sperror03/init.c"])
+
+	ctx.objects(
+		source      = ["spfatal_support/consume_sems.c"],
+		name        = "test_sptests_spfatal_support",
+		includes	= "%s/testsuites/support/include" % ctx.srcnode.abspath(),
+		features    = "bld_include src_include"
+	)
+
+	def spfatal(target, source):
+		ctx.rtems_test(
+			"sptests_%s" % target,
+			source,
+			includes	= [
+				"%s/testsuites/support/include" % ctx.srcnode.abspath(),
+				"%s/testsuites/sptests/%s" % (ctx.srcnode.abspath(), target)
+			],
+			features	= "test_include",
+			use="test_sptests_spfatal_support"
+		)
+
+	spfatal("spfatal01", ["spfatal_support/init.c"])
+	spfatal("spfatal02", ["spfatal_support/init.c"])
+	spfatal("spfatal03", ["spfatal_support/init.c"])
+	spfatal("spfatal04", ["spfatal_support/init.c"])
+	spfatal("spfatal05", ["spfatal_support/init.c"])
+	spfatal("spfatal06", ["spfatal_support/init.c"])
+	spfatal("spfatal07", ["spfatal_support/init.c"])
+	spfatal("spfatal08", ["spfatal_support/init.c"])
+	spfatal("spfatal09", ["spfatal_support/init.c"])
+	spfatal("spfatal10", ["spfatal_support/init.c"])
+	spfatal("spfatal11", ["spfatal_support/init.c"])
+	spfatal("spfatal12", ["spfatal_support/init.c"])
+	spfatal("spfatal13", ["spfatal_support/init.c"])
+	spfatal("spfatal14", ["spfatal_support/init.c"])
+	spfatal("spfatal15", ["spfatal_support/init.c"])
+	spfatal("spfatal16", ["spfatal_support/init.c"])
+	spfatal("spfatal17", ["spfatal_support/init.c"])
+	spfatal("spfatal18", ["spfatal_support/init.c"])
+	spfatal("spfatal19", ["spfatal_support/init.c"])
+	spfatal("spfatal20", ["spfatal_support/init.c"])
+#testsuites/support/src/test_support.c	spfatal("spfatal22", ["spfatal_support/init.c"])
+#	spfatal("spfatal23", ["spfatal_support/init.c"])
+	spfatal("spfatal24", ["spfatal_support/init.c"])
+	spfatal("spfatal25", ["spfatal_support/init.c"])
+
+
+	test("spfifo01", ["spfifo01/init.c"])
+	test("spfifo02", ["spfifo02/init.c"])
+	test("spfifo03", ["spfifo03/init.c"])
+	test("spfifo04", ["spfifo04/init.c"])
+	test("spfifo05", ["spfifo05/init.c"])
+	test("spheapprot", ["spheapprot/init.c"])
+
+
+	ctx.objects(
+		source      = ["spintrcritical_support/intrcritical.c"],
+		name        = "test_sptests_spintrcritical_support",
+		includes	= [
+			"%s/testsuites/support/include" % ctx.srcnode.abspath(),
+			"%s/testsuites/sptests/spintrcritical_support" % ctx.srcnode.abspath()
+		],
+		features    = "bld_include src_include"
+	)
+
+	def spincritical(target, source, **kwargs):
+		ctx.rtems_test(
+			"sptests_%s" % target,
+			source,
+			includes	= [
+				"%s/testsuites/sptests/spintrcritical_support" % ctx.srcnode.abspath()
+			],
+			features	= "test_include",
+			use="test_sptests_spintrcritical_support",
+			**kwargs
+		)
+
+	spincritical("spintrcritical01", ["spintrcritical01/init.c"], defines=["FIFO_NO_TIMEOUT"])
+	spincritical("spintrcritical02", ["spintrcritical01/init.c"], defines=["FIFO_WITH_TIMEOUT"])
+	spincritical("spintrcritical03", ["spintrcritical01/init.c"], defines=["PRIORITY_NO_TIMEOUT"])
+	spincritical("spintrcritical04", ["spintrcritical01/init.c"], defines=["PRIORITY_WITH_TIMEOUT"])
+	spincritical("spintrcritical05", ["spintrcritical01/init.c"], defines=["PRIORITY_NO_TIMEOUT_REVERSE"])
+	spincritical("spintrcritical06", ["spintrcritical06/init.c"], defines=["PRIORITY_NO_TIMEOUT_FORWARD"])
+	spincritical("spintrcritical07", ["spintrcritical06/init.c"], defines=["PRIORITY_NO_TIMEOUT_REVERSE"])
+	spincritical("spintrcritical08", ["spintrcritical08/init.c"])
+	spincritical("spintrcritical09", ["spintrcritical09/init.c"])
+	spincritical("spintrcritical10", ["spintrcritical10/init.c"])
+	spincritical("spintrcritical11", ["spintrcritical11/init.c"], defines=["EVENT_ANY"])
+	spincritical("spintrcritical12", ["spintrcritical11/init.c"], defines=["EVENT_ALL"])
+	spincritical("spintrcritical13", ["spintrcritical13/init.c"], defines=["FIRE_AFTER"])
+	spincritical("spintrcritical14", ["spintrcritical13/init.c"], defines=["SERVER_FIRE_AFTER"])
+	spincritical("spintrcritical15", ["spintrcritical15/init.c"])
+	spincritical("spintrcritical16", ["spintrcritical16/init.c"])
+	spincritical("spintrcritical17", ["spintrcritical17/init.c"])
+
+
+	test("spmkdir", ["spmkdir/init.c"])
+	test("spmountmgr01", ["spmountmgr01/init.c"])
+	test("spnotepad01", ["spnotepad01/init.c"])
+	test("spnsext01", ["spnsext01/init.c"])
+	test("spobjgetnext", ["spobjgetnext/init.c"])
+	test("spprintk", ["spprintk/init.c"])
+	test("spprivenv01", ["spprivenv01/init.c"])
+	test("sprbtree01", ["sprbtree01/init.c"])
+	test("spsimplesched01", ["spsimplesched01/init.c"])
+	test("spsimplesched02", ["spsimplesched02/init.c"])
+	test("spsimplesched03", ["spsimplesched03/init.c"])
+	test("spsize", ["spsize/getint.c", "spsize/init.c", "spsize/size.c"])
+	test("spstkalloc", ["spstkalloc/init.c"])
+	test("spthreadq01", ["spthreadq01/init.c"])
+	test("spwatchdog", ["spwatchdog/delay.c", "spwatchdog/init.c", "spwatchdog/prtime.c", "spwatchdog/task1.c"])
+	test("spwkspace", ["spwkspace/init.c"])

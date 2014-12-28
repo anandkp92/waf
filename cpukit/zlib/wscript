@@ -1,0 +1,35 @@
+def build(ctx):
+	ctx(
+		features	= "subst",
+		source		= "zconf.h.in",
+		target		= "zconf.h",
+		name		= "libcpu_libz_zconf_h",
+		before		= ("c",)
+	)
+
+	source = [
+		"adler32.c",
+		"compress.c",
+		"crc32.c",
+		"deflate.c",
+		"gzclose.c",
+		"gzlib.c",
+		"gzread.c",
+		"gzwrite.c",
+		"infback.c",
+		"inffast.c",
+		"inflate.c",
+		"inftrees.c",
+		"trees.c",
+		"uncompr.c",
+		"zutil.c"
+	]
+
+	ctx.cpu.source(
+		source,
+		alias		= "libz",
+		cflags		= ["-DZ_PREFIX", "-DZ_HAVE_UNISTD_H"],
+		includes	= ctx.bldnode.bldpath(),
+		features	= "src_include",
+		use			= "libcpu_libz_zconf_h"
+	)

@@ -1,0 +1,195 @@
+from imp import new_module
+from os.path import basename
+
+def host_arm_nds(ctx):
+	source = [
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/arm7_sha1_homebrew.c",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/arm7_sha1_nintendo.c",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/banner.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/bigint.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/compile_date.c",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/crc.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/default_icon.c",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/encryption.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/header.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/hook.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/loadme.c",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/logo.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/ndscodes.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/ndscreate.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/ndsextract.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/ndstree.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/passme.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/passme_sram.c",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/raster.cpp",
+		"src/lib/libbsp/arm/nds/tools/ndstool/source/sha1.cpp",
+	]
+	includes = ["%s/c/src/lib/libbsp/arm/nds/tools/ndstool/include/" % ctx.srcnode.abspath()]
+	ctx.objects(
+		source=["src/lib/libbsp/arm/nds/tools/ndstool/source/ndstool.cpp"],
+		cxxflags=["-DVERSION=\"compiled for rtems\""],
+		includes=includes,
+		name="arm_nds_ndstool_obj",
+	)
+	ctx.program(
+		target="ndstool",
+		source=source,
+		includes=includes,
+		use="arm_nds_ndstool_obj"
+	)
+
+
+def build(ctx):
+	source = []
+
+	# These host based programs live here for now as the sub wscripts
+	# are conditionally loaded for an arch/bsp to keep things fast.
+	if ctx.variant == "host" and "arm/nds" in ctx.env.CFG_BSP:
+		host_arm_nds(ctx)
+
+	# Nothing below this will work on the host.
+	if ctx.variant == "host":
+		return
+
+	# version.c
+	source_version = ["src/support/version.c"]
+	ctx.bsp.source(
+		source_version,
+		alias="version",
+		features="src_include",
+		cflags=[
+			"-DRTEMS_VERSION=\"%s\"" % ctx.env.RTEMS_VERSION
+		]
+	)
+
+
+	source_networking = [
+		"src/libchip/network/cs8900.c",
+		"src/libchip/network/dec21140.c",
+		"src/libchip/network/elnk.c",
+		"src/libchip/network/greth.c",
+		"src/libchip/network/i82586.c",
+		"src/libchip/network/if_dc.c",
+		"src/libchip/network/if_fxp.c",
+		"src/libchip/network/open_eth.c",
+		"src/libchip/network/smc91111.c",
+		"src/libchip/network/sonic.c"
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include src_include_networking src_include_libchip",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__", "_KERNEL", "__BSD_VISIBLE", "__RTEMS_HAVE_DECL_SIGALTSTACK__"]
+	)
+
+
+	source_mp = [
+		"src/libchip/shmdr/addlq.c",
+		"src/libchip/shmdr/cnvpkt.c",
+		"src/libchip/shmdr/getlq.c",
+		"src/libchip/shmdr/dump.c",
+		"src/libchip/shmdr/fatal.c",
+		"src/libchip/shmdr/getpkt.c",
+		"src/libchip/shmdr/init.c",
+		"src/libchip/shmdr/initlq.c",
+		"src/libchip/shmdr/intr.c",
+		"src/libchip/shmdr/mpisr.c",
+		"src/libchip/shmdr/poll.c",
+		"src/libchip/shmdr/receive.c",
+		"src/libchip/shmdr/retpkt.c",
+		"src/libchip/shmdr/send.c"
+	]
+	ctx.bsp.mp(
+		source_mp,
+		features="src_include",
+		includes = ["%s/c/src/libchip/shmdr" % ctx.srcnode.abspath()]
+	)
+
+
+	source_ata = [
+		"src/libchip/ide/ata.c",
+		"src/libchip/ide/ata_util.c",
+	]
+	ctx.bsp.source(
+		source_ata,
+		features="src_include src_include_libchip"
+	)
+
+
+	source += [
+		"src/libchip/display/disp_hcms29xx.c",
+		"src/libchip/display/font_hcms29xx.c",
+		"src/libchip/flash/am29lv160.c",
+		"src/libchip/i2c/i2c-2b-eeprom.c",
+		"src/libchip/i2c/i2c-ds1621.c",
+		"src/libchip/i2c/spi-flash-m25p40.c",
+		"src/libchip/i2c/spi-fram-fm25l256.c",
+		"src/libchip/i2c/spi-memdrv.c",
+		"src/libchip/i2c/spi-sd-card.c",
+		"src/libchip/ide/ide_controller.c",
+		"src/libchip/rtc/ds1375.c",
+		"src/libchip/rtc/icm7170.c",
+		"src/libchip/rtc/icm7170_reg.c",
+		"src/libchip/rtc/icm7170_reg2.c",
+		"src/libchip/rtc/icm7170_reg4.c",
+		"src/libchip/rtc/icm7170_reg8.c",
+		"src/libchip/rtc/m48t08.c",
+		"src/libchip/rtc/m48t08_reg.c",
+		"src/libchip/rtc/m48t08_reg2.c",
+		"src/libchip/rtc/m48t08_reg4.c",
+		"src/libchip/rtc/m48t08_reg8.c",
+		"src/libchip/rtc/mc146818a.c",
+		"src/libchip/rtc/mc146818a_ioreg.c",
+		"src/libchip/rtc/rtcprobe.c",
+		"src/libchip/serial/mc68681.c",
+		"src/libchip/serial/mc68681_baud.c",
+		"src/libchip/serial/mc68681_reg.c",
+		"src/libchip/serial/mc68681_reg2.c",
+		"src/libchip/serial/mc68681_reg4.c",
+		"src/libchip/serial/mc68681_reg8.c",
+		"src/libchip/serial/ns16550.c",
+		"src/libchip/serial/serprobe.c",
+		"src/libchip/serial/z85c30.c",
+		"src/libchip/serial/z85c30_reg.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+		includes	= ["%s/include/libchip" % ctx.srcnode.abspath()]
+	)
+
+
+	# Open the correct sub-wscript and execute build() as waf does not support
+	# loading arbitrary wscripts.
+	path = "%s/c/" % ctx.srcnode.abspath()
+	with open("%s/wscript_%s" % (path, ctx.env.RTEMS_ARCH), "r") as fp:
+		module = new_module("RTEMS_MODULE")
+		exec(compile(fp.read(), "%swscript_%s" % (path, ctx.env.RTEMS_ARCH), "exec"), module.__dict__)
+		module.build(ctx)
+
+	ctx(
+		target		= "rtemsbsp",
+		use			= [
+			"auto_libbsp_objects"
+		],
+		includes	= ["%s/include/libchip" % ctx.srcnode.abspath()],
+		features	= "c cstlib",
+		install_path = ctx.env.LIBDIR
+	)
+
+
+	# First file is always installed as "linkcmds"
+	# XXX: This needs to be removed eventually by fixing the filenames.
+	if ctx.env.LINKCMDS:
+		ctx.copy(
+			ctx.env.LINKCMDS[0],
+			"linkcmds",
+			"linkcmds_linkcmds"
+		)
+
+	for file in ctx.env.LINKCMDS[1:]:
+		base = basename(file)
+		ctx.copy(
+			file,
+			base,
+			"linkcmds_base"
+		)

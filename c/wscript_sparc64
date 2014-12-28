@@ -1,0 +1,93 @@
+def niagara(ctx):
+	source = []
+
+
+	source += [
+		"src/lib/libbsp/sparc64/niagara/start/bspinit.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+#		cflags=["-DNDS"],
+#		includes=["%s/c/src/lib/libbsp/arm/nds/libnds/include/" % ctx.srcnode.abspath()]
+	)
+
+
+def usiii(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/sparc64/shared/helenos/kernel/sparc64/src/cache.S",
+		"src/lib/libbsp/sparc64/shared/helenos/kernel/sparc64/src/sun4u/takemmu.S",
+		"src/lib/libbsp/sparc64/shared/start/trap_table.S",
+		"src/lib/libbsp/sparc64/usiii/start/bspinit.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include",
+	)
+
+
+def build(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/sparc64/shared/start/start.S"])
+
+	source += [
+# FXIME: The cache_.h header is a local to the source
+		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
+		"src/lib/libcpu/shared/src/cache_manager.c",
+		"src/lib/libcpu/sparc64/shared/cache/cache.c",
+		"src/lib/libcpu/sparc64/shared/interrupts/installisrentries.c",
+		"src/lib/libcpu/sparc64/shared/score/cpu.c",
+		"src/lib/libcpu/sparc64/shared/score/interrupt.S",
+		"src/lib/libcpu/sparc64/shared/syscall/sparc64-syscall.S"
+	]
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/timerstub.c",
+		"src/lib/libbsp/sparc64/shared/asm/asm.S",
+		"src/lib/libbsp/sparc64/shared/clock/ckinit.c",
+		"src/lib/libbsp/sparc64/shared/console/conscfg.c",
+		"src/lib/libbsp/sparc64/shared/helenos/boot/genarch/balloc.c",
+		"src/lib/libbsp/sparc64/shared/helenos/boot/genarch/ofw.c",
+		"src/lib/libbsp/sparc64/shared/helenos/boot/genarch/ofw_tree.c",
+		# "src/lib/libbsp/sparc64/shared/helenos/boot/generic/string.c", # use libc and not this
+		"src/lib/libbsp/sparc64/shared/helenos/boot/sparc64/loader/main.c",
+		"src/lib/libbsp/sparc64/shared/helenos/boot/sparc64/loader/ofwarch.c",
+		"src/lib/libbsp/sparc64/shared/helenos/boot/sparc64/loader/ofwasm.S",
+		"src/lib/libbsp/sparc64/shared/startup/bspstart.c",
+		"src/lib/libbsp/sparc64/shared/startup/setvec.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		includes="%s/c/src/lib/libcpu/sparc64/shared/cache" % ctx.srcnode.abspath(),
+		features="src_include src_include_bsp"
+	)
+
+
+	map = {
+		"niagara":	niagara,
+		"usiii":	usiii
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_sparc64(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

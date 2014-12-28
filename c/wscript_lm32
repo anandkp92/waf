@@ -1,0 +1,103 @@
+def lm32_evr(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/lm32/shared/start/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/lm32/shared/tsmac/tsmac.c", 
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+	)
+
+	source += [
+		"src/lib/libbsp/lm32/shared/clock/ckinit.c",
+		"src/lib/libbsp/lm32/shared/console/console.c",
+		"src/lib/libbsp/lm32/shared/console/uart.c",
+		"src/lib/libbsp/lm32/shared/startup/bspstart.c",
+		"src/lib/libbsp/lm32/shared/timer/timer.c",
+		"src/lib/libbsp/shared/setvec.c",
+		"src/lib/libbsp/shared/bspreset.c",
+		"src/lib/libbsp/shared/bspclean.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def milkymist(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/lm32/shared/start/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/lm32/shared/milkymist_networking/network.c", 
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+	)
+
+	source += [
+		"src/lib/libbsp/lm32/milkymist/startup/bspclean.c",
+		"src/lib/libbsp/lm32/shared/irq/irq.c",
+		"src/lib/libbsp/lm32/shared/milkymist_ac97/ac97.c",
+		"src/lib/libbsp/lm32/shared/milkymist_buttons/buttons.c",
+		"src/lib/libbsp/lm32/shared/milkymist_dmx/dmx.c",
+		"src/lib/libbsp/lm32/shared/milkymist_flash/flash.c",
+		"src/lib/libbsp/lm32/shared/milkymist_gpio/gpio.c",
+		"src/lib/libbsp/lm32/shared/milkymist_ir/ir.c",
+		"src/lib/libbsp/lm32/shared/milkymist_clock/ckinit.c",
+		"src/lib/libbsp/lm32/shared/milkymist_console/console.c",
+		"src/lib/libbsp/lm32/shared/milkymist_console/uart.c",
+		"src/lib/libbsp/lm32/shared/milkymist_framebuffer/framebuffer.c",
+		"src/lib/libbsp/lm32/shared/milkymist_memcard/memcard.c",
+		"src/lib/libbsp/lm32/shared/milkymist_midi/midi.c",
+		"src/lib/libbsp/lm32/shared/milkymist_pfpu/pfpu.c",
+		"src/lib/libbsp/lm32/shared/milkymist_timer/timer.c",
+		"src/lib/libbsp/lm32/shared/milkymist_tmu/tmu.c",
+		"src/lib/libbsp/lm32/shared/milkymist_usbinput/usbinput.c",
+		"src/lib/libbsp/lm32/shared/milkymist_versions/versions.c",
+		"src/lib/libbsp/lm32/shared/milkymist_video/video.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/lm32/shared/startup/bspstart.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	map = {
+		"lm32_evr":		lm32_evr,
+		"milkymist":	milkymist
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_lm32(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

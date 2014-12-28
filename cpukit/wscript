@@ -1,0 +1,179 @@
+def build(ctx):
+	source = []
+
+	# ftpd/
+	source_ftpd =  ["ftpd/ftpd.c"]
+	ctx.cpu.networking(
+		source_ftpd,
+		alias="ftpd",
+		features="src_include src_include_rtems"
+	)
+
+	# telnetd/
+	source_telnetd = [
+		"telnetd/check_passwd.c",
+		"telnetd/des.c",
+		"telnetd/pty.c",
+		"telnetd/telnetd.c"
+	]
+
+	ctx.cpu.networking(
+		source_telnetd,
+		alias="telnetd",
+		features="src_include src_include_rtems" 
+	)
+
+	# pppd/
+	source_pppd = [
+		"pppd/auth.c", 
+		"pppd/ccp.c", 
+		"pppd/chap.c", 
+		"pppd/chap_ms.c", 
+		"pppd/chat.c", 
+		"pppd/demand.c", 
+		"pppd/fsm.c", 
+		"pppd/ipcp.c", 
+		"pppd/lcp.c", 
+		"pppd/magic.c", 
+		"pppd/options.c", 
+		"pppd/upap.c", 
+		"pppd/utils.c", 
+#		"pppd/sys-rtems.c", 
+		"pppd/rtemsmain.c", 
+		"pppd/rtemspppd.c"
+	]
+	ctx.cpu.networking(
+		source_pppd,
+		alias="pppd",
+		features="src_include src_include_rtems"
+	)
+
+	# mghttpd/
+	source_mghttpd = ["mghttpd/mongoose.c"]
+	ctx.cpu.networking(
+		source_mghttpd,
+		alias="mghttpd",
+		features="src_include",
+		includes=["%s/include/mghttpd" % ctx.srcnode.abspath()],
+		cflags=["-DNO_SSI", "-DNO_SSL", "-DNO_CGI"]
+	)
+
+	# libblock/
+	source_libblock = [
+		"libblock/src/bdbuf.c",
+		"libblock/src/blkdev.c",
+		"libblock/src/blkdev-ops.c",
+		"libblock/src/diskdevs.c",
+		"libblock/src/flashdisk.c",
+		"libblock/src/ramdisk-driver.c",
+		"libblock/src/ramdisk-init.c",
+		"libblock/src/ramdisk-config.c",
+		"libblock/src/ide_part_table.c",
+		"libblock/src/nvdisk.c",
+		"libblock/src/nvdisk-sram.c",
+		"libblock/src/bdpart-create.c",
+		"libblock/src/bdpart-dump.c",
+		"libblock/src/bdpart-mount.c",
+		"libblock/src/bdpart-read.c",
+		"libblock/src/bdpart-register.c",
+		"libblock/src/bdpart-sort.c", 
+		"libblock/src/bdpart-write.c", 
+		"libblock/src/media-path.c", 
+		"libblock/src/media.c", 
+		"libblock/src/media-server.c", 
+		"libblock/src/media-desc.c", 
+		"libblock/src/media-dev-ident.c",
+		"libblock/src/diskdevs-init.c",
+		"libblock/src/ramdisk-register.c",
+		"libblock/src/blkdev-ioctl.c",
+	]
+	ctx.cpu.source(
+		source_libblock,
+		alias="libblock",
+		features="src_include"
+	)
+
+	# sapi/
+	source_sapi = [
+		"sapi/src/chainappendnotify.c",
+		"sapi/src/chaingetnotify.c",
+		"sapi/src/chaingetwait.c",
+		"sapi/src/chainprependnotify.c",
+		"sapi/src/debug.c",
+		"sapi/src/exinit.c",
+		"sapi/src/exshutdown.c",
+		"sapi/src/extension.c",
+		"sapi/src/extensioncreate.c",
+		"sapi/src/extensiondata.c",
+		"sapi/src/extensiondelete.c",
+		"sapi/src/extensionident.c",
+		"sapi/src/fatal.c",
+		"sapi/src/fatal2.c",
+		"sapi/src/getversionstring.c",
+		"sapi/src/io.c",
+		"sapi/src/ioclose.c",
+		"sapi/src/iocontrol.c",
+		"sapi/src/iodata.c",
+		"sapi/src/ioinitialize.c",
+		"sapi/src/ioopen.c",
+		"sapi/src/ioread.c",
+		"sapi/src/ioregisterdriver.c",
+		"sapi/src/iounregisterdriver.c",
+		"sapi/src/iowrite.c",
+		"sapi/src/posixapi.c",
+		"sapi/src/rtemsapi.c",
+#		"sapi/src/interrdesc.c",
+#		"sapi/src/fatalsrcdesc.c",
+		"sapi/src/testbeginend.c",
+		"sapi/src/testextension.c",
+		"sapi/src/cpucounterconverter.c",
+		"sapi/src/fatalsrctext.c",
+		"sapi/src/interrtext.c"
+	]
+	ctx.cpu.source(
+		source_sapi,
+		alias="sapi",
+		features="src_include"
+	)
+
+
+	source += [
+		"libgnat/ada_intrsupp.c",
+#		"libgnat/adasupp.c",
+		"libi2c/libi2c.c",
+		"libmd/md5.c",
+		"libmd/md4.c"
+	]
+	ctx.cpu.source(
+		source,
+		alias="misc",
+		features="src_include"
+	)
+
+	ctx(
+		target   = "rtemscpu",
+		use      = [
+			"auto_libcpu_objects"
+#			alias="ftpd",
+#			alias="libblock",
+#			alias="libcsupport",
+#			alias="libfs",
+#			alias="libmisc",
+#			alias="libmisc_monitor",
+#			alias="libmisc_shell",
+#			alias="libmisc_uuid",
+#			alias="libnetworking",
+#			alias="librpc",
+#			alias="libz",
+#			alias="mghttpd",
+#			alias="misc",
+#			alias="nfs",
+#			alias="posix",
+#			alias="rtems",
+#			alias="sapi",
+#			alias="score",
+#			alias="telnetd"
+		],
+		features = "c cstlib",
+		install_path = ctx.env.LIBDIR
+	)

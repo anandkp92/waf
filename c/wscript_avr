@@ -1,0 +1,53 @@
+def avrtest(ctx):
+	source = []
+
+	ctx.bsp.start(
+		["src/lib/libbsp/avr/avrtest/start/start.S"],
+		defines=["__AVR_AT94K__"] # XXX: hack, this needs to be defined in config.cfg
+	)
+
+	source += [
+		"src/lib/libbsp/avr/avrtest/console/console-io.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/clock_driver_simidle.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/timerstub.c"
+	]
+
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"avrtest":	avrtest
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_avr(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

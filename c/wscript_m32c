@@ -1,0 +1,50 @@
+def m32cbsp(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/m32c/m32cbsp/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/m32c/m32cbsp/console/console-io.c",
+		"src/lib/libbsp/m32c/m32cbsp/console/syscalls.S",
+		"src/lib/libbsp/m32c/m32cbsp/startup/bspstart.c",
+		"src/lib/libbsp/m32c/m32cbsp/startup/crtn.S",
+		"src/lib/libbsp/m32c/m32cbsp/timer/timer.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/clock_driver_simidle.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	map = {
+		"m32csim":	m32cbsp
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_m32c(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

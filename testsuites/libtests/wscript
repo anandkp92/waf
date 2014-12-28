@@ -1,0 +1,167 @@
+def build(ctx):
+
+	broken = False
+# XXX: This needs fixing!
+	if broken:
+#	if ctx.env.ENABLE_POSIX:
+		def posix(target, source):
+			ctx.rtems_test(
+				"libtests_posix_%s" % target,
+				source,
+			)
+
+		posix("calloc", "POSIX/calloc.c")
+		posix("clock_gettime", "POSIX/clock_gettime.c")
+		posix("close", "POSIX/close.c")
+		posix("dup2", "POSIX/dup2.c")
+		posix("fcntl", "POSIX/fcntl.c")
+		posix("flockfile", "POSIX/flockfile.c")
+		posix("fork", "POSIX/fork.c")
+		posix("free", "POSIX/free.c")
+		posix("fstat", "POSIX/fstat.c")
+		posix("ftrylockfile", "POSIX/ftrylockfile.c")
+		posix("funlockfile", "POSIX/funlockfile.c")
+		posix("getlogin", "POSIX/getlogin.c")
+		posix("getpwnam", "POSIX/getpwnam.c")
+		posix("getpwuid", "POSIX/getpwuid.c")
+		posix("gettimeofday", "POSIX/gettimeofday.c")
+		posix("getuid", "POSIX/getuid.c")
+		posix("htonl", "POSIX/htonl.c")
+		posix("iconv", "POSIX/iconv.c")
+		posix("iconv_close", "POSIX/iconv_close.c")
+		posix("iconv_open", "POSIX/iconv_open.c")
+		posix("kill", "POSIX/kill.c")
+		posix("longjmp", "POSIX/longjmp.c")
+		posix("lseek", "POSIX/lseek.c")
+		posix("lstat", "POSIX/lstat.c")
+		posix("malloc", "POSIX/malloc.c")
+		posix("nanosleep", "POSIX/nanosleep.c")
+		posix("open", "POSIX/open.c")
+		posix("pipe", "POSIX/pipe.c")
+		posix("posix_memalign", "POSIX/posix_memalign.c")
+		posix("read", "POSIX/read.c")
+		posix("readv", "POSIX/readv.c")
+		posix("realloc", "POSIX/realloc.c")
+		posix("setjmp", "POSIX/setjmp.c")
+		posix("sigaddset", "POSIX/sigaddset.c")
+		posix("sigdelset", "POSIX/sigdelset.c")
+		posix("sigemptyset", "POSIX/sigemptyset.c")
+		posix("sigfillset", "POSIX/sigfillset.c")
+		posix("sigismember", "POSIX/sigismember.c")
+		posix("sigprocmask", "POSIX/sigprocmask.c")
+		posix("stat", "POSIX/stat.c")
+		posix("unlink", "POSIX/unlink.c")
+		posix("vfork", "POSIX/vfork.c")
+		posix("wait", "POSIX/wait.c")
+		posix("waitpid", "POSIX/waitpid.c")
+		posix("write", "POSIX/write.c")
+		posix("writev", "POSIX/writev.c")
+
+	return
+
+	def test(target, source, **kwarg):
+		ctx.rtems_test(
+			"libtests_%s" % target,
+			source,
+			features	= "test_include",
+			**kwarg
+		)
+
+	test("block01", ["block01/init.c"])
+	test("block02", ["block02/init.c"])
+	test("block03", ["block03/init.c"])
+	test("block04", ["block04/init.c"])
+	test("block05", ["block05/init.c"])
+	test("block06", ["block06/init.c"])
+	test("block07", ["block07/init.c"])
+	test(
+		"block08",
+		["block08/bdbuf_test1_1.c", "block08/bdbuf_test1_2.c", "block08/bdbuf_test1_3.c", "block08/bdbuf_test1_4.c", "block08/bdbuf_test1_5.c", "block08/bdbuf_test2_1.c", "block08/bdbuf_test2_2.c", "block08/bdbuf_test3_1.c", "block08/bdbuf_test3_2.c", "block08/bdbuf_test3_3.c", "block08/bdbuf_test4_1.c", "block08/bdbuf_test4_2.c", "block08/bdbuf_test4_3.c", "block08/bdbuf_tests.c", "block08/init.c", "block08/test_disk.c"],
+		includes="%s/testsuites/libtests/block08" % ctx.srcnode.abspath()
+	)
+	test("block09", ["block09/init.c"])
+	test("block10", ["block10/init.c"])
+	test("bspcmdline01", ["bspcmdline01/init.c"])
+# requires build hacking	test("complex", ["complex/docomplex.c", "complex/docomplexf.c", "complex/docomplexl.c", "complex/init.c"], stlib=["m"])
+	test("cpuuse", ["cpuuse/init.c", "cpuuse/task1.c", "cpuuse/task2.c", "cpuuse/task3.c", "cpuuse/tswitch.c"])
+	test("devfs01", ["devfs01/init.c"])
+	test("devfs02", ["devfs02/init.c"])
+	test("devfs03", ["devfs03/init.c"])
+	test("devfs04", ["devfs04/init.c", "devfs04/test_driver.c"])
+	test("deviceio01", ["deviceio01/init.c", "deviceio01/test_driver.c"])
+#	test("devnullfatal01", ["../sptests/spfatal_support/init.c"]) # XXX: relative path
+	test("dumpbuf01", ["dumpbuf01/init.c"])
+	test("ftp01", ["ftp01/init.c"])
+	test("gxx01", ["gxx01/init.c"])
+	test("heapwalk", ["heapwalk/init.c"])
+	test("malloc02", ["malloc02/init.c"])
+	test("malloc03", ["malloc03/init.c"])
+	test("malloc04", ["malloc04/init.c"])
+	test("malloc05", ["malloc05/init.c"])
+	test("malloctest", ["malloctest/init.c", "malloctest/task1.c"])
+
+	test(
+		"math",
+		["math/domath.c", "math/init.c"],
+		stlib=["m"]
+	)
+
+	test(
+		"mathf",
+		["mathf/domathf.c", "mathf/init.c"],
+		stlib=["m"]
+	)
+
+	test(
+		"mathl",
+		["mathl/domathl.c", "mathl/init.c"],
+		stlib=["m"]
+)
+	test("monitor", ["monitor/init.c"])
+
+	test("monitor02", ["monitor02/init.c"])
+
+	test(
+		"mouse01",
+		["mouse01/init.c", "mouse01/msmouse.c", "mouse01/serial_mouse_config.c", "termios04/termios_testdriver_intr.c"],
+		includes="%s/testsuites/libtests/termios04" % ctx.srcnode.abspath()
+	)
+
+	test("putenvtest", ["putenvtest/init.c"])
+#	test("rtems++", ["Init.cc", "Task1.cc", "Task2.cc", "Task3.cc"])
+
+	test("rtmonuse", ["rtmonuse/getall.c", "rtmonuse/init.c", "rtmonuse/task1.c"])
+	test("stackchk", ["stackchk/blow.c", "stackchk/init.c", "stackchk/task1.c"])
+	test("stackchk01", ["stackchk01/init.c"])
+	test("stringto01", ["stringto01/init.c"])
+#bin2c	test("tar01", ["tar01/init.c"])
+#bin2c	test("tar02", ["tar02/init.c"])
+	test("tar03", ["tar03/init.c"])
+	test("termios", ["termios/init.c"])
+	test("termios01", ["termios01/init.c", "termios01/termios_testdriver.c"])
+	test("termios02", ["termios02/init.c"])
+	test("termios03", ["termios03/init.c", "termios03/termios_testdriver_polled.c"])
+	test("termios04", ["termios04/init.c", "termios04/termios_testdriver_intr.c"])
+	test(
+		"termios05",
+		["termios05/init.c", "termios05/termios_testdriver_taskdriven.c"],
+		includes="%s/testsuites/libtests/termios04" % ctx.srcnode.abspath()
+	)
+	test(
+		"termios06",
+		["termios06/init.c", "termios06/test_pppd.c", "termios04/termios_testdriver_intr.c"],
+		includes="%s/testsuites/libtests/termios03" % ctx.srcnode.abspath()
+	)
+	test(
+		"termios07",
+		["termios07/init.c", "termios04/termios_testdriver_intr.c"],
+		includes="%s/testsuites/libtests/termios04" % ctx.srcnode.abspath()
+	)
+	test(
+		"termios08",
+		["termios08/init.c", "termios04/termios_testdriver_intr.c"],
+		includes="%s/testsuites/libtests/termios03" % ctx.srcnode.abspath()
+	)
+	test("tztest", ["tztest/init.c"])
+
+

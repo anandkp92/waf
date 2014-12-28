@@ -1,0 +1,44 @@
+def build(ctx):
+	def test(target, source):
+		ctx.rtems_test(
+			"tmtests_%s" % target,
+			source,
+			use			= "test_support_empty_func",
+			includes	= [
+				"%s/testsuites/tmtests/include/" % ctx.srcnode.abspath(),
+				"%s/testsuites/support/include/" % ctx.srcnode.abspath(),
+			],
+		)
+
+	test("tmck", "tmck/task1.c")
+	test("tmoverhd", ["tmoverhd/empty.c", "tmoverhd/testtask.c"])
+	test("tm01", "tm01/task1.c")
+#	test("tm02", "tm02/task1.c")
+#	test("tm03", "tm03/task1.c")
+	test("tm04", "tm04/task1.c")
+	test("tm05", "tm05/task1.c")
+	test("tm06", "tm06/task1.c")
+	test("tm07", "tm07/task1.c")
+	test("tm08", "tm08/task1.c")
+	test("tm09", "tm09/task1.c")
+	test("tm10", "tm10/task1.c")
+	test("tm11", "tm11/task1.c")
+	test("tm12", "tm12/task1.c")
+	test("tm13", "tm13/task1.c")
+	test("tm14", "tm14/task1.c")
+	test("tm15", "tm15/task1.c")
+	test("tm16", "tm16/task1.c")
+	test("tm17", "tm17/task1.c")
+	test("tm18", "tm18/task1.c")
+	test("tm19", "tm19/task1.c")
+	test("tm20", "tm20/task1.c")
+	test("tm21", "tm21/task1.c")
+	test("tm22", "tm22/task1.c")
+	test("tm23", "tm23/task1.c")
+	test("tm24", "tm24/task1.c")
+	test("tm25", "tm25/task1.c")
+	test("tm26", "tm26/task1.c")
+	test("tm27", "tm27/task1.c")
+	test("tm28", "tm28/task1.c")
+	test("tm29", "tm29/task1.c")
+	test("tm30", ["tm30/init.c", "../support/src/tmtests_support.c"]) # XXX: fix this relative path.

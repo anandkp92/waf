@@ -1,0 +1,234 @@
+def erc32_shared(ctx):
+	source = []
+
+	source_networking = [
+		"src/lib/libbsp/sparc/erc32/erc32sonic/erc32sonic.c"
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include"
+	)
+
+	source_smp = [
+		"src/lib/libbsp/shared/smp/getcpuid.c",
+		"src/lib/libbsp/shared/smp/smp_stub.c",
+		"src/lib/libbsp/shared/smp/bspsmp_wait_for.c"
+	]
+	ctx.bsp.smp(
+		source_smp,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/sparc/erc32/clock/ckinit.c",
+		"src/lib/libbsp/sparc/erc32/console/debugputs.c",
+		"src/lib/libbsp/sparc/erc32/console/erc32_console.c",
+		"src/lib/libbsp/sparc/erc32/gnatsupp/gnatsupp.c",
+		"src/lib/libbsp/sparc/erc32/startup/boardinit.S",
+		"src/lib/libbsp/sparc/erc32/startup/bspdelay.c",
+		"src/lib/libbsp/sparc/erc32/startup/bspidle.c",
+		"src/lib/libbsp/sparc/erc32/startup/erc32mec.c",
+		"src/lib/libbsp/sparc/erc32/startup/setvec.c",
+		"src/lib/libbsp/sparc/erc32/startup/spurious.c",
+		"src/lib/libbsp/sparc/erc32/timer/timer.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/sparc/shared/gnatcommon.c",
+		"src/lib/libbsp/sparc/shared/startup/bsp_fatal_halt.c",
+		"src/lib/libbsp/sparc/shared/cpu.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+def leon2(ctx):
+	source = []
+
+	source_networking = [
+		"src/lib/libbsp/sparc/leon2/leon_smc91111/leon_smc91111.c",
+		"src/lib/libbsp/sparc/leon2/leon_open_eth/leon_open_eth.c"
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include"
+	)
+
+	source_smp = [
+		"src/lib/libbsp/shared/smp/bspsmp_wait_for.c",
+		"src/lib/libbsp/shared/smp/getcpuid.c",
+		"src/lib/libbsp/shared/smp/smp_stub.c"
+	]
+	ctx.bsp.smp(
+		source_smp,
+		features="src_include"
+	)
+
+
+	source += [
+		"src/lib/libbsp/sparc/leon2/cchip/cchip.c",
+		"src/lib/libbsp/sparc/leon2/clock/ckinit.c",
+		"src/lib/libbsp/sparc/leon2/console/console.c",
+		"src/lib/libbsp/sparc/leon2/console/debugputs.c",
+		"src/lib/libbsp/sparc/leon2/gnatsupp/gnatsupp.c",
+		"src/lib/libbsp/sparc/leon2/pci/pci.c",
+		"src/lib/libbsp/sparc/leon2/rasta/rasta.c",
+		"src/lib/libbsp/sparc/leon2/startup/bspdelay.c",
+		"src/lib/libbsp/sparc/leon2/startup/bspidle.c",
+		"src/lib/libbsp/sparc/leon2/startup/bspstart.c",
+		"src/lib/libbsp/sparc/leon2/startup/setvec.c",
+		"src/lib/libbsp/sparc/leon2/startup/spurious.c",
+		"src/lib/libbsp/sparc/leon2/timer/timer.c",
+		"src/lib/libbsp/sparc/shared/1553/b1553brm.c",
+		"src/lib/libbsp/sparc/shared/1553/b1553brm_pci.c",
+		"src/lib/libbsp/sparc/shared/1553/b1553brm_rasta.c",
+		"src/lib/libbsp/sparc/shared/amba/ambapp.c",
+		"src/lib/libbsp/sparc/shared/can/grcan.c",
+		"src/lib/libbsp/sparc/shared/can/grcan_rasta.c",
+		"src/lib/libbsp/sparc/shared/can/occan.c",
+		"src/lib/libbsp/sparc/shared/can/occan_pci.c",
+		"src/lib/libbsp/sparc/shared/gnatcommon.c",
+		"src/lib/libbsp/sparc/shared/i2c/i2cmst.c",
+		"src/lib/libbsp/sparc/shared/pci/pcifinddevice.c",
+		"src/lib/libbsp/sparc/shared/spw/grspw.c",
+		"src/lib/libbsp/sparc/shared/spw/grspw_pci.c",
+		"src/lib/libbsp/sparc/shared/spw/grspw_rasta.c",
+		"src/lib/libbsp/sparc/shared/uart/apbuart.c",
+		"src/lib/libbsp/sparc/shared/uart/apbuart_pci.c",
+		"src/lib/libbsp/sparc/shared/uart/apbuart_rasta.c",
+	]
+	ctx.bsp.source(
+		source,
+		# src_include_rtems is required for ringbuf.h
+		features="src_include src_include_rtems"
+	)
+
+
+def leon3(ctx):
+	source = []
+
+	source_smp = [
+		"src/lib/libbsp/sparc/leon3/smp/getcpuid.c",
+		"src/lib/libbsp/sparc/leon3/smp/smp_leon3.c",
+	]
+	ctx.bsp.smp(
+		source_smp,
+		features="src_include"
+	)
+
+	source_networking = [
+		"src/lib/libbsp/sparc/leon3/leon_smc91111/leon_smc91111.c",
+		"src/lib/libbsp/sparc/leon3/leon_open_eth/leon_open_eth.c",
+		"src/lib/libbsp/sparc/leon3/leon_greth/leon_greth.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include"
+	)
+
+	source_mp = [
+		"src/lib/libbsp/sparc/leon3/shmsupp/addrconv.c",
+		"src/lib/libbsp/sparc/leon3/shmsupp/getcfg.c",
+		"src/lib/libbsp/sparc/leon3/shmsupp/lock.c",
+		"src/lib/libbsp/sparc/leon3/shmsupp/mpisr.c",
+	]
+	ctx.bsp.mp(
+		source_mp,
+		features="src_include",
+		includes="%s/c/src/libchip/shmdr/" % ctx.srcnode.abspath()
+	)
+
+	source += [
+		"src/lib/libbsp/sparc/leon3/amba/amba.c",
+		"src/lib/libbsp/sparc/shared/amba/ambapp_find_by_idx.c",
+		"src/lib/libbsp/sparc/leon3/console/printk_support.c",
+		"src/lib/libbsp/sparc/shared/amba/ambapp_freq.c",
+		"src/lib/libbsp/sparc/leon3/startup/eirq.c",
+		"src/lib/libbsp/sparc/shared/startup/early_malloc.c",
+		"src/lib/libbsp/sparc/leon3/clock/ckinit.c",
+		"src/lib/libbsp/sparc/leon3/console/console.c",
+		"src/lib/libbsp/sparc/leon3/gnatsupp/gnatsupp.c",
+		"src/lib/libbsp/sparc/leon3/pci/pci.c",
+		"src/lib/libbsp/sparc/leon3/startup/bspdelay.c",
+		"src/lib/libbsp/sparc/leon3/startup/bspidle.S",
+		"src/lib/libbsp/sparc/leon3/startup/bspstart.c",
+		"src/lib/libbsp/sparc/leon3/startup/setvec.c",
+		"src/lib/libbsp/sparc/leon3/startup/spurious.c",
+		"src/lib/libbsp/sparc/leon3/timer/timer.c",
+		"src/lib/libbsp/sparc/shared/1553/b1553brm.c",
+		"src/lib/libbsp/sparc/shared/1553/b1553brm_pci.c",
+		"src/lib/libbsp/sparc/shared/amba/ambapp.c",
+		"src/lib/libbsp/sparc/shared/can/grcan.c",
+		"src/lib/libbsp/sparc/shared/can/occan.c",
+		"src/lib/libbsp/sparc/shared/can/occan_pci.c",
+		"src/lib/libbsp/sparc/shared/gnatcommon.c",
+		"src/lib/libbsp/sparc/shared/i2c/i2cmst.c",
+		"src/lib/libbsp/sparc/shared/pci/pcifinddevice.c",
+		"src/lib/libbsp/sparc/shared/spw/grspw.c",
+		"src/lib/libbsp/sparc/shared/spw/grspw_pci.c",
+		"src/lib/libbsp/sparc/shared/uart/apbuart.c",
+		"src/lib/libbsp/sparc/shared/uart/apbuart_pci.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def build(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/sparc/shared/start/start.S"])
+
+	#if has_instruction_cache
+	#cache_rel_CPPFLAGS += -DHAS_INSTRUCTION_CACHE
+	source_cache =  [
+#		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		source_cache,
+		features="src_include",
+		includes=["%s/c/src/lib/libcpu/sparc/cache" % ctx.srcnode.abspath()]
+	)
+
+	# Shared between all BSPs
+	# There are more shared between two bsps above.
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+#		"src/lib/libbsp/shared/bspinit.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/sparc/shared/startup/bspgetworkarea.c",
+		"src/lib/libbsp/sparc/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/sparc/shared/irq_asm.S",
+		"src/lib/libcpu/sparc/cache/cache.c",
+		"src/lib/libcpu/sparc/syscall/syscall.S",
+		"src/lib/libcpu/sparc/reg_win/window.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+	)
+
+
+	map = {
+		"erc32":	erc32_shared, # XXX: This requires something to be disabled in start.S that is needed for sis.
+		"sis":		erc32_shared,
+		"leon2":	leon2,
+		"leon3":	leon3
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_sparc(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

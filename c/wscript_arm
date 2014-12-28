@@ -1,0 +1,1340 @@
+#
+# ARM Board Support Packages.
+#
+
+#
+# ARM libcpu support. See the PowerPC BSP file for details.
+#
+
+def libcpu_shared_arm920(ctx):
+	source = [
+		"src/lib/libcpu/arm/shared/arm920/mmu.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_pxa255_clock(ctx):
+	source = [
+		"src/lib/libcpu/arm/pxa255/clock/clock.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_pxa255_timer(ctx):
+	source = [
+		"src/lib/libcpu/arm/pxa255/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_pxa255_ffuart(ctx):
+	source = [
+		"src/lib/libcpu/arm/pxa255/ffuart/ffuart.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_pxa255_pmc(ctx):
+	source = [
+		"src/lib/libcpu/arm/pxa255/pmc/pmc.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_pxa255_irq(ctx):
+	source = [
+		"src/lib/libcpu/arm/pxa255/irq/irq.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_at91rm9200_clock(ctx):
+	source = [
+		"src/lib/libcpu/arm/at91rm9200/clock/clock.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_at91rm9200_dbgu(ctx):
+	source = [
+		"src/lib/libcpu/arm/at91rm9200/dbgu/dbgu.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_at91rm9200_usart(ctx):
+	source = [
+		"src/lib/libcpu/arm/at91rm9200/usart/usart.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_at91rm9200_timer(ctx):
+	source = [
+		"src/lib/libcpu/arm/at91rm9200/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_at91rm9200_pmc(ctx):
+	source = [
+		"src/lib/libcpu/arm/at91rm9200/pmc/pmc.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_at91rm9200_irq(ctx):
+	source = [
+		"src/lib/libcpu/arm/at91rm9200/irq/irq.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mc9328mxl_clock(ctx):
+	source = [
+		"src/lib/libcpu/arm/mc9328mxl/clock/clockdrv.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mc9328mxl_timer(ctx):
+	source = [
+		"src/lib/libcpu/arm/mc9328mxl/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mc9328mxl_irq(ctx):
+	source = [
+		"src/lib/libcpu/arm/mc9328mxl/irq/irq.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_s3c24xx_clock(ctx):
+	source = [
+		"src/lib/libcpu/arm/s3c24xx/clock/clockdrv.c",
+		"src/lib/libcpu/arm/s3c24xx/clock/support.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_s3c24xx_timer(ctx):
+	source = [
+		"src/lib/libcpu/arm/s3c24xx/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_s3c24xx_irq(ctx):
+	source = [
+		"src/lib/libcpu/arm/s3c24xx/irq/irq.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_lpc22xx_clock(ctx):
+	source = [
+		"src/lib/libcpu/arm/lpc22xx/clock/clockdrv.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_lpc22xx_timer(ctx):
+	source = [
+		"src/lib/libcpu/arm/lpc22xx/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_lpc22xx_irq(ctx):
+	source = [
+		"src/lib/libcpu/arm/lpc22xx/irq/irq.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def csb336(ctx):
+
+	libcpu_shared_arm920(ctx)
+	libcpu_mc9328mxl_clock(ctx)
+	libcpu_mc9328mxl_timer(ctx)
+	libcpu_mc9328mxl_irq(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/csb336/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/arm/csb336/network/lan91c11x.c",
+		"src/lib/libbsp/arm/csb336/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/arm/csb336/console/uart.c",
+		"src/lib/libbsp/arm/csb336/startup/bspstart.c",
+		"src/lib/libbsp/arm/csb336/startup/memmap.c",
+		"src/lib/libbsp/arm/shared/abort/abort.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def csb337_shared(ctx):
+
+	libcpu_shared_arm920(ctx)
+	libcpu_at91rm9200_clock(ctx)
+	libcpu_at91rm9200_dbgu(ctx)
+	libcpu_at91rm9200_usart(ctx)
+	libcpu_at91rm9200_timer(ctx)
+	libcpu_at91rm9200_irq(ctx)
+	libcpu_at91rm9200_pmc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/csb337/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/arm/csb337/startup/bspreset.c",
+		"src/lib/libbsp/arm/csb337/startup/bspstart.c",
+		"src/lib/libbsp/arm/csb337/startup/memmap.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/arm/csb337/console/uarts.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/arm/shared/abort/abort.c",
+	]
+
+	if ctx.env.ENABLE_LCD:
+		source += [
+			"src/lib/libbsp/arm/csb337/console/fbcons.c",
+			"src/lib/libbsp/arm/csb337/console/sed1356.c",
+		]
+
+	if ctx.env.ENABLE_UMON:
+		source += [
+			"src/lib/libbsp/arm/csb337/startup/umonsupp.c",
+			"src/lib/libbsp/shared/umon/monlib.c",
+			"src/lib/libbsp/shared/umon/tfsDriver.c",
+			"src/lib/libbsp/shared/umon/umonrtemsglue.c",
+		]
+
+	if ctx.env.ENABLE_UMON_CONSOLE:
+		source += [
+			"src/lib/libbsp/shared/umon/umoncons.c",
+		]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def edb7312(ctx):
+
+	# no libcpu parts
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/edb7312/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/arm/edb7312/network/network.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/arm/edb7312/startup/bspreset.c",
+		"src/lib/libbsp/arm/edb7312/startup/bspstart.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/arm/edb7312/clock/clockdrv.c",
+		"src/lib/libbsp/arm/edb7312/console/uart.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/arm/shared/abort/abort.c",
+		"src/lib/libbsp/arm/edb7312/irq/bsp_irq_asm.S",
+		"src/lib/libbsp/arm/edb7312/irq/irq.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/arm/edb7312/timer/timer.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def gba(ctx):
+
+	# no libcpu parts
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/gba/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/arm/gba/clock/clockdrv.c",
+		"src/lib/libbsp/arm/gba/console/conio.c",
+		"src/lib/libbsp/arm/gba/console/console.c",
+		"src/lib/libbsp/arm/gba/irq/irq.c",
+		"src/lib/libbsp/arm/gba/startup/bspgetworkarea.c",
+		"src/lib/libbsp/arm/gba/startup/bspreset.c",
+		"src/lib/libbsp/arm/gba/startup/bspstart.c",
+		"src/lib/libbsp/arm/gba/timer/timer.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def gdbarmsim_shared(ctx):
+
+	# no libcpu parts
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/gdbarmsim/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/arm/gdbarmsim/console/console-io.c",
+		"src/lib/libbsp/arm/gdbarmsim/startup/bspreset.c",
+		"src/lib/libbsp/arm/gdbarmsim/startup/syscalls.c",
+		"src/lib/libbsp/arm/shared/abort/abort.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/clock_driver_simidle.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/timerstub.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def gp32(ctx):
+
+	libcpu_shared_arm920(ctx)
+	libcpu_s3c24xx_clock(ctx)
+	libcpu_s3c24xx_timer(ctx)
+	libcpu_s3c24xx_irq(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/gp32/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/arm/gp32/console/uart.c",
+		"src/lib/libbsp/arm/gp32/smc/smc.c",
+		"src/lib/libbsp/arm/gp32/startup/bspreset.c",
+		"src/lib/libbsp/arm/gp32/startup/bspstart.c",
+		"src/lib/libbsp/arm/gp32/startup/memmap.c",
+		"src/lib/libbsp/arm/shared/abort/abort.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/arm/gp32/startup/bspidle.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def gumstix(ctx):
+
+	libcpu_shared_arm920(ctx)
+	libcpu_pxa255_clock(ctx)
+	libcpu_pxa255_timer(ctx)
+	libcpu_pxa255_ffuart(ctx)
+	libcpu_pxa255_irq(ctx)
+	libcpu_pxa255_pmc(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/gumstix/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/arm/gumstix/rtl8019/rtl8019.c",
+	]
+
+	networking_defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		defines=networking_defines,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/arm/gumstix/startup/bspstart.c",
+		"src/lib/libbsp/arm/gumstix/startup/memmap.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/arm/gumstix/console/uarts.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/arm/shared/abort/abort.c",
+       	]
+
+	if ctx.env.ON_SKYEYE:
+		source += [
+			"src/lib/libbsp/arm/gumstix/fb/fb.c",
+		]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+def lm3s_shared(ctx):
+ 	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	source = [
+		"src/lib/libbsp/../libcpu/shared/src/cache_manager.c",
+		"src/lib/libbsp/arm/lm3s69xx/console/console-config.c",
+		"src/lib/libbsp/arm/lm3s69xx/console/uart.c",
+		"src/lib/libbsp/arm/lm3s69xx/ssi/ssi.c",
+		"src/lib/libbsp/arm/lm3s69xx/startup/bspreset.c",
+		"src/lib/libbsp/arm/lm3s69xx/startup/bspstart.c",
+		"src/lib/libbsp/arm/lm3s69xx/startup/bspstarthook.c",
+		"src/lib/libbsp/arm/lm3s69xx/startup/io.c",
+		"src/lib/libbsp/arm/lm3s69xx/startup/syscon.c",
+		"src/lib/libbsp/arm/shared/armv7m/clock/armv7m-clock-config.c",
+		"src/lib/libbsp/arm/shared/armv7m/irq/armv7m-irq-dispatch.c",
+		"src/lib/libbsp/arm/shared/armv7m/irq/armv7m-irq.c",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp src_include_libcpu"
+	)
+
+
+def lpc24xx_shared(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/arm/shared/lpc/network/lpc-ethernet.c",
+	]
+
+	ctx.bsp.networking(
+		networking_source,
+		features="src_include"
+	)
+
+	libcpu_source = [
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		libcpu_source,
+		features="src_include src_include_libcpu",
+		includes = ["%s/c/src/lib/libcpu/arm/shared/include" % ctx.srcnode.abspath()]
+	)
+
+	#XXX: This needs to be fixed as well as the cruft in the arm block of c/score/wscript.
+	if ctx.env.RTEMS_BSP in ["lpc17xx_ea_rom_int", "lpc17xx_plx800_ram", "lpc17xx_plx800_rom_int", "lpc17xx_ea_ram"]:
+		source += [
+			"src/lib/libbsp/arm/shared/armv7m/irq/armv7m-irq.c",
+			"src/lib/libbsp/arm/shared/armv7m/irq/armv7m-irq-dispatch.c",
+			"src/lib/libbsp/arm/shared/armv7m/clock/armv7m-clock-config.c",
+		]
+	else:
+		source += [
+			"src/lib/libbsp/arm/shared/abort/simple_abort.c",
+		]
+
+
+	source += [
+		"src/lib/libbsp/arm/lpc24xx/console/console-config.c",
+		"src/lib/libbsp/arm/lpc24xx/i2c/i2c-config.c",
+		"src/lib/libbsp/arm/lpc24xx/i2c/i2c.c",
+		"src/lib/libbsp/arm/lpc24xx/irq/irq-dispatch.c",
+		"src/lib/libbsp/arm/lpc24xx/irq/irq.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/bspidle.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/dma-copy.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/dma.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/io.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/lcd.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/restart.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/system-clocks.c",
+		"src/lib/libbsp/arm/lpc24xx/misc/timer.c",
+		"src/lib/libbsp/arm/lpc24xx/rtc/rtc-config.c",
+		"src/lib/libbsp/arm/lpc24xx/ssp/ssp.c",
+		"src/lib/libbsp/arm/lpc24xx/startup/bspreset.c",
+		"src/lib/libbsp/arm/lpc24xx/startup/bspstart.c",
+		"src/lib/libbsp/arm/lpc24xx/startup/bspstarthooks.c",
+		"src/lib/libbsp/arm/shared/lpc/clock/lpc-clock-config.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libbsp/shared/src/uart-output-char.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/arm/lpc24xx/console/uart-probe-1.c",
+		"src/lib/libbsp/arm/lpc24xx/console/uart-probe-2.c",
+		"src/lib/libbsp/arm/lpc24xx/console/uart-probe-3.c",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/arm/lpc24xx/startup/start-config-emc-dynamic.c",
+		"src/lib/libbsp/arm/lpc24xx/startup/start-config-emc-static.c",
+		"src/lib/libbsp/arm/lpc24xx/startup/start-config-mpu.c",
+		"src/lib/libbsp/arm/lpc24xx/startup/start-config-pinsel.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp",
+		includes = ["%s/c/src/lib/libcpu/arm/shared/include" % ctx.srcnode.abspath()]
+	)
+
+
+
+def lpc32xx_shared(ctx):
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/arm/shared/lpc/network/lpc-ethernet.c",
+	]
+
+	ctx.bsp.networking(
+		networking_source,
+		features="src_include"
+	)
+
+	libcpu_source = [
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		libcpu_source,
+		features="src_include src_include_libcpu",
+		includes = ["%s/c/src/lib/libcpu/arm/shared/include" % ctx.srcnode.abspath()]
+	)
+
+	source += [
+		"src/lib/libbsp/arm/lpc32xx/console/console-config.c",
+		"src/lib/libbsp/arm/lpc32xx/console/hsu.c",
+		"src/lib/libbsp/arm/lpc32xx/irq/irq.c",
+		"src/lib/libbsp/arm/lpc32xx/rtc/rtc-config.c",
+		"src/lib/libbsp/arm/lpc32xx/startup/bspreset.c",
+		"src/lib/libbsp/arm/lpc32xx/startup/bspstart.c",
+		"src/lib/libbsp/arm/lpc32xx/startup/bspstarthooks.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/timer.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/nand-mlc.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/nand-mlc-read-blocks.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/nand-mlc-write-blocks.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/nand-mlc-erase-block-safe.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/restart.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/boot.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/emc.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/i2c.c",
+		"src/lib/libbsp/arm/shared/lpc/clock/lpc-clock-config.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libbsp/shared/src/uart-output-char.c",
+		"src/lib/libbsp/arm/shared/abort/simple_abort.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/arm/lpc32xx/misc/idle-thread.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def nds(ctx):
+	source = []
+	networking_source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/nds/start/start.S"])
+
+	networking_source += [
+		"src/lib/libbsp/arm/nds/wifi/compat.c",
+		"src/lib/libbsp/arm/nds/wifi/wifi.c",
+		"src/lib/libbsp/arm/nds/dswifi/arm9/source/wifi_arm9.c",
+		"src/lib/libbsp/arm/nds/dswifi/common/source/spinlock.S",
+	]
+
+	source += [
+		"src/lib/libbsp/arm/nds/block/block.c",
+		"src/lib/libbsp/arm/nds/clock/clock.c",
+		"src/lib/libbsp/arm/nds/console/console.c",
+		"src/lib/libbsp/arm/nds/fb/fb.c",
+		"src/lib/libbsp/arm/nds/irq/irq.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/disc.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_cf_common.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_dldi.S",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_efa2.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_fcsr.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_m3_common.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_m3cf.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_m3sd.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_mpcf.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_njsd.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_nmmc.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_sc_common.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_sccf.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_scsd.c",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_scsd_s.S",
+		"src/lib/libbsp/arm/nds/libfat/source/disc_io/io_sd_common.c",
+		"src/lib/libbsp/arm/nds/rtc/rtc.c",
+		"src/lib/libbsp/arm/nds/sound/sound.c",
+		"src/lib/libbsp/arm/nds/startup/bspreset.c",
+		"src/lib/libbsp/arm/nds/startup/bspstart.c",
+		"src/lib/libbsp/arm/nds/timer/timer.c",
+		"src/lib/libbsp/arm/nds/touchscreen/parser.c",
+		"src/lib/libbsp/arm/nds/touchscreen/reco.c",
+		"src/lib/libbsp/arm/nds/touchscreen/touchscreen.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/COS.S",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/SIN.S",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/TAN.S",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/boxtest.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/console.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/dcache.S",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/default_font.S",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/exceptionHandler.S",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/exceptions.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/gurumeditation.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/icache.S",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/image.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/initSystem.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/keys.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/ndsmotion.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/pcx.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/rumble.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/sound.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/system.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/touch.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/video.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm9/videoGL.c",
+		"src/lib/libbsp/arm/nds/libnds/source/common/biosCalls.S",
+		"src/lib/libbsp/arm/nds/libnds/source/common/card.c",
+		"src/lib/libbsp/arm/nds/libnds/source/common/gbfs.c",
+		"src/lib/libbsp/arm/nds/libnds/source/common/interruptDispatcher.S",
+		"src/lib/libbsp/arm/nds/libnds/source/common/interrupts.c",
+	]
+
+	#
+	# ARM7 coprocessor, disabled for now.
+	#
+	arm7_defines = ['ARM7']
+
+	arm7_source = [
+		"src/lib/libbsp/arm/nds/libnds/source/arm7/audio.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm7/clock.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm7/microphone.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm7/spi.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm7/touch.c",
+		"src/lib/libbsp/arm/nds/libnds/source/arm7/userSettings.c",
+		"src/lib/libbsp/arm/nds/libnds/source/common/biosCalls.S",
+		"src/lib/libbsp/arm/nds/libnds/source/common/card.c",
+		"src/lib/libbsp/arm/nds/libnds/source/common/gbfs.c",
+		"src/lib/libbsp/arm/nds/libnds/source/common/interruptDispatcher.S",
+		"src/lib/libbsp/arm/nds/libnds/source/common/interrupts.c",
+	]
+
+	arm7_networking_source = [
+		"src/lib/libbsp/arm/nds/dswifi/arm7/source/wifi_arm7.c",
+		"src/lib/libbsp/arm/nds/dswifi/common/source/spinlock.S",
+	]
+
+	includes = ["%s/include/libnds" % ctx.srcnode.abspath(),
+		    "%s/include/nds" % ctx.srcnode.abspath(),
+		    "%s/c/src/lib/libbsp/arm/nds/include" % ctx.srcnode.abspath(),
+		    "%s/c/src/lib/libbsp/arm/nds/libnds/include" % ctx.srcnode.abspath(),
+		    "%s/c/src/lib/libbsp/arm/nds/libfat/source/disc_io" % ctx.srcnode.abspath()]
+
+	ctx.bsp.networking(
+		networking_source,
+		features="src_include_rtems src_include",
+		includes=includes + [
+			"%s/c/src/lib/libbsp/arm/nds/dswifi/include" % ctx.srcnode.abspath(),
+			"%s/c/src/lib/libbsp/arm/nds/dswifi/common/source" % ctx.srcnode.abspath()
+		],
+		defines=["ARM9", "__INSIDE_RTEMS_BSD_TCPIP_STACK__", "_KERNEL", "__BSD_VISIBLE"]
+	)
+
+	ctx.bsp.source(
+		source,
+		features="src_include",
+		includes=includes,
+		defines=['ARM9']
+	)
+
+
+def raspberrypi(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	source += [
+		"src/lib/libcpu/shared/src/cache_manager.c",
+		"src/lib/libbsp/arm/raspberrypi/clock/clockdrv.c",
+		"src/lib/libbsp/arm/raspberrypi/console/console-config.c",
+		"src/lib/libbsp/arm/raspberrypi/console/usart.c",
+		"src/lib/libbsp/arm/raspberrypi/irq/irq.c",
+		"src/lib/libbsp/arm/raspberrypi/misc/timer.c",
+		"src/lib/libbsp/arm/raspberrypi/startup/bspreset.c",
+		"src/lib/libbsp/arm/raspberrypi/startup/bspstart.c",
+		"src/lib/libbsp/arm/raspberrypi/startup/bspstarthooks.c",
+		"src/lib/libbsp/arm/shared/abort/simple_abort.c",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp src_include_libcpu"
+	)
+
+
+def realview_pbx_a9_qemu(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/arm/realview-pbx-a9/console/console-config.c",
+		"src/lib/libbsp/arm/realview-pbx-a9/startup/bspreset.c",
+		"src/lib/libbsp/arm/realview-pbx-a9/startup/bspstart.c",
+		"src/lib/libbsp/arm/realview-pbx-a9/startup/bspstarthooks.c",
+		"src/lib/libbsp/arm/shared/abort/simple_abort.c",
+		"src/lib/libbsp/arm/shared/arm-a9mpcore-clock-config.c",
+		"src/lib/libbsp/arm/shared/arm-cp15-set-exception-handler.c",
+		"src/lib/libbsp/arm/shared/arm-cp15-set-ttb-entries.c",
+		"src/lib/libbsp/arm/shared/arm-gic-irq.c",
+		"src/lib/libbsp/arm/shared/arm-pl011.c",
+		"src/lib/libbsp/arm/shared/start/start.S",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+	source = [
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+
+
+def rtl22xx_shared(ctx):
+
+	libcpu_lpc22xx_clock(ctx)
+	libcpu_lpc22xx_timer(ctx)
+	libcpu_lpc22xx_irq(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/rtl22xx/start/start.S"])
+
+	networking_source = [
+		"src/lib/libbsp/arm/rtl22xx/network/network.c",
+	]
+
+	networking_defines = ["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+
+	ctx.bsp.networking(
+		networking_source,
+		features="src_include",
+		defines=networking_defines
+	)
+
+	source += [
+		"src/lib/libbsp/arm/rtl22xx/console/uart.c",
+		"src/lib/libbsp/arm/rtl22xx/startup/bspreset.c",
+		"src/lib/libbsp/arm/rtl22xx/startup/bspstart.c",
+		"src/lib/libbsp/arm/shared/abort/simple_abort.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def smdk2410(ctx):
+
+	libcpu_shared_arm920(ctx)
+	libcpu_s3c24xx_clock(ctx)
+	libcpu_s3c24xx_timer(ctx)
+	libcpu_s3c24xx_irq(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/gp32/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/arm/gp32/console/uart.c",
+		"src/lib/libbsp/arm/gp32/smc/smc.c",
+		"src/lib/libbsp/arm/gp32/startup/bspstart.c",
+		"src/lib/libbsp/arm/shared/abort/abort.c",
+		"src/lib/libbsp/arm/smdk2410/startup/bspreset.c",
+		"src/lib/libbsp/arm/smdk2410/startup/memmap.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/arm/gp32/startup/bspidle.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+def stm32f4(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/arm/shared/armv7m/clock/armv7m-clock-config.c",
+		"src/lib/libbsp/arm/shared/armv7m/irq/armv7m-irq-dispatch.c",
+		"src/lib/libbsp/arm/shared/armv7m/irq/armv7m-irq.c",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/arm/stm32f4/console/console-config.c",
+		"src/lib/libbsp/arm/stm32f4/console/usart.c",
+		"src/lib/libbsp/arm/stm32f4/startup/bspreset.c",
+		"src/lib/libbsp/arm/stm32f4/startup/bspstart.c",
+		"src/lib/libbsp/arm/stm32f4/startup/bspstarthook.c",
+		"src/lib/libbsp/arm/stm32f4/startup/io.c",
+		"src/lib/libbsp/arm/stm32f4/startup/rcc.c",
+		"src/lib/libbsp/arm/stm32f4/startup/start-config-io.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+	source = [
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def xilinx_zynq_a9_qemu(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	source = [
+		"src/lib/libbsp/arm/shared/abort/simple_abort.c",
+		"src/lib/libbsp/arm/shared/arm-a9mpcore-clock-config.c",
+		"src/lib/libbsp/arm/shared/arm-cp15-set-exception-handler.c",
+		"src/lib/libbsp/arm/shared/arm-cp15-set-ttb-entries.c",
+		"src/lib/libbsp/arm/shared/arm-gic-irq.c",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/arm/xilinx-zynq/console/console-config.c",
+		"src/lib/libbsp/arm/xilinx-zynq/console/zynq-uart.c",
+		"src/lib/libbsp/arm/xilinx-zynq/startup/bspreset.c",
+		"src/lib/libbsp/arm/xilinx-zynq/startup/bspstart.c",
+		"src/lib/libbsp/arm/xilinx-zynq/startup/bspstarthooks.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	source = [
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+	source = [
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+
+def build(ctx):
+	source = []
+
+
+	source += [
+#XXX: insert shared files here.
+	]
+
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"csb336":					csb336,
+		"csb337":					csb337_shared,
+		"csb637":					csb337_shared,
+		"kit637_v6":				csb337_shared,
+		"edb7312":					edb7312,
+		"gba":						gba,
+		"arm1136jfs":				gdbarmsim_shared,
+		"arm1136js":				gdbarmsim_shared,
+		"arm7tdmi":					gdbarmsim_shared,
+		"arm920":					gdbarmsim_shared,
+		"armcortexa9":				gdbarmsim_shared,
+		"gp32":						gp32,
+		"gumstix":					gumstix,
+		"lm3s3749":					lm3s_shared,
+		"lm3s6965":					lm3s_shared,
+		"lm3s6965_qemu":			lm3s_shared,
+		"lpc17xx_ea_ram":			lpc24xx_shared,
+		"lpc17xx_ea_rom_int":		lpc24xx_shared,
+		"lpc17xx_plx800_ram":		lpc24xx_shared,
+		"lpc17xx_plx800_rom_int":	lpc24xx_shared,
+		"lpc2362":					lpc24xx_shared,
+		"lpc23xx_tli800":			lpc24xx_shared,
+		"lpc24xx_ea":				lpc24xx_shared,
+		"lpc24xx_ncs_ram":			lpc24xx_shared,
+		"lpc24xx_ncs_rom_ext":		lpc24xx_shared,
+		"lpc24xx_ncs_rom_int":		lpc24xx_shared,
+		"lpc24xx_plx800_ram":		lpc24xx_shared,
+		"lpc24xx_plx800_rom_int":	lpc24xx_shared,
+		"lpc32xx_mzx":				lpc32xx_shared,
+		"lpc32xx_mzx_stage_1":		lpc32xx_shared,
+		"lpc32xx_mzx_stage_2":		lpc32xx_shared,
+		"lpc32xx_phycore":			lpc32xx_shared,
+		"nds":						nds,
+		"raspberrypi":				raspberrypi,
+		"realview_pbx_a9_qemu":		realview_pbx_a9_qemu,
+		"rtl22xx":					rtl22xx_shared,
+		"rtl22xx_t":				rtl22xx_shared,
+		"smdk2410":					smdk2410,
+		"stm32f4":					stm32f4,
+		"xilinx_zynq_a9_qemu":		xilinx_zynq_a9_qemu,
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_arm(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

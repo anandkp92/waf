@@ -1,0 +1,428 @@
+def build(ctx):
+	source = []
+
+	source_mp = [
+		"src/mpci.c",
+		"src/objectmp.c",
+		"src/threadmp.c",
+	]
+	ctx.cpu.mp(
+		source_mp,
+		alias="score_mp",
+		features="src_include",
+		includes=["%s/cpukit/score/include" % ctx.srcnode.abspath()]
+	)
+
+	source_smp = [
+		"src/isrsmp.c",
+		"src/smp.c",
+		"src/smplock.c",
+		"src/schedulersimplesmpblock.c",
+		"src/schedulersimplesmpschedule.c",
+		"src/schedulersimplesmpunblock.c",
+		"src/schedulersimplesmptick.c",
+		"src/threaddispatchdisablelevel.c"
+	]
+	ctx.cpu.smp(
+		source_smp,
+		alias="score_smp",
+		features="src_include",
+		includes=["%s/cpukit/score/include" % ctx.srcnode.abspath()]
+	)
+
+	source_pthreads = [
+		"src/corerwlock.c",
+		"src/corerwlockobtainread.c",
+		"src/corerwlockobtainwrite.c",
+		"src/corerwlockrelease.c",
+		"src/corerwlocktimeout.c",
+		"src/corespinlock.c",
+		"src/corespinlockrelease.c",
+		"src/corespinlockwait.c"
+	]
+	ctx.cpu.pthreads(
+		source_pthreads,
+		alias="score",
+		features="src_include",
+		includes=["%s/cpukit/score/include" % ctx.srcnode.abspath()]
+	)
+
+	source += [
+		"src/apiext.c",
+		"src/apimutex.c",
+#		"src/apimutexallocate.c",
+		"src/apimutexlock.c",
+		"src/apimutexunlock.c",
+		"src/chain.c",
+		"src/chainappend.c",
+		"src/chainappendempty.c",
+		"src/chainextract.c",
+		"src/chainget.c",
+		"src/chaingetempty.c",
+		"src/chaininsert.c",
+		"src/chainprependempty.c",
+		"src/corebarrier.c",
+		"src/corebarrierrelease.c",
+		"src/corebarrierwait.c",
+		"src/coremsg.c",
+		"src/coremsgbroadcast.c",
+		"src/coremsgclose.c",
+		"src/coremsgflush.c",
+		"src/coremsgflushsupp.c",
+		"src/coremsgflushwait.c",
+		"src/coremsginsert.c",
+		"src/coremsgseize.c",
+		"src/coremsgsubmit.c",
+		"src/coremutex.c",
+		"src/coremutexflush.c",
+		"src/coremutexseize.c",
+		"src/coremutexseizeintr.c",
+		"src/coremutexsurrender.c",
+		"src/coresem.c",
+		"src/coresemflush.c",
+		"src/coresemseize.c",
+		"src/coresemsurrender.c",
+		"src/coretod.c",
+		"src/coretodget.c",
+		"src/coretodgetuptimetimespec.c",
+#		"src/coretodmsecstoticks.c",
+		"src/coretodset.c",
+		"src/coretodtickle.c",
+		"src/coretodtickspersec.c",
+#		"src/coretodusectoticks.c",
+		"src/heap.c",
+		"src/heapallocate.c",
+		"src/heapextend.c",
+		"src/heapfree.c",
+		"src/heapgetfreeinfo.c",
+		"src/heapgetinfo.c",
+		"src/heapresizeblock.c",
+		"src/heapsizeofuserarea.c",
+		"src/heapwalk.c",
+		"src/interr.c",
+		"src/isr.c",
+		"src/iterateoverthreads.c",
+		"src/objectallocate.c",
+		"src/objectapimaximumclass.c",
+		"src/objectclose.c",
+		"src/objectextendinformation.c",
+		"src/objectfree.c",
+		"src/objectget.c",
+		"src/objectgetinfo.c",
+		"src/objectgetinfoid.c",
+		"src/objectgetisr.c",
+		"src/objectgetnameasstring.c",
+		"src/objectgetnext.c",
+		"src/objectgetnoprotection.c",
+		"src/objectidtoname.c",
+		"src/objectinitializeinformation.c",
+		"src/objectnamespaceremove.c",
+		"src/objectnametoid.c",
+		"src/objectnametoidstring.c",
+		"src/objectsetname.c",
+		"src/objectshrinkinformation.c",
+		"src/percpu.c",
+		"src/pheapallocate.c",
+		"src/pheapextend.c",
+		"src/pheapfree.c",
+		"src/pheapgetblocksize.c",
+		"src/pheapgetfreeinfo.c",
+		"src/pheapgetinfo.c",
+		"src/pheapgetsize.c",
+		"src/pheapinit.c",
+		"src/pheapresizeblock.c",
+		"src/pheapwalk.c",
+		"src/rbtree.c",
+		"src/rbtreeextract.c",
+		"src/rbtreefind.c",
+#		"src/rbtreefindheader.c",
+#		"src/rbtreeget.c",
+		"src/rbtreeinsert.c",
+		"src/scheduler.c",
+		"src/schedulerpriority.c",
+#		"src/schedulerpriorityallocate.c",
+		"src/schedulerpriorityblock.c",
+#		"src/schedulerpriorityenqueue.c",
+#		"src/schedulerpriorityenqueuefirst.c",
+#		"src/schedulerpriorityextract.c",
+#		"src/schedulerpriorityfree.c",
+		"src/schedulerpriorityprioritycompare.c",
+#		"src/schedulerpriorityreleasejob.c",
+		"src/schedulerpriorityschedule.c",
+#		"src/schedulerprioritytick.c",
+		"src/schedulerpriorityunblock.c",
+		"src/schedulerpriorityupdate.c",
+		"src/schedulerpriorityyield.c",
+		"src/schedulersimple.c",
+		"src/schedulersimpleblock.c",
+#		"src/schedulersimpleenqueue.c",
+#		"src/schedulersimpleenqueuefirst.c",
+#		"src/schedulersimpleextract.c",
+#		"src/schedulersimplereadyqueueenqueue.c",
+#		"src/schedulersimplereadyqueueenqueuefirst.c",
+		"src/schedulersimpleschedule.c",
+		"src/schedulersimpleunblock.c",
+		"src/schedulersimpleyield.c",
+		"src/thread.c",
+		"src/threadblockingoperationcancel.c",
+		"src/threadchangepriority.c",
+		"src/threadclearstate.c",
+#		"src/threadclose.c",
+		"src/threadcreateidle.c",
+		"src/threaddelayended.c",
+		"src/threaddisabledispatch.c",
+		"src/threaddispatch.c",
+		"src/threadenabledispatch.c",
+		"src/threadget.c",
+		"src/threadhandler.c",
+		"src/threadinitialize.c",
+		"src/threadloadenv.c",
+		"src/threadq.c",
+		"src/threadqdequeue.c",
+#		"src/threadqdequeuefifo.c",
+#		"src/threadqdequeuepriority.c",
+		"src/threadqenqueue.c",
+#		"src/threadqenqueuefifo.c",
+#		"src/threadqenqueuepriority.c",
+		"src/threadqextract.c",
+#		"src/threadqextractfifo.c",
+#		"src/threadqextractpriority.c",
+		"src/threadqextractwithproxy.c",
+		"src/threadqfirst.c",
+#		"src/threadqfirstfifo.c",
+#		"src/threadqfirstpriority.c",
+		"src/threadqflush.c",
+		"src/threadqprocesstimeout.c",
+		"src/threadqrequeue.c",
+		"src/threadqtimeout.c",
+		"src/threadready.c",
+#		"src/threadreset.c",
+		"src/threadrestart.c",
+		"src/threadsetpriority.c",
+		"src/threadsetstate.c",
+#		"src/threadsettransient.c",
+		"src/threadstackallocate.c",
+		"src/threadstackfree.c",
+		"src/threadstart.c",
+		"src/threadstartmultitasking.c",
+		"src/timespecaddto.c",
+		"src/timespecdivide.c",
+		"src/timespecdividebyinteger.c",
+		"src/timespecfromticks.c",
+		"src/timespecisvalid.c",
+		"src/timespeclessthan.c",
+		"src/timespecsubtract.c",
+		"src/timespectoticks.c",
+		"src/ts64addto.c",
+		"src/ts64divide.c",
+		"src/ts64dividebyinteger.c",
+		"src/ts64equalto.c",
+		"src/ts64getnanoseconds.c",
+		"src/ts64getseconds.c",
+		"src/ts64lessthan.c",
+		"src/ts64set.c",
+		"src/ts64settozero.c",
+		"src/ts64subtract.c",
+		"src/ts64toticks.c",
+		"src/ts64totimespec.c",
+		"src/userext.c",
+		"src/userextaddset.c",
+		"src/userextiterate.c",
+		"src/userextremoveset.c",
+		"src/watchdog.c",
+		"src/watchdogadjust.c",
+		"src/watchdogadjusttochain.c",
+		"src/watchdoginsert.c",
+#		"src/watchdognanoseconds.c",
+		"src/watchdogremove.c",
+#		"src/watchdogreport.c",
+#		"src/watchdogreportchain.c",
+		"src/watchdogtickle.c",
+		"src/wkspace.c",
+		"src/objectactivecount.c",
+		"src/heapgreedy.c",
+		"src/heapiterate.c",
+		"src/chainnodecount.c",
+		"src/wkstringduplicate.c",
+		"src/rbtreenext.c",
+		"src/log2table.c",
+		"src/schedulerprioritychangepriority.c",
+		"src/schedulerdefaultnodeinit.c",
+		"src/schedulerdefaultnodedestroy.c",
+		"src/schedulerdefaultreleasejob.c",
+		"src/schedulerdefaulttick.c",
+		"src/schedulerdefaultstartidle.c",
+		"src/threadyield.c",
+		"src/threadglobalconstruction.c",
+		"src/freechain.c",
+		"src/rbtreeiterate.c",
+		"src/once.c",
+		"src/coretodsecondssinceepoch.c",
+		"src/coretodadjust.c",
+		"src/schedulersimplechangepriority.c",
+		"src/schedulerdefaultupdate.c"
+	]
+
+	if ctx.env.RTEMS_ARCH == "arm":
+		source += [
+			"cpu/arm/arm_exc_abort.S",
+			"cpu/arm/arm_exc_handler_high.c",
+			"cpu/arm/arm_exc_handler_low.S",
+			"cpu/arm/arm_exc_interrupt.S",
+			"cpu/arm/cpu.c",
+			"cpu/arm/cpu_asm.S",
+			"cpu/arm/arm-exception-default.c"
+		]
+
+		#XXX: There needs to be a different solution for this..
+		if ctx.env.RTEMS_BSP in ["lm3s3749", "lm3s6965", "lm3s6965_qemu", "lpc17xx_ea_rom_int", "lpc17xx_plx800_ram", "lpc17xx_plx800_rom_int", "lpc17xx_ea_ram", "stm32f4", "xilinx_zynq_a9_qemu"]:
+			source += [
+				"cpu/arm/armv7m-context-initialize.c",
+				"cpu/arm/armv7m-context-restore.c",
+				"cpu/arm/armv7m-context-switch.c",
+				"cpu/arm/armv7m-exception-default.c",
+				"cpu/arm/armv7m-exception-handler-get.c",
+				"cpu/arm/armv7m-exception-handler-set.c",
+				"cpu/arm/armv7m-exception-priority-get.c",
+				"cpu/arm/armv7m-exception-priority-handler.c",
+				"cpu/arm/armv7m-exception-priority-set.c",
+				"cpu/arm/armv7m-initialize.c",
+				"cpu/arm/armv7m-isr-dispatch.c",
+				"cpu/arm/armv7m-isr-enter-leave.c",
+				"cpu/arm/armv7m-isr-level-get.c",
+				"cpu/arm/armv7m-isr-level-set.c",
+				"cpu/arm/armv7m-isr-vector-install.c",
+				"cpu/arm/armv7m-multitasking-start-stop.c",
+				"cpu/arm/armv7m-thread-idle.c",
+			]
+
+		if ctx.env.RTEMS_BSP in ["lpc24xx_plx800_rom_int", "lpc24xx_plx800_ram", "lpc17xx_ea_rom_int", "lpc17xx_plx800_ram", "lpc17xx_plx800_rom_int", "lpc17xx_ea_ram", "raspberrypi", "realview_pbx_a9_qemu", "stm32f4", "xilinx_zynq_a9_qemu", "lpc2362", "lpc23xx_tli800", "lpc24xx_ea", "lpc24xx_ncs_ram", "lpc24xx_ncs_rom_ext", "lpc24xx_ncs_rom_int", "lpc32xx_mzx", "lpc32xx_mzx_stage_1", "lpc32xx_mzx_stage_2", "lpc32xx_phycore"]:
+			source += [
+				"cpu/arm/armv4-exception-default.S"
+			]
+
+
+
+	elif ctx.env.RTEMS_ARCH == "avr":
+		source += [
+			"cpu/avr/cpu.c",
+			"cpu/avr/cpu_asm.S"
+		]
+	elif ctx.env.RTEMS_ARCH == "bfin":
+		source += [
+			"cpu/bfin/cpu.c",
+			"cpu/bfin/cpu_asm.S"
+		]
+	elif ctx.env.RTEMS_ARCH == "h8300":
+		source += [
+			"cpu/h8300/cpu.c",
+			"cpu/h8300/cpu_asm.S"
+		]
+	elif ctx.env.RTEMS_ARCH == "i386":
+		source += [
+			"cpu/i386/cpu.c",
+			"cpu/i386/cpu_asm.S",
+#			"cpu/i386/sse_test.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "lm32":
+		source += [
+			"cpu/lm32/cpu.c",
+			"cpu/lm32/cpu_asm.S",
+			"cpu/lm32/irq.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "m32c":
+		source += [
+			"cpu/m32c/context_init.c",
+			"cpu/m32c/context_switch.S",
+			"cpu/m32c/cpu.c",
+			"cpu/m32c/cpu_asm.c",
+			"cpu/m32c/varvects.S"
+		]
+	elif ctx.env.RTEMS_ARCH == "m32r":
+		source += [
+			"cpu/m32r/context_init.c",
+			"cpu/m32r/context_switch.S",
+			"cpu/m32r/cpu.c",
+			"cpu/m32r/cpu_asm.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "m68k":
+		source += [
+			"cpu/m68k/cpu.c",
+			"cpu/m68k/cpu_asm.S"
+		]
+	elif ctx.env.RTEMS_ARCH == "mips":
+		source += [
+			"cpu/mips/cpu.c",
+			"cpu/mips/cpu_asm.S"
+		]
+	elif ctx.env.RTEMS_ARCH == "moxie":
+		source += [
+			"cpu/moxie/cpu.c",
+			"cpu/moxie/cpu_asm.S",
+			"cpu/moxie/moxie-exception-frame-print.c",
+		]
+	elif ctx.env.RTEMS_ARCH == "nios2":
+		source += [
+			"cpu/nios2/nios2-context-initialize.c",
+			"cpu/nios2/nios2-context-switch.S",
+			"cpu/nios2/nios2-context-validate.S",
+			"cpu/nios2/nios2-context-volatile-clobber.S",
+			"cpu/nios2/nios2-eic-il-low-level.S",
+			"cpu/nios2/nios2-eic-rsie-low-level.S",
+			"cpu/nios2/nios2-exception-frame-print.c",
+			"cpu/nios2/nios2-fatal-halt.c",
+			"cpu/nios2/nios2-iic-irq.c",
+			"cpu/nios2/nios2-iic-low-level.S",
+			"cpu/nios2/nios2-initialize-vectors.c",
+			"cpu/nios2/nios2-initialize.c",
+			"cpu/nios2/nios2-isr-get-level.c",
+			"cpu/nios2/nios2-isr-install-raw-handler.c",
+			"cpu/nios2/nios2-isr-install-vector.c",
+			"cpu/nios2/nios2-isr-is-in-progress.c",
+			"cpu/nios2/nios2-isr-set-level.c",
+			"cpu/nios2/nios2-mpu-add-region.c",
+			"cpu/nios2/nios2-mpu-configuration.c",
+			"cpu/nios2/nios2-mpu-descriptor.c",
+			"cpu/nios2/nios2-mpu-disable-protected.c",
+			"cpu/nios2/nios2-mpu-reset.c",
+			"cpu/nios2/nios2-thread-dispatch-disabled.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "powerpc":
+		source += [
+			"cpu/powerpc/cpu.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "sh":
+		source += [
+			"cpu/sh/context.c",
+			"cpu/sh/cpu.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "sparc":
+		source += [
+			"cpu/sparc/cpu.c",
+			"cpu/sparc/cpu_asm.S",
+			"cpu/sparc/sparc-counter.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "sparc64":
+		source += [
+			"cpu/sparc64/context.S",
+			"cpu/sparc64/cpu.c"
+		]
+	elif ctx.env.RTEMS_ARCH == "v850":
+		source += [
+			"cpu/v850/cpu.c",
+			"cpu/v850/cpu_asm.S",
+			"cpu/v850/v850-exception-frame-print.c",
+		]
+	elif ctx.cmd != "build" and ctx.cmd != "%s/%s" % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_BSP):
+		# Hack to let other commands such as 'waf list' work
+		pass
+	else:
+		ctx.fatal("cpukit/score/wscript: unknown arch: %s" % ctx.env.RTEMS_ARCH)
+
+
+	ctx.cpu.source(
+		source,
+		alias="score",
+		features="src_include",
+		includes=["%s/cpukit/score/include" % ctx.srcnode.abspath()]
+	)

@@ -1,0 +1,347 @@
+#
+# MIP Board Support Packages.
+#
+
+#
+# MIPS libcpu support. See the PowerPC BSP file for details.
+#
+
+def libcpu_cache(ctx):
+	source = [
+		"src/lib/libcpu/mips/shared/cache/cache.c",
+		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		includes=["%s/c/src/lib/libcpu/mips/shared/cache/" % ctx.srcnode.abspath()],
+		features="src_include"
+	)
+
+def libcpu_timer(ctx):
+	source = [
+		"src/lib/libcpu/mips/timer/timer.c",
+		"src/lib/libcpu/mips/timer/gettime.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_clock(ctx):
+	source = [
+		"src/lib/libcpu/mips/clock/ckinit.c",
+		"src/lib/libcpu/mips/clock/clock.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_interrupts(ctx, name = None):
+	source = [
+		"src/lib/libcpu/mips/shared/interrupts/installisrentries.c",
+		"src/lib/libbsp/mips/shared/irq/vectorexceptions.c",
+		"src/lib/libcpu/mips/shared/interrupts/interruptmask.c",
+		"src/lib/libcpu/mips/shared/interrupts/isr_entries.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		defines=[name],
+		features="src_include"
+	)
+
+def libcpu_rm52xx_interrupts(ctx):
+	libcpu_interrupts(ctx, 'RM52XX')
+
+def libcpu_tx39_interrupts(ctx):
+	libcpu_interrupts(ctx, 'TX39')
+
+def libcpu_tx49_interrupts(ctx):
+	libcpu_interrupts(ctx, 'TX49')
+
+def libcpu_mongoosev_interrupts(ctx):
+	libcpu_interrupts(ctx, 'MONGOOSEV')
+
+def libcpu_mongoosev_duart(ctx):
+	source = [
+		"src/lib/libcpu/mips/mongoosev/duart/mg5uart.c",
+		"src/lib/libcpu/mips/mongoosev/duart/mg5uart_reg.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def csb350(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_interrupts(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/mips/csb350/start/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/mips/csb350/network/network.c"
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		cflags=["-D__INSIDE_RTEMS_BSD_TCPIP_STACK__"],
+	)
+
+	source += [
+		"src/lib/libbsp/mips/csb350/clock/clockdrv.c",
+		"src/lib/libbsp/mips/csb350/console/console-io.c",
+		"src/lib/libbsp/mips/csb350/startup/bspreset.c",
+		"src/lib/libbsp/mips/csb350/startup/bspstart.c",
+		"src/lib/libbsp/mips/csb350/timer/timer.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/mips/csb350/irq/vectorisrs.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+	)
+
+
+def genmongoosev(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_mongoosev_interrupts(ctx)
+	libcpu_mongoosev_duart(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/mips/genmongoosev/start/start.S"])
+
+	source_gdb = [
+		"src/lib/libbsp/mips/genmongoosev/startup/gdb-support.c",
+		"src/lib/libbsp/shared/gdbstub/rtems-stub-glue.c"
+	]
+	ctx.cpu.source(
+		source_gdb,
+		features="src_include",
+		includes=["%s/c/src/lib/libbsp/mips/shared/gdbstub/" % ctx.srcnode.abspath()]
+	)
+
+
+	source += [
+		"src/lib/libbsp/mips/genmongoosev/clock/clockdrv.c",
+		"src/lib/libbsp/mips/genmongoosev/console/conscfg.c",
+		"src/lib/libbsp/mips/genmongoosev/startup/bspstart.c",
+		"src/lib/libbsp/mips/genmongoosev/timer/timer.c",
+		"src/lib/libbsp/mips/shared/gdbstub/mips-stub.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/mips/genmongoosev/irq/vectorisrs.c"
+	]
+
+	ctx.cpu.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+def hurricane(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_rm52xx_interrupts(ctx)
+	libcpu_timer(ctx)
+
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/mips/hurricane/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/mips/hurricane/clock/ckinit.c",
+		"src/lib/libbsp/mips/hurricane/console/console.c",
+		"src/lib/libbsp/mips/hurricane/startup/bspstart.c",
+		"src/lib/libbsp/mips/hurricane/startup/inittlb.c",
+		"src/lib/libbsp/mips/shared/irq/exception.S",
+		"src/lib/libbsp/mips/shared/liblnk/lnklib.S",
+		"src/lib/libbsp/mips/shared/liblnk/pmon.S",
+		"src/lib/libbsp/mips/shared/startup/idtmem.S",
+		"src/lib/libbsp/mips/shared/startup/idttlb.S",
+		"src/lib/libbsp/mips/hurricane/irq/vectorisrs.c",
+		"src/lib/libbsp/mips/hurricane/startup/usc.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+	)
+
+
+def jmr3904(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_tx39_interrupts(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/mips/jmr3904/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/mips/jmr3904/clock/clockdrv.c",
+		"src/lib/libbsp/mips/jmr3904/console/console-io.c",
+		"src/lib/libbsp/mips/jmr3904/startup/bspstart.c",
+		"src/lib/libbsp/mips/jmr3904/timer/timer.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/mips/jmr3904/irq/vectorisrs.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+	)
+
+
+def malta(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/mips/malta/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/mips/malta/console/conscfg.c",
+		"src/lib/libbsp/mips/malta/console/printk_support.c",
+		"src/lib/libbsp/mips/malta/irq/interruptmask.c",
+		"src/lib/libbsp/mips/malta/irq/maxvectors.c",
+		"src/lib/libbsp/mips/malta/irq/vectorisrs.c",
+		"src/lib/libbsp/mips/malta/pci/pci.c",
+		"src/lib/libbsp/mips/malta/pci/pcifinddevice.c",
+		"src/lib/libbsp/mips/malta/pci/pcilistdevices.c",
+		"src/lib/libbsp/mips/malta/startup/bspreset.c",
+		"src/lib/libbsp/mips/malta/startup/bspstart.c",
+		"src/lib/libbsp/mips/malta/startup/inittlb.c",
+		"src/lib/libbsp/mips/malta/startup/simple_access.c",
+		"src/lib/libbsp/mips/shared/irq/vectorexceptions.c",
+		"src/lib/libbsp/mips/shared/startup/idttlb.S",
+		"src/lib/libbsp/shared/timerstub.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/mips/shared/irq/i8259.c",
+		"src/lib/libcpu/mips/shared/interrupts/installisrentries.c",
+		"src/lib/libcpu/mips/shared/interrupts/isr_entries.S",
+		"src/lib/libcpu/shared/src/cache_manager.c",
+		"src/lib/libbsp/mips/shared/clock/clockdrv.c",
+		"src/lib/libbsp/mips/shared/clock/mips_timer.S",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp src_include_libcpu",
+	)
+
+
+def rbtx4925(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_tx49_interrupts(ctx)
+	libcpu_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/mips/rbtx4925/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/mips/rbtx4925/clock/clockdrv.c",
+		"src/lib/libbsp/mips/rbtx4925/console/console-io.c",
+		"src/lib/libbsp/mips/rbtx4925/startup/bspstart.c",
+		"src/lib/libbsp/mips/rbtx4925/startup/inittlb.c",
+		"src/lib/libbsp/mips/shared/irq/exception.S",
+		"src/lib/libbsp/mips/shared/liblnk/lnklib.S",
+		"src/lib/libbsp/mips/shared/liblnk/pmon.S",
+		"src/lib/libbsp/mips/shared/startup/idtmem.S",
+		"src/lib/libbsp/mips/shared/startup/idttlb.S",
+		"src/lib/libbsp/mips/rbtx4925/irq/vectorisrs.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+	)
+
+
+def rbtx4938(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_tx49_interrupts(ctx)
+	libcpu_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/mips/rbtx4938/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/mips/rbtx4938/clock/clockdrv.c",
+		"src/lib/libbsp/mips/rbtx4938/console/console-io.c",
+		"src/lib/libbsp/mips/rbtx4938/startup/bspstart.c",
+		"src/lib/libbsp/mips/rbtx4938/startup/inittlb.c",
+		"src/lib/libbsp/mips/shared/irq/exception.S",
+		"src/lib/libbsp/mips/shared/liblnk/lnklib.S",
+		"src/lib/libbsp/mips/shared/liblnk/pmon.S",
+		"src/lib/libbsp/mips/shared/startup/idtmem.S",
+		"src/lib/libbsp/mips/shared/startup/idttlb.S",
+		"src/lib/libbsp/mips/rbtx4938/irq/vectorisrs.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+	)
+
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/setvec.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/mips/shared/irq/interruptmask.c",
+		"src/lib/libbsp/mips/shared/irq/irq.c",
+		"src/lib/libbsp/mips/shared/irq/maxvectors.c"
+	]
+	ctx.cpu.source(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"csb350":			csb350,
+		"genmongoosev":		genmongoosev,
+		"hurricane":		hurricane,
+		"jmr3904":			jmr3904,
+		"malta":			malta,
+		"rbtx4925":			rbtx4925,
+		"rbtx4938":			rbtx4938
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_mips(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

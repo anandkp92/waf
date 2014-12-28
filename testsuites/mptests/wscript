@@ -1,0 +1,57 @@
+def build(ctx):
+	srcnode = ctx.srcnode.abspath()
+
+	def test(target, source, defines):
+		ctx.rtems_test(
+			"mptests_%s" % target,
+			source,
+			includes	= [
+				"%s/testsuites/psxtests/include/" % srcnode,
+				"%s/c/src/libchip/shmdr/" % srcnode,
+			],
+			features	= "test_include",
+			defines		= defines
+		)
+
+	test("mp01-node01", ["mp01/init.c", "mp01/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp01-node02", ["mp01/init.c", "mp01/task1.c"], defines=["NODE_NUMBER=2"])
+
+	test("mp02-node01", ["mp02/init.c", "mp02/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp02-node02", ["mp02/init.c", "mp02/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp03-node01", ["mp03/delay.c", "mp03/init.c", "mp03/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp03-node02", ["mp03/delay.c", "mp03/init.c", "mp03/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp04-node01", ["mp04/init.c", "mp04/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp04-node02", ["mp04/init.c", "mp04/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp05-node01", ["mp05/asr.c", "mp05/init.c", "mp05/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp05-node02", ["mp05/asr.c", "mp05/init.c", "mp05/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp06-node01", ["mp06/init.c", "mp06/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp06-node02", ["mp06/init.c", "mp06/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp07-node01", ["mp07/init.c", "mp07/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp07-node02", ["mp07/init.c", "mp07/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp08-node01", ["mp08/init.c", "mp08/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp08-node02", ["mp08/init.c", "mp08/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp09-node01", ["mp09/init.c", "mp09/recvmsg.c", "mp09/sendmsg.c", "mp09/task1.c"], defines=["NODE_NUMBER=1"])
+	test("mp09-node02", ["mp09/init.c", "mp09/recvmsg.c", "mp09/sendmsg.c", "mp09/task1.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp10-node01", ["mp10/init.c", "mp10/task1.c", "mp10/task2.c", "mp10/task3.c"], defines=["NODE_NUMBER=1"])
+	test("mp10-node02", ["mp10/init.c", "mp10/task1.c", "mp10/task2.c", "mp10/task3.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp11-node01", ["mp11/init.c"], defines=["NODE_NUMBER=1"])
+	test("mp11-node02", ["mp11/init.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp12-node01", ["mp12/init.c"], defines=["NODE_NUMBER=1"])
+	test("mp12-node02", ["mp12/init.c"], defines=["NODE_NUMBER=1"])
+
+	test("mp13-node01", ["mp13/init.c", "mp13/task1.c", "mp13/task2.c"], defines=["NODE_NUMBER=1"])
+	test("mp13-node02", ["mp13/init.c", "mp13/task1.c", "mp13/task2.c"], defines=["NODE_NUMBER=1"])
+
+#XXX: MAX_LONG_TEST_DURATION needs to be an option in config.cg
+	test("mp14-node01", ["mp14/delay.c", "mp14/evtask1.c", "mp14/evtmtask.c", "mp14/exit.c", "mp14/init.c", "mp14/msgtask1.c", "mp14/pttask1.c", "mp14/smtask1.c"], defines=["NODE_NUMBER=1", "MAX_LONG_TEST_DURATION=100"])
+	test("mp14-node02", ["mp14/delay.c", "mp14/evtask1.c", "mp14/evtmtask.c", "mp14/exit.c", "mp14/init.c", "mp14/msgtask1.c", "mp14/pttask1.c", "mp14/smtask1.c"], defines=["NODE_NUMBER=1", "MAX_LONG_TEST_DURATION=100"])

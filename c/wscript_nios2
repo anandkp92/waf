@@ -1,0 +1,51 @@
+#
+# nios2
+#
+
+def nios2_iss(ctx):
+	ctx.bsp.start(["src/lib/libbsp/nios2/nios2_iss/start/start.S", "src/lib/libbsp/nios2/nios2_iss/start/crtnn.s"])
+
+	source = [
+		"src/lib/libbsp/nios2/nios2_iss/clock/clock.c",
+		"src/lib/libbsp/nios2/nios2_iss/console/console.c",
+		"src/lib/libbsp/nios2/nios2_iss/startup/bspstart.c",
+		"src/lib/libbsp/nios2/nios2_iss/startup/setvec.c",
+		"src/lib/libbsp/nios2/nios2_iss/timer/timer.c",
+		"src/lib/libcpu/nios2/shared/misc/memcpy.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_loop.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	map = {
+		"nios2_iss":	nios2_iss,
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_nios2(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

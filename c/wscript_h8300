@@ -1,0 +1,53 @@
+def h8sim_shared(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/h8300/h8sim/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/h8300/h8sim/console/console-io.c",
+		"src/lib/libbsp/h8300/h8sim/console/syscalls.S",
+		"src/lib/libbsp/h8300/h8sim/startup/__main.c",
+		"src/lib/libbsp/h8300/h8sim/startup/h8bdinstallirq.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspstart.c",
+		"src/lib/libbsp/shared/clock_driver_simidle.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"h8sim":	h8sim_shared,
+		"h8sxsim":	h8sim_shared
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_h8300(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

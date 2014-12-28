@@ -1,0 +1,168 @@
+#
+# i386 Board Support Packages.
+#
+
+#
+# i386 libcpu support. See the PowerPC BSP file for details.
+#
+
+def libcpu_cache(ctx):
+	source = [
+		"src/lib/libcpu/i386/cache.c",
+		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		includes=["%s/c/src/lib/libcpu/i386/" % ctx.srcnode.abspath()],
+		features="src_include"
+	)
+
+def libcpu_score(ctx):
+	source = [
+		"src/lib/libcpu/i386/displayCpu.c",
+		"src/lib/libcpu/i386/cpuModel.S",
+		"src/lib/libcpu/i386/idtr.S"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_page(ctx):
+	source = [
+		"src/lib/libcpu/i386/page.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def pc386_shared(ctx):
+	libcpu_cache(ctx)
+	libcpu_page(ctx)
+	libcpu_score(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/i386/pc386/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/i386/pc386/clock/ckinit.c",
+		"src/lib/libbsp/i386/pc386/clock/todcfg.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"/src/lib/libbsp/i386/pc386/console/conscfg.c",
+		"src/lib/libbsp/i386/pc386/console/defkeymap.c",
+		"src/lib/libbsp/i386/pc386/console/fb_vga.c",
+		"src/lib/libbsp/i386/pc386/console/inch.c",
+		"src/lib/libbsp/i386/pc386/console/kbd_parser.c",
+		"src/lib/libbsp/i386/pc386/console/keyboard.c",
+		"src/lib/libbsp/i386/pc386/console/outch.c",
+		"src/lib/libbsp/i386/pc386/console/pc_keyb.c",
+		"src/lib/libbsp/i386/pc386/console/ps2_mouse.c",
+		"src/lib/libbsp/i386/pc386/console/serial_mouse_config.c",
+		"src/lib/libbsp/i386/pc386/console/vgainit.c",
+		"src/lib/libbsp/i386/pc386/console/videoAsm.S",
+		"src/lib/libbsp/i386/pc386/console/vt.c",
+		"src/lib/libbsp/i386/pc386/ide/ide.c",
+		"src/lib/libbsp/i386/pc386/ide/idecfg.c",
+		"src/lib/libbsp/i386/pc386/startup/bspcmdline.c",
+		"src/lib/libbsp/i386/pc386/startup/bspgetworkarea.c",
+		"src/lib/libbsp/i386/pc386/startup/bspreset.c",
+		"src/lib/libbsp/i386/pc386/startup/bspstart.c",
+		"src/lib/libbsp/i386/pc386/startup/ldsegs.S",
+		"src/lib/libbsp/i386/pc386/timer/timer.c",
+		"src/lib/libbsp/i386/pc386/timer/timerisr.S",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp src_include_rtems"
+	)
+
+	source_networking = [
+		"src/lib/libbsp/i386/pc386/ne2000/ne2000.c",
+		"src/lib/libbsp/i386/pc386/wd8003/wd8003.c",
+		"src/lib/libbsp/i386/pc386/3c509/3c509.c",
+		"src/lib/libbsp/i386/pc386/3c509/elink.c"
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+	)
+
+
+
+	# XXX: appstart needs to be ported see c/src/lib/libbsp/i386/pc386/Makefile.am
+
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/i386/shared/comm/gdb_glue.c",
+		"src/lib/libbsp/i386/shared/comm/i386-stub-glue.c",
+		"src/lib/libbsp/i386/shared/comm/i386-stub.c",
+		"src/lib/libbsp/i386/shared/comm/tty_drv.c",
+		"src/lib/libbsp/i386/shared/comm/uart.c",
+		"src/lib/libbsp/i386/shared/irq/idt.c",
+		"src/lib/libbsp/i386/shared/irq/irq.c",
+		"src/lib/libbsp/i386/shared/irq/irq_asm.S",
+		"src/lib/libbsp/i386/shared/irq/irq_init.c",
+		"src/lib/libbsp/i386/shared/pci/pcibios.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspinit.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/i386/pc386/console/printk_support.c",
+		"src/lib/libbsp/i386/pc386/console/vgacons.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+	source_smp = [
+		"src/lib/libbsp/i386/shared/smp/getcpuid.c",
+		"src/lib/libbsp/i386/shared/smp/smp-imps.c"
+	]
+	ctx.bsp.smp(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"pc386":		pc386_shared,
+		"pc486":		pc386_shared,
+		"pc586":		pc386_shared,
+		"pc586-sse":	pc386_shared,
+		"pc686":		pc386_shared,
+		"pcp4":			pc386_shared
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_i386(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

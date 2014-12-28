@@ -1,0 +1,70 @@
+Before Release
+~~~~~~~~~~~~~~
+ * Add a c.MCFLAGS which seperates machine flags -mXXX and -fXXX into
+   MCFLAGS and the rest into CFLAGS so machine code can be built
+   (eg, bootloader).  RTEMS build would merge both, rtems-config will offer
+   them seperately if requested.
+
+
+Configure
+~~~~~~~~~
+ * SIZEOF_MODE_T, SIZEOF_VOID_P, BLKSIZE_T... need to be dynamically
+   calculated in rtems_waf/configure.py
+
+
+
+General
+~~~~~
+ * Documentation
+ * Install mode (It can be used in-place w/out installing using rtems-config)
+ * Distribution (creating a tarball)
+ * Test runner
+ * Create a system to force options on/off/unavailable/make them required in a bsp-specific way
+ * Board targets so you can do waf config --board <name> and have it setup everything
+
+
+
+Optimisations
+~~~~~~~~~~~~~
+ * Usage of ctx.srcnode.abspath() and others should result in one call, eg.
+   srcnode = ctx.srcnode.abspath() at the top then "%s" % srcnode.
+ * No BSP should take longer than 30s to build with maximum tests enabled.
+ * Profile waf when the build is running
+
+
+
+Options
+~~~~~~~
+ * LDFLAGS is LINKERFLAGS, make sure this is changed everywhere.
+    CCJ - not sure which direction to make the change so made it
+          LINKFLAGS -> LDFLAGS.
+ * LIBS may be the wrong variable name to use it is not waf-eqsue.
+ * Changed the default for the i386/pc586 bsp adding BSP_PRESS_KEY_FOR_RESET.
+   Did the config, configure, build and build tests and the setting
+   was not picked up. Changed the default networking setting and waf
+   rebuilt lots of files and then the bsp reset worked.
+ * Classes allow duplicate options -- this needs to throw an error to avoid
+   typos in the case two similar options, eg INTERFACE_TX, INTERFACE_RX.
+
+Future
+~~~~~~
+ * Support for building multiple branches at once
+   - Make previous branches use versioned build directories build-5.1, build-5.2
+
+
+Includes
+~~~~~~~~
+ * cache_.h
+ * Look at c/wscript_arm -> arm/realview_pbx_a9_qemu.
+   Other BSPs need to be fixed for cache_manager.c and console*, other bsps have been
+   hacked to include src_include_libcpu and src_include_bsp for all files this is wrong.
+
+
+Enhancements
+~~~~~~~~~~~~
+ * Seperate logic to convert from string to internal python values in config/options.py
+
+
+Config
+~~~~~~
+ * --path-tools= cannot be relative otherwise GCC cannot find its header files it must be absolute.

@@ -1,0 +1,52 @@
+def build(ctx):
+	srcnode = ctx.srcnode.abspath()
+
+	def test(target, source, **kwarg):
+
+		includes_merge = []
+		if "includes" in kwarg:
+			includes_merge = kwarg["includes"]
+			del kwarg["includes"]
+
+		ctx.rtems_test(
+			"sptests_%s" % target,
+			source,
+			includes	= [
+				"%s/testsuites/tmtests/include/" % srcnode,
+			] + includes_merge,
+			features	= "test_include",
+			**kwarg
+		)
+
+
+	test("psxtmbarrier01", ["psxtmbarrier01/init.c"])
+	test("psxtmbarrier02", ["psxtmbarrier02/init.c"])
+	test("psxtmbarrier03", ["psxtmbarrier03/init.c"])
+	test("psxtmkey01", ["psxtmkey01/init.c"])
+	test("psxtmkey02", ["psxtmkey02/init.c"])
+	test("psxtmmq01", ["psxtmmq01/init.c"])
+	test("psxtmmutex01", ["psxtmmutex01/init.c"])
+	test("psxtmmutex02", ["psxtmmutex02/init.c"])
+	test("psxtmmutex03", ["psxtmmutex03/init.c"])
+	test("psxtmmutex04", ["psxtmmutex04/init.c"])
+	test("psxtmmutex05", ["psxtmmutex05/init.c"])
+	test("psxtmmutex06", ["psxtmmutex06/init.c"])
+	test("psxtmmutex07", ["psxtmmutex07/init.c"])
+	test("psxtmnanosleep01", ["psxtmnanosleep01/init.c"])
+	test("psxtmnanosleep02", ["psxtmnanosleep02/init.c"])
+	test("psxtmrwlock01", ["psxtmrwlock01/init.c"])
+	test("psxtmrwlock02", ["psxtmrwlock02/init.c"])
+	test("psxtmrwlock03", ["psxtmrwlock03/init.c"])
+	test("psxtmrwlock04", ["psxtmrwlock04/init.c"])
+	test("psxtmrwlock05", ["psxtmrwlock05/init.c"])
+	test("psxtmrwlock06", ["psxtmrwlock06/init.c"])
+	test("psxtmrwlock07", ["psxtmrwlock07/init.c"])
+	test("psxtmsem01", ["psxtmsem01/init.c"])
+	test("psxtmsem02", ["psxtmsem02/init.c"])
+	test("psxtmsem03", ["psxtmsem03/init.c"])
+	test("psxtmsem04", ["psxtmsem04/init.c"])
+	test("psxtmsem05", ["psxtmsem05/init.c"])
+	test("psxtmsleep01", ["psxtmsleep01/init.c"])
+	test("psxtmsleep02", ["psxtmsleep02/init.c"])
+	test("psxtmthread01", ["psxtmthread01/init.c"], use="test_support_tmtests test_support_empty_func")
+	test("psxtmthread03", ["psxtmthread03/init.c"])

@@ -1,0 +1,246 @@
+#
+# Blackfin Board Support Packages.
+#
+
+#
+# Blackfin libcpu support. See the PowerPC BSP file for details.
+#
+
+def libcpu_cache(ctx):
+	source = [
+		"src/lib/libcpu/bfin/cache/cache.c",
+		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		includes=["%s/c/src/lib/libcpu/bfin/cache/" % ctx.srcnode.abspath()],
+		features="src_include"
+	)
+
+def libcpu_mmu(ctx):
+	source = [
+		"src/lib/libcpu/bfin/mmu/mmu.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_interrupt(ctx):
+	source = [
+		"src/lib/libcpu/bfin/interrupt/interrupt.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_bf52x_interrupt(ctx):
+	source = [
+		"src/lib/libcpu/bfin/bf52x/interrupt/interrupt.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include_bsp src_include"
+	)
+
+def libcpu_clock(ctx):
+	source = [
+		"src/lib/libcpu/bfin/clock/clock.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_rtc(ctx):
+	source = [
+		"src/lib/libcpu/bfin/clock/rtc.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_uart(ctx):
+	source = [
+		"src/lib/libcpu/bfin/serial/uart.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_sport(ctx):
+	source = [
+		"src/lib/libcpu/bfin/serial/sport.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_spi(ctx):
+	source = [
+		"src/lib/libcpu/bfin/serial/spi.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_twi(ctx):
+	source = [
+		"src/lib/libcpu/bfin/serial/twi"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_timer(ctx):
+	source = [
+		"src/lib/libcpu/bfin/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_ethernet(ctx):
+	source = [
+		"src/lib/libcpu/bfin/network/ethernet.c"
+	]
+
+	ctx.bsp.networking(
+		source,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+	)
+
+
+
+def bf537stamp(ctx):
+
+	libcpu_mmu(ctx)
+	libcpu_interrupt(ctx)
+	libcpu_cache(ctx)
+	libcpu_uart(ctx)
+	libcpu_clock(ctx)
+	libcpu_rtc(ctx)
+	libcpu_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/bfin/bf537Stamp/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/bfin/bf537Stamp/console/console.c",
+		"src/lib/libbsp/bfin/bf537Stamp/network/networkconfig.c",
+		"src/lib/libbsp/bfin/bf537Stamp/startup/bspstart.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+
+def ezkit533(ctx):
+
+	libcpu_mmu(ctx)
+	libcpu_interrupt(ctx)
+	libcpu_cache(ctx)
+	libcpu_uart(ctx)
+	libcpu_clock(ctx)
+	libcpu_rtc(ctx)
+	libcpu_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/bfin/shared/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/bfin/eZKit533/console/console-io.c",
+		"src/lib/libbsp/bfin/eZKit533/startup/bspstart.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def tll6527m(ctx):
+
+	libcpu_mmu(ctx)
+	libcpu_bf52x_interrupt(ctx)
+	libcpu_cache(ctx)
+	libcpu_uart(ctx)
+	libcpu_clock(ctx)
+	libcpu_rtc(ctx)
+	libcpu_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/bfin/shared/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/bfin/TLL6527M/console/console.c",
+		"src/lib/libbsp/bfin/TLL6527M/startup/bspstart.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def build(ctx):
+	source = []
+
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/setvec.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"bf537stamp":	bf537stamp,
+		"ezkit533":		ezkit533,
+		"tll6527m":		tll6527m
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_bfin(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

@@ -1,0 +1,10 @@
+def build(ctx):
+	build_dir = ctx.bldnode.abspath()
+	ctx.program(source='cklength.c', target='cklength', includes=["%s/include" % build_dir])
+	ctx.program(source='eolstrip.c', target='eolstrip', includes=["%s/include" % build_dir])
+	ctx.program(source='packhex.c', target='packhex', includes=["%s/include" % build_dir])
+	ctx.program(source='unhex.c', target='unhex', includes=["%s/include" % build_dir])
+	ctx.program(source='rtems-bin2c.c', target='rtems-bin2c', includes=["%s/include" % build_dir])
+	ctx.program(source='binpatch.c', target='binpatch', includes=["%s/include" % build_dir])
+
+

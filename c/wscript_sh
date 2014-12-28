@@ -1,0 +1,284 @@
+#
+# SH libcpu support. See the PowerPC BSP file for details.
+#
+
+def libcpu_sh7032_clock(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7032/clock/ckinit.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7032_delay(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7032/delay/delay.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7032_sci(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7032/sci/sci.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7032_score(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7032/score/cpu_asm.c",
+		"src/lib/libcpu/sh/sh7032/score/ispsh7032.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7032_timer(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7032/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7045_clock(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7045/clock/ckinit.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7045_sci(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7045/sci/sci.c",
+		"src/lib/libcpu/sh/sh7045/sci/sci_termios.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7045_score(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7045/score/cpu_asm.c",
+		"src/lib/libcpu/sh/sh7045/score/ispsh7045.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7045_timer(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7045/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7750_clock(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7750/clock/ckinit.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7750_sci(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7750/sci/sh4uart.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7750_score(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7750/score/cpu_asm.c",
+		"src/lib/libcpu/sh/sh7750/score/ispsh7750.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_sh7750_timer(ctx):
+	source = [
+		"src/lib/libcpu/sh/sh7750/timer/timer.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def libcpu_shgdb_score(ctx):
+	source = [
+		"src/lib/libcpu/sh/shgdb/score/cpu_asm.c",
+		"src/lib/libcpu/sh/shgdb/score/ispshgdb.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def gensh1(ctx):
+
+	libcpu_sh7032_clock(ctx)
+	libcpu_sh7032_timer(ctx)
+	libcpu_sh7032_sci(ctx)
+	libcpu_sh7032_delay(ctx)
+	libcpu_sh7032_score(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/sh/gensh1/start/start.S"])
+
+	source += [
+#		"src/lib/libbsp/sh/gensh1/scitab.c",
+		"src/lib/libbsp/sh/shared/console.c",
+		"src/lib/libbsp/shared/bspreset_fatal.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def gensh2(ctx):
+
+	libcpu_sh7045_clock(ctx)
+	libcpu_sh7045_timer(ctx)
+	libcpu_sh7045_sci(ctx)
+	libcpu_sh7045_score(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/sh/gensh2/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/sh/gensh2/console/config.c",
+#		"src/lib/libbsp/sh/gensh2/scitab.c",
+		"src/lib/libbsp/sh/gensh2/startup/hw_init.c",
+		"src/lib/libbsp/sh/shared/console.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def gensh4(ctx):
+
+	libcpu_sh7750_clock(ctx)
+	libcpu_sh7750_timer(ctx)
+	libcpu_sh7750_sci(ctx)
+	libcpu_sh7750_score(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/sh/gensh4/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/sh/gensh4/console/console.c",
+		"src/lib/libbsp/sh/gensh4/hw_init/hw_init.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def shsim_shared(ctx):
+
+	libcpu_shgdb_score(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/sh/shsim/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/sh/shsim/trap34/console-io.c",
+		"src/lib/libbsp/sh/shsim/trap34/console-support.S",
+		"src/lib/libbsp/shared/clock_driver_simidle.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def build(ctx):
+	source = []
+
+	source += [
+		"src/lib/libbsp/sh/shared/bsphwinit.c",
+		"src/lib/libbsp/sh/shared/bspstart.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/dummy_printk_support.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	map = {
+		"gensh1":	gensh1,
+		"gensh2":	gensh2,
+		"gensh4":	gensh4,
+		"simsh1":	shsim_shared,
+		"simsh2":	shsim_shared,
+		"simsh2e":	shsim_shared,
+		"simsh4":	shsim_shared
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_sh(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

@@ -1,0 +1,54 @@
+def build(ctx):
+	srcnode = ctx.srcnode.abspath()
+
+	ctx.objects(
+		source		= ["support/src/tmtests_empty_function.c"],
+		name		= "test_support_empty_func",
+		includes	= ["%s/testsuites/support/include/" % srcnode],
+		features	= "bld_include src_include"
+	)
+
+	ctx.objects(
+		source		= ["support/src/spin.c"],
+		name		= "test_support_spin",
+		includes	= ["%s/testsuites/support/include/" % srcnode], #XXX: why was this added in ac165341
+		features	= "bld_include src_include"
+	)
+
+	ctx.objects(
+		source		= ["support/src/test_support.c"],
+		name		= "test_support",
+		features	= "bld_include src_include test_include"
+	)
+
+	ctx.objects(
+		source		= ["support/src/tmtests_support.c"],
+		name		= "test_support_tmtests",
+		includes	= ["%s/testsuites/tmtests/include/" % srcnode],
+		features	= "bld_include src_include test_include"
+	)
+
+	if ctx.env.ENABLE_SMP and ctx.env.BSP[0] in ["sparc/leon3", "i386/pc386"]:
+		ctx.objects(
+			source		= ["support/src/locked_print.c"],
+			name		= "test_support_locked_print",
+			features	= "bld_include src_include test_include"
+		)
+
+	ctx.recurse("fstests")
+	ctx.recurse("libtests")
+
+	if ctx.env.ENABLE_MP:
+		ctx.recurse("mptests")
+
+	if ctx.env.ENABLE_POSIX:
+		ctx.recurse("psxtests")
+		ctx.recurse("psxtmtests")
+
+	if ctx.env.ENABLE_SMP and ctx.env.BSP[0] in ["sparc/leon3", "i386/pc386"]:
+		ctx.recurse("smptests")
+
+	ctx.recurse("sptests")
+	ctx.recurse("tmtests")
+
+#	ctx.recurse("samples")

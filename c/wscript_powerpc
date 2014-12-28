@@ -1,0 +1,1830 @@
+
+# PowerPC libcpu support. This is done this way to make it easy to see which
+# parts of libcpu are used in a BSP. This whole part of the PowerPC is a mess
+# and this is not an attempt to clean that up rather an attempt to make sure
+# we match the autoconf build system. Once we have confirmed the BSPs are
+# working this can be moved to a better structure.
+#
+# The groups match the noinst_PROGRAMS files created. The BSPs match the
+# list referenced at the end of each BSP Makefile.am.
+#
+
+def libcpu_rtems_cpu(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/new-exceptions/cpu.c",
+		"src/lib/libcpu/powerpc/new-exceptions/cpu_asm.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_exc_bspsupport(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc-code-copy.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc.S",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_async_normal.S",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_naked.S",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_hdl.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_initialize.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_global_handler.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_categories.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_address.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_alignment.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_prologue.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+def libcpu_irq_bspsupport(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/irq.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+def libcpu_cpu_ident(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/shared/include/cpuIdent.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_cache(ctx):
+	source = [
+		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		includes=["%s/c/src/lib/libcpu/powerpc/shared/src/" % ctx.srcnode.abspath()],
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_stack(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/shared/src/stack.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_ppc403_clock(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/ppc403/clock/clock.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_ppc403_console(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/ppc403/console/console.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_ppc403_timer(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/ppc403/timer/timer.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_pcc405_console(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/ppc403/console/console405.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_ppc403_tty_drv(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/ppc403/tty_drv/tty_drv.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc5xx_clock(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc5xx/clock/clock.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc5xx_clock(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc5xx/clock/clock.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc5xx_console(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc5xx/console-generic/console-generic.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc5xx_exceptions(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc5xx/exceptions/raw_exception.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc5xx_irq(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc5xx/irq/irq.c",
+		"src/lib/libcpu/powerpc/mpc5xx/irq/irq_init.c",
+		"src/lib/libcpu/powerpc/mpc5xx/irq/irq_asm.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc5xx_timer(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc5xx/timer/timer.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc5xx_vectors(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc5xx/vectors/vectors_init.c",
+		"src/lib/libcpu/powerpc/mpc5xx/vectors/vectors.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc505_ictrl(ctx):
+	source += [
+		"src/lib/libcpu/powerpc/mpc505/ictrl/ictrl.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc505_timer(ctx):
+	source += [
+		"src/lib/libcpu/powerpc/mpc505/timer/timer.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc505_vector(ctx):
+	source += [
+		"src/lib/libcpu/powerpc/mpc505/vectors/vectors.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc6xx_mmu(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc6xx/mmu/bat.c",
+		"src/lib/libcpu/powerpc/mpc6xx/mmu/pte121.c",
+		"src/lib/libcpu/powerpc/mpc6xx/mmu/mmuAsm.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_mpc6xx_clock(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc6xx/clock/c_clock.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_mpc6xx_timer(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc6xx/timer/timer.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_mpc6xx_altivec(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc6xx/altivec/vec_sup.c",
+		"src/lib/libcpu/powerpc/mpc6xx/altivec/vec_sup_asm.S"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_e500_clock(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc6xx/clock/c_clock.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_e500_timer(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc6xx/timer/timer.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_e500_mmu(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/e500/mmu/mmu.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_libcpu"
+	)
+
+def libcpu_mpc8xx_clock(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8xx/clock/clock.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8xx_console(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8xx/console-generic/console-generic.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8xx_cpm(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8xx/cpm/cp.c",
+		"src/lib/libcpu/powerpc/mpc8xx/cpm/dpram.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8xx_mmu(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8xx/mmu/mmu.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8xx_timer(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8xx/timer/timer.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8260_console(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8260/console-generic/console-generic.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8260_cpm(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8260/cpm/cp.c",
+		"src/lib/libcpu/powerpc/mpc8260/cpm/dpram.c",
+		"src/lib/libcpu/powerpc/mpc8260/cpm/brg.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8260_mmu(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8260/mmu/mmu.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc8260_timer(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc8260/timer/timer.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc83xx_tsec(ctx):
+	source_network = [
+		"src/lib/libcpu/powerpc/mpc83xx/network/tsec.c"
+        ]
+
+	ctx.bsp.networking(
+		source_network,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__", "__BSD_VISIBLE"]
+	)
+
+def libcpu_mpc83xx_i2c(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc83xx/i2c/mpc83xx_i2cdrv.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc83xx_spi(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc83xx/spi/mpc83xx_spidrv.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_mpc83xx_gtm(ctx):
+	source = [
+		"src/lib/libcpu/powerpc/mpc83xx/gtm/gtm.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+def libcpu_qoriq(ctx):
+	source_network = [
+		"src/lib/libcpu/powerpc/mpc83xx/network/tsec.c"
+        ]
+	ctx.bsp.networking(
+		source_network,
+		cflags=["-D__INSIDE_RTEMS_BSD_TCPIP_STACK__",
+			"-D__BSD_VISIBLE"]
+	)
+
+def beatnik(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+	libcpu_mpc6xx_clock(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+	libcpu_mpc6xx_altivec(ctx)
+
+	source = []
+
+	ctx.bsp.start([
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/shared/start/preload.S",
+		"src/lib/libbsp/powerpc/shared/start/vectors_entry.S",
+		"src/lib/libbsp/powerpc/shared/start/start.S"
+	])
+
+	#
+	# Split up the drivers because each driver has the same header files in
+	# different directories.
+	#
+
+	source_network = [
+		"src/lib/libbsp/powerpc/beatnik/network/if_em/if_em.c",
+		"src/lib/libbsp/powerpc/beatnik/network/if_em/if_em_hw.c",
+		"src/lib/libbsp/powerpc/beatnik/network/if_em/if_em_rtems.c",
+	]
+	ctx.bsp.networking(
+		source_network,
+		features="src_include src_include_networking",
+		includes=["%s/c/src/lib/libbsp/powerpc/beatnik/network/porting" % ctx.srcnode.abspath(),
+			  "%s/c/src/lib/libbsp/powerpc/beatnik/network/if_em" % ctx.srcnode.abspath()]
+	)
+
+	source_network = [
+		"src/lib/libbsp/powerpc/beatnik/network/if_gfe/if_gfe.c",
+		"src/lib/libbsp/powerpc/beatnik/network/if_gfe/if_gfe_rtems.c",
+	]
+	ctx.bsp.networking(
+		source_network,
+		features="src_include src_include_networking",
+		includes=["%s/c/src/lib/libbsp/powerpc/beatnik/network/porting" % ctx.srcnode.abspath(),
+			  "%s/c/src/lib/libbsp/powerpc/beatnik/network/if_gfe" % ctx.srcnode.abspath()]
+	)
+
+	source_network = [
+		"src/lib/libbsp/powerpc/beatnik/network/if_mve/mv643xx_eth.c",
+		"src/lib/libbsp/powerpc/beatnik/network/support/bsp_attach.c",
+		"src/lib/libbsp/powerpc/beatnik/network/support/early_link_status.c",
+	]
+	ctx.bsp.networking(
+		source_network,
+		features="src_include",
+		includes=["%s/c/src/lib/libbsp/powerpc/beatnik/network/porting" % ctx.srcnode.abspath()]
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/beatnik/flash/flashcfg.c",
+		"src/lib/libbsp/powerpc/beatnik/irq/discovery_pic.c",
+		"src/lib/libbsp/powerpc/beatnik/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/beatnik/marvell/discovery.c",
+		"src/lib/libbsp/powerpc/beatnik/marvell/gti2c.c",
+		"src/lib/libbsp/powerpc/beatnik/pci/gt_pci_init.c",
+		"src/lib/libbsp/powerpc/beatnik/pci/motload_fixup.c",
+		"src/lib/libbsp/powerpc/beatnik/pci/pci_io_remap.c",
+		"src/lib/libbsp/powerpc/beatnik/startup/bspclean.c",
+		"src/lib/libbsp/powerpc/beatnik/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/beatnik/startup/i2c_init.c",
+		"src/lib/libbsp/powerpc/beatnik/startup/reboot.c",
+		"src/lib/libbsp/powerpc/beatnik/tod/todcfg.c",
+		"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/shared/console/console.c",
+		"src/lib/libbsp/powerpc/shared/console/uart.c",
+		"src/lib/libbsp/powerpc/shared/flash/flash.c",
+		"src/lib/libbsp/powerpc/shared/flash/intelFlash.c",
+		"src/lib/libbsp/powerpc/shared/pci/pci.c",
+		"src/lib/libbsp/powerpc/shared/pci/pcifinddevice.c",
+		"src/lib/libbsp/powerpc/shared/startup/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/shared/startup/panic.c",
+		"src/lib/libbsp/powerpc/shared/startup/pgtbl_activate.c",
+		"src/lib/libbsp/powerpc/shared/startup/pgtbl_setup.c",
+		"src/lib/libbsp/powerpc/shared/startup/pretaskinghook.c",
+		"src/lib/libbsp/powerpc/shared/startup/probeMemEnd.c",
+		"src/lib/libbsp/powerpc/shared/startup/sbrk.c",
+		"src/lib/libbsp/powerpc/shared/startup/zerobss.c",
+		"src/lib/libbsp/powerpc/shared/vme/vme_universe.c",
+		"src/lib/libbsp/powerpc/shared/vme/vmeconfig.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/shared/vmeUniverse/bspVmeDmaList.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libbsp/powerpc/beatnik/marvell/gt_timer.c",
+		"src/lib/libbsp/powerpc/shared/motorola/vpd.c",
+		"src/lib/libbsp/shared/vmeUniverse/vmeTsi148.c",
+		"src/lib/libbsp/shared/vmeUniverse/vmeUniverse.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+
+def ep1a(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_mpc6xx_clock(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/ep1a/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/powerpc/ep1a/console/ns16550cfg.c",
+		"src/lib/libbsp/powerpc/ep1a/console/printk_support.c",
+		"src/lib/libbsp/powerpc/ep1a/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/ep1a/irq/openpic_xxx_irq.c",
+		"src/lib/libbsp/powerpc/ep1a/pci/no_host_bridge.c",
+		"src/lib/libbsp/powerpc/ep1a/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/shared/irq/i8259.c",
+		"src/lib/libbsp/powerpc/shared/openpic/openpic.c",
+		"src/lib/libbsp/powerpc/shared/pci/pci.c",
+		"src/lib/libbsp/powerpc/shared/pci/pcifinddevice.c",
+		"src/lib/libbsp/powerpc/shared/showbats.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/shared/startup/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/shared/startup/pgtbl_activate.c",
+		"src/lib/libbsp/powerpc/shared/startup/pgtbl_setup.c",
+		"src/lib/libbsp/powerpc/shared/startup/sbrk.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+	source = [
+		"src/lib/libbsp/powerpc/ep1a/console/rsPMCQ1.c",
+		"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+		"src/lib/libbsp/shared/vmeUniverse/bspVmeDmaList.c",
+		"src/lib/libbsp/shared/vmeUniverse/vmeUniverse.c",
+		"src/lib/libbsp/powerpc/shared/vme/vme_universe.c",
+		"src/lib/libbsp/powerpc/shared/vme/vmeconfig.c",
+		"src/lib/libbsp/powerpc/ep1a/console/mc68360_scc.c",
+		"src/lib/libbsp/powerpc/ep1a/console/init68360.c",
+		"src/lib/libbsp/powerpc/ep1a/console/config.c",
+		"src/lib/libbsp/powerpc/ep1a/console/alloc360.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def gen5200_shared(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/gen5200/start/start.S"])
+
+
+	source_network = [
+		"src/lib/libbsp/powerpc/gen5200/network_5200/network.c",
+	]
+	ctx.bsp.networking(
+		source_network,
+		features="src_include src_include_bsp"
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/gen5200/i2c/i2c.c", #XXX: i2cdrv.h
+		"src/lib/libbsp/powerpc/gen5200/irq/irq.c",
+		"src/lib/libbsp/powerpc/gen5200/mscan/mscan-base.c",
+		"src/lib/libbsp/powerpc/gen5200/startup/bspreset.c",
+		"src/lib/libbsp/powerpc/gen5200/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/gen5200/startup/cpuinit.c",
+		"src/lib/libbsp/powerpc/gen5200/startup/uboot_support.c",
+		"src/lib/libbsp/powerpc/gen5200/tod/pcf8563.c",
+		"src/lib/libbsp/powerpc/gen5200/tod/todcfg.c",
+		"src/lib/libbsp/powerpc/shared/clock/clock.c",
+		"src/lib/libbsp/powerpc/shared/showbats.c",
+		"src/lib/libbsp/powerpc/shared/src/memcpy.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/shared/startup/bspidle.c",
+		"src/lib/libbsp/powerpc/shared/uboot_dump_bdinfo.c",
+		"src/lib/libbsp/powerpc/shared/uboot_getenv.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/bsp-uboot-board-info.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/tod.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	source = [
+		"src/lib/libbsp/powerpc/gen5200/ide/idecfg.c",
+		"src/lib/libbsp/powerpc/gen5200/ide/pcmcia_ide.c",
+		"src/lib/libbsp/powerpc/gen5200/mscan/mscan.c",
+		"src/lib/libbsp/powerpc/gen5200/nvram/nvram.c",
+		"src/lib/libbsp/powerpc/gen5200/slicetimer/slicetimer.c",
+		"src/lib/libbsp/powerpc/gen5200/console/console.c",
+		"src/lib/libbsp/powerpc/gen5200/i2c/mpc5200mbus.c",
+#		"src/lib/libbsp/powerpc/gen5200/i2c/i2cdrv.c", XXX: is this needed?
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/bestcomm_glue.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/bestcomm_api.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/dma_image.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/dma_image.reloc.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/load_task.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_ata.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_bdtable.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_crc16_dp_0.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_crc16_dp_1.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_fec_rx_bd.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_fec_tx_bd.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_dp_0.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_dp_1.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_dp_2.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_dp_3.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_dp_bd_0.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_dp_bd_1.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_rx_bd.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_gen_tx_bd.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_lpc.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_pci_rx.c",
+		"src/lib/libbsp/powerpc/gen5200/bestcomm/tasksetup_pci_tx.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp",
+		includes=[
+				"%s/include/bsp/bestcomm/" % ctx.srcnode.abspath(),
+				"%s/c/src/lib/libbsp/powerpc/gen5200" % ctx.srcnode.abspath()
+		]
+	)
+
+
+def gen83xx_shared(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+	libcpu_mpc83xx_i2c(ctx)
+	libcpu_mpc83xx_spi(ctx)
+	libcpu_mpc83xx_gtm(ctx)
+	libcpu_mpc83xx_tsec(ctx)
+
+	source = []
+
+	ctx.bsp.start([
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/gen83xx/start/start.S"
+        ])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/gen83xx/network/network.c"
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include src_include_bsp"
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/gen83xx/console/console-config.c",
+		"src/lib/libbsp/powerpc/gen83xx/i2c/i2c_init.c",
+		"src/lib/libbsp/powerpc/gen83xx/irq/irq.c",
+		"src/lib/libbsp/powerpc/gen83xx/spi/spi_init.c",
+		"src/lib/libbsp/powerpc/gen83xx/startup/bspreset.c",
+		"src/lib/libbsp/powerpc/gen83xx/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/gen83xx/startup/cpuinit.c",
+		"src/lib/libbsp/powerpc/shared/clock/clock.c",
+		"src/lib/libbsp/powerpc/shared/src/tictac.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/shared/startup/bspidle.c",
+		"src/lib/libbsp/powerpc/shared/uboot_getenv.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/bsp-uboot-board-info.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+def haleakala(ctx):
+
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_ppc403_clock(ctx)
+	libcpu_ppc403_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S"])
+
+	source += [
+		"src/lib/libbsp/powerpc/haleakala/dlentry/dlentry.S",
+		"src/lib/libbsp/powerpc/haleakala/irq/irq.c",
+		"src/lib/libbsp/powerpc/haleakala/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/haleakala/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/shared/console/console.c",
+		"src/lib/libbsp/powerpc/shared/console/uart.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_fatal.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mbx8xx_shared(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_mpc8xx_clock(ctx)
+	libcpu_mpc8xx_console(ctx)
+	libcpu_mpc8xx_cpm(ctx)
+	libcpu_mpc8xx_mmu(ctx)
+	libcpu_mpc8xx_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/mbx8xx/startup/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/mbx8xx/network/network.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/mbx8xx/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/mbx8xx/console/console.c",
+		"src/lib/libbsp/powerpc/mbx8xx/ide/idecfg.c",
+		"src/lib/libbsp/powerpc/mbx8xx/ide/pcmcia_ide.c",
+		"src/lib/libbsp/powerpc/mbx8xx/irq/irq.c",
+		"src/lib/libbsp/powerpc/mbx8xx/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/mbx8xx/startup/imbx8xx.c",
+		"src/lib/libbsp/powerpc/mbx8xx/startup/mmutlbtab.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def motorola_powerpc_shared(ctx):
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_mpc6xx_clock(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+	libcpu_mpc6xx_altivec(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/shared/start/start.S", "src/lib/libbsp/powerpc/shared/start/vectors_entry.S"])
+
+	source_networking = [
+		"src/lib/libbsp/i386/pc386/ne2000/ne2000.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["bsp_cmdline_arg=rtems_bsp_cmdline_get_param_raw", "__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/shared/console/bspreset.c",
+		"src/lib/libbsp/powerpc/shared/console/console.c",
+		"src/lib/libbsp/powerpc/shared/console/inch.c",
+		"src/lib/libbsp/powerpc/shared/console/polled_io.c",
+		"src/lib/libbsp/powerpc/shared/console/uart.c",
+		"src/lib/libbsp/powerpc/shared/irq/i8259.c",
+		"src/lib/libbsp/powerpc/shared/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/shared/irq/openpic_i8259_irq.c",
+		"src/lib/libbsp/powerpc/shared/motorola/motorola.c",
+		"src/lib/libbsp/powerpc/shared/openpic/openpic.c",
+		"src/lib/libbsp/powerpc/shared/pci/detect_raven_bridge.c",
+		"src/lib/libbsp/powerpc/shared/pci/generic_clear_hberrs.c",
+		"src/lib/libbsp/powerpc/shared/pci/pci.c",
+		"src/lib/libbsp/powerpc/shared/pci/pcifinddevice.c",
+		"src/lib/libbsp/powerpc/shared/residual/residual.c",
+		"src/lib/libbsp/powerpc/shared/showbats.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/shared/start/vectors_entry.S",
+		"src/lib/libbsp/powerpc/shared/startup/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/shared/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/shared/startup/pgtbl_activate.c",
+		"src/lib/libbsp/powerpc/shared/startup/pgtbl_setup.c",
+		"src/lib/libbsp/powerpc/shared/startup/ppc_idle.c",
+		"src/lib/libbsp/powerpc/shared/startup/pretaskinghook.c",
+		"src/lib/libbsp/powerpc/shared/startup/sbrk.c",
+		"src/lib/libbsp/powerpc/shared/startup/zerobss.c",
+		"src/lib/libbsp/powerpc/shared/tod/todcfg.c",
+		"src/lib/libbsp/powerpc/shared/vme/vme_universe.c",
+		"src/lib/libbsp/powerpc/shared/vme/vmeconfig.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/shared/vmeUniverse/bspVmeDmaList.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		defines=["STATIC_LOG_ALLOC=1"],
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libbsp/shared/vmeUniverse/vmeUniverse.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+		includes=["%s/include/bsp/" % ctx.srcnode.abspath()]
+	)
+
+
+def mpc55xxevb_shared(ctx):
+	source = []
+	libcpu_exc_bspsupport(ctx)
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_irq_bspsupport(ctx)
+#	libcpu_mpc5xx_timer(ctx)
+#	libcpu_mpc5xx_irq(ctx)
+
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/mpc55xxevb/startup/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/mpc55xxevb/network/smsc9218i.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/network/if_smc.c"
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include"
+	)
+
+
+	source += [
+		"src/lib/libcpu/powerpc/mpc83xx/i2c/mpc83xx_i2cdrv.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/clock/clock-config.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/console/console-config.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/console/console-esci.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/console/console-generic.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/console/console-linflex.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/i2c/i2c_init.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/bspworkareainit.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/exc-vector-base.S",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/get-system-clock.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/idle-thread.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/reset.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/restart.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/sd-card-init.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-cache.S",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-clock.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-config-clock.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-config-ebi-cs-cal.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-config-ebi-cs.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-config-ebi.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-config-mmu-early.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-config-mmu.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-config-siu-pcr.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-early.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-flash.S",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-prologue.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start-watchdog.c",
+		"src/lib/libbsp/powerpc/mpc55xxevb/startup/start.S",
+		"src/lib/libbsp/powerpc/shared/src/bsp-start-zero.S",
+		"src/lib/libbsp/powerpc/shared/src/memcpy.c",
+		"src/lib/libbsp/powerpc/shared/src/ppc-exc-handler-table.c",
+		"src/lib/libbsp/powerpc/shared/src/tictac.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libcpu/powerpc/mpc55xx/irq/irq.c",
+# beer
+		"src/lib/libcpu/powerpc/mpc55xx/edma/edma.c",
+		"src/lib/libcpu/powerpc/mpc55xx/emios/emios.c",
+		"src/lib/libcpu/powerpc/mpc6xx/timer/timer.c",
+		"src/lib/libcpu/powerpc/mpc55xx/fec/fec.c",
+		"src/lib/libcpu/powerpc/mpc55xx/siu/siu.c",
+		"src/lib/libcpu/powerpc/mpc55xx/dspi/dspi.c",
+		"src/lib/libcpu/powerpc/mpc55xx/misc/copy.S",
+		"src/lib/libcpu/powerpc/mpc55xx/misc/flash_support.c",
+	]
+
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def mpc8260ads(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_mpc8260_console(ctx)
+	libcpu_mpc8260_cpm(ctx)
+	libcpu_mpc8260_mmu(ctx)
+	libcpu_mpc8260_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/mpc8260ads/start/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/mpc8260ads/network/if_hdlcsubr.c",
+		"src/lib/libbsp/powerpc/mpc8260ads/network/network.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__", "__BSD_VISIBLE"]
+	)
+
+
+	source += [
+		"src/lib/libbsp/powerpc/mpc8260ads/console/console.c",
+		"src/lib/libbsp/powerpc/mpc8260ads/irq/irq.c",
+		"src/lib/libbsp/powerpc/mpc8260ads/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/mpc8260ads/startup/cpuinit.c",
+		"src/lib/libbsp/powerpc/shared/clock/clock.c",
+		"src/lib/libbsp/powerpc/shared/startup/bspidle.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def mvme3100(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_stack(ctx)
+	libcpu_e500_clock(ctx)
+	libcpu_e500_timer(ctx)
+	libcpu_e500_mmu(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/preload.S", "src/lib/libbsp/powerpc/shared/start/vectors_entry.S", "src/lib/libbsp/powerpc/mvme3100/start/start.S", "src/lib/libbsp/powerpc/shared/start/rtems_crti.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/mvme3100/network/tsec.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include src_include_bsp"
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/mvme3100/flash/flashcfg.c",
+		"src/lib/libbsp/powerpc/mvme3100/i2c/i2c_init.c",
+		"src/lib/libbsp/powerpc/mvme3100/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/mvme3100/pci/detect_host_bridge.c",
+		"src/lib/libbsp/powerpc/mvme3100/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/mvme3100/startup/misc.c",
+		"src/lib/libbsp/powerpc/mvme3100/tod/todcfg.c",
+		"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/shared/console/console.c",
+		"src/lib/libbsp/powerpc/shared/console/uart.c",
+		"src/lib/libbsp/powerpc/shared/flash/flash.c",
+		"src/lib/libbsp/powerpc/shared/flash/spansionFlash.c",
+		"src/lib/libbsp/powerpc/shared/irq/openpic_i8259_irq.c",
+		"src/lib/libbsp/powerpc/shared/openpic/openpic.c",
+		"src/lib/libbsp/powerpc/shared/pci/generic_clear_hberrs.c",
+		"src/lib/libbsp/powerpc/shared/pci/pci.c",
+		"src/lib/libbsp/powerpc/shared/pci/pcifinddevice.c",
+		"src/lib/libbsp/powerpc/shared/startup/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/shared/startup/pretaskinghook.c",
+		"src/lib/libbsp/powerpc/shared/startup/sbrk.c",
+		"src/lib/libbsp/powerpc/shared/startup/zerobss.c",
+		"src/lib/libbsp/powerpc/shared/vme/vme_universe.c",
+		"src/lib/libbsp/powerpc/shared/vme/vmeconfig.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/shared/vmeUniverse/bspVmeDmaList.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libbsp/powerpc/mvme3100/i2c/mpc8540_i2c.c",
+		"src/lib/libbsp/powerpc/shared/motorola/vpd.c",
+		"src/lib/libbsp/shared/vmeUniverse/vmeTsi148.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+		includes=["%s/include/bsp/" % ctx.srcnode.abspath()]
+	)
+
+
+def mvme5500(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_stack(ctx)
+	libcpu_cache(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_mpc6xx_clock(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+	libcpu_mpc6xx_altivec(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/shared/start/preload.S", "src/lib/libbsp/powerpc/shared/start/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/mvme5500/network/if_100MHz/GT64260eth.c",
+		"src/lib/libbsp/powerpc/mvme5500/network/if_1GHz/if_wm.c",
+		"src/lib/libbsp/powerpc/mvme5500/network/if_1GHz/pci_map.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include src_include_bsp src_include_networking",
+		defines=["_KERNEL", "__BSD_VISIBLE"]
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/mvme5500/GT64260/GT64260TWSI.c",
+		"src/lib/libbsp/powerpc/mvme5500/GT64260/MVME5500I2C.c",
+		"src/lib/libbsp/powerpc/mvme5500/irq/BSP_irq.c",
+		"src/lib/libbsp/powerpc/mvme5500/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/mvme5500/pci/detect_host_bridge.c",
+		"src/lib/libbsp/powerpc/mvme5500/pci/pci.c",
+		"src/lib/libbsp/powerpc/mvme5500/pci/pci_interface.c",
+		"src/lib/libbsp/powerpc/mvme5500/pci/pcifinddevice.c",
+		"src/lib/libbsp/powerpc/mvme5500/startup/bspclean.c",
+		"src/lib/libbsp/powerpc/mvme5500/startup/bspreset.c",
+		"src/lib/libbsp/powerpc/mvme5500/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/mvme5500/startup/pgtbl_activate.c",
+		"src/lib/libbsp/powerpc/mvme5500/tod/todcfg.c",
+		"src/lib/libbsp/powerpc/mvme5500/vectors/exceptionhandler.c",
+		"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/shared/console/console.c",
+		"src/lib/libbsp/powerpc/shared/console/uart.c",
+		"src/lib/libbsp/powerpc/shared/start/preload.S",
+		"src/lib/libbsp/powerpc/shared/start/vectors_entry.S",
+		"src/lib/libbsp/powerpc/shared/startup/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/shared/startup/pgtbl_setup.c",
+		"src/lib/libbsp/powerpc/shared/startup/pretaskinghook.c",
+		"src/lib/libbsp/powerpc/shared/startup/probeMemEnd.c",
+		"src/lib/libbsp/powerpc/shared/startup/sbrk.c",
+		"src/lib/libbsp/powerpc/shared/startup/zerobss.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/tod.c",
+		"src/lib/libbsp/shared/vmeUniverse/bspVmeDmaList.c",
+		"src/lib/libbsp/powerpc/shared/vme/vme_universe.c",
+		"src/lib/libcpu/powerpc/new-exceptions/bspsupport/ppc_exc_print.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libbsp/shared/vmeUniverse/vmeUniverse.c",
+		"src/lib/libbsp/powerpc/shared/vme/vmeconfig.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+		includes=["%s/include/bsp/" % ctx.srcnode.abspath()]
+	)
+
+
+
+def psim(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_mpc6xx_clock(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+	libcpu_mpc6xx_altivec(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/psim/start/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/psim/network/if_sim.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include"
+	)
+
+	source_mp = [
+		"src/lib/libbsp/powerpc/psim/shmsupp/addrconv.c",
+		"src/lib/libbsp/powerpc/psim/shmsupp/getcfg.c",
+		"src/lib/libbsp/powerpc/psim/shmsupp/lock.c",
+		"src/lib/libbsp/powerpc/psim/shmsupp/mpisr.c",
+	]
+	ctx.bsp.mp(
+		source_mp,
+		features="src_include"
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/psim/console/console-io.c",
+		"src/lib/libbsp/powerpc/psim/console/consupp.S",
+		"src/lib/libbsp/powerpc/psim/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/psim/network/if_sim.c",
+		"src/lib/libbsp/powerpc/psim/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/psim/startup/psim_registers.c",
+		"src/lib/libbsp/powerpc/psim/vectors/align_h.S",
+		"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/shared/irq/openpic_i8259_irq.c",
+		"src/lib/libbsp/powerpc/shared/openpic/openpic.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/shared/startup/sbrk.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def qemuppc(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/qemuppc/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/powerpc/qemuppc/console/console-io.c",
+		"src/lib/libbsp/powerpc/qemuppc/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/qemuppc/startup/bsppanic.c",
+		"src/lib/libbsp/powerpc/qemuppc/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/qemuppc/startup/cmain.c",
+		"src/lib/libbsp/powerpc/shared/clock/clock.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/clock_driver_simidle.c",
+		"src/lib/libbsp/shared/clock_driver_simidle.c",
+		"src/lib/libbsp/shared/console-polled.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+
+def score603e(ctx):
+
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_mpc6xx_clock(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_irq_bspsupport(ctx)
+	libcpu_mpc6xx_mmu(ctx)
+	libcpu_mpc6xx_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/score603e/start/start.S"])
+
+	source += [
+		"src/lib/libbsp/powerpc/score603e/PCI_bus/PCI.c",
+		"src/lib/libbsp/powerpc/score603e/console/85c30.c",
+		"src/lib/libbsp/powerpc/score603e/console/console.c",
+		"src/lib/libbsp/powerpc/score603e/console/tbl85c30.c",
+		"src/lib/libbsp/powerpc/score603e/irq/FPGA.c",
+		"src/lib/libbsp/powerpc/score603e/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/score603e/irq/no_pic.c",
+		"src/lib/libbsp/powerpc/score603e/startup/Hwr_init.c",
+		"src/lib/libbsp/powerpc/score603e/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/shared/pci/pci.c",
+		"src/lib/libbsp/powerpc/shared/pci/pcifinddevice.c",
+		"src/lib/libbsp/powerpc/shared/showbats.c",
+		"src/lib/libbsp/powerpc/shared/startup/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/shared/startup/sbrk.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libbsp/powerpc/score603e/PCI_bus/flash.c",
+		"src/lib/libbsp/powerpc/score603e/PCI_bus/universe.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+		includes=["%s/include/bsp/" % ctx.srcnode.abspath()]
+	)
+
+
+
+def ss555(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_mpc5xx_clock(ctx)
+	libcpu_mpc5xx_console(ctx)
+	libcpu_mpc5xx_exceptions(ctx)
+	libcpu_mpc5xx_irq(ctx)
+	libcpu_mpc5xx_timer(ctx)
+	libcpu_mpc5xx_vectors(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/ss555/startup/start.S"])
+
+	source += [
+		"src/lib/libbsp/powerpc/ss555/clock/p_clock.c",
+		"src/lib/libbsp/powerpc/ss555/console/console.c",
+		"src/lib/libbsp/powerpc/ss555/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/ss555/startup/iss555.c",
+		"src/lib/libbsp/powerpc/ss555/startup/tm27supp.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def t32mppc(ctx):
+	source = []
+	libcpu_exc_bspsupport(ctx)
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_irq_bspsupport(ctx)
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/t32mppc/start/start.S", "src/lib/libbsp/powerpc/shared/start/rtems_crti.S"])
+
+	source += [
+		"src/lib/libbsp/powerpc/shared/clock/clock.c",
+		"src/lib/libbsp/powerpc/shared/src/bsp-start-zero.S",
+		"src/lib/libbsp/powerpc/shared/src/tictac.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/t32mppc/irq/irq.c",
+		"src/lib/libbsp/powerpc/t32mppc/startup/bspreset.c",
+		"src/lib/libbsp/powerpc/t32mppc/startup/bspstart.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libbsp/powerpc/t32mppc/console/console-config.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+    ]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+def tqm8xx_shared(ctx):
+
+	libcpu_cpu_ident(ctx)
+	libcpu_cache(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_mpc8xx_console(ctx)
+	libcpu_mpc8xx_cpm(ctx)
+	libcpu_mpc8xx_mmu(ctx)
+	libcpu_mpc8xx_timer(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S", "src/lib/libbsp/powerpc/tqm8xx/startup/start.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/tqm8xx/network/network_fec.c",
+		"src/lib/libbsp/powerpc/tqm8xx/network/network_scc.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["bsp_cmdline_arg=rtems_bsp_cmdline_get_param_raw", "__INSIDE_RTEMS_BSD_TCPIP_STACK__"]
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/shared/clock/clock.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/shared/startup/bspidle.c",
+		"src/lib/libbsp/powerpc/tqm8xx/console/console.c",
+		"src/lib/libbsp/powerpc/tqm8xx/irq/irq.c",
+		"src/lib/libbsp/powerpc/tqm8xx/spi/spi.c",
+		"src/lib/libbsp/powerpc/tqm8xx/startup/bspgetworkarea.c",
+		"src/lib/libbsp/powerpc/tqm8xx/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/tqm8xx/startup/cpuinit.c",
+		"src/lib/libbsp/powerpc/tqm8xx/startup/mmutlbtab.c",
+		"src/lib/libbsp/powerpc/tqm8xx/timer/timer.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/powerpc/tqm8xx/clock/p_clock.c"
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def qoriq_shared(ctx):
+	source = []
+
+	libcpu_exc_bspsupport(ctx)
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_stack(ctx)
+	libcpu_rtems_cpu(ctx)
+	libcpu_irq_bspsupport(ctx)
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/qoriq/start/start.S", "src/lib/libbsp/powerpc/shared/start/rtems_crti.S"])
+
+	source += [
+		"src/lib/libbsp/powerpc/qoriq/clock/clock-config.c",
+		"src/lib/libbsp/powerpc/qoriq/console/uart-bridge-master.c",
+		"src/lib/libbsp/powerpc/qoriq/console/uart-bridge-slave.c",
+		"src/lib/libbsp/powerpc/qoriq/irq/irq.c",
+		"src/lib/libbsp/powerpc/qoriq/network/if_intercom.c",
+		"src/lib/libbsp/powerpc/qoriq/network/network.c",
+		"src/lib/libbsp/powerpc/qoriq/rtc/rtc-config.c",
+		"src/lib/libbsp/powerpc/qoriq/shmsupp/intercom-mpci.c",
+		"src/lib/libbsp/powerpc/qoriq/shmsupp/intercom.c",
+		"src/lib/libbsp/powerpc/qoriq/shmsupp/lock.S",
+		"src/lib/libbsp/powerpc/qoriq/startup/bsppredriverhook.c",
+		"src/lib/libbsp/powerpc/qoriq/startup/bspreset.c",
+		"src/lib/libbsp/powerpc/qoriq/startup/bspstart.c",
+		"src/lib/libbsp/powerpc/qoriq/startup/mmu-config.c",
+		"src/lib/libbsp/powerpc/qoriq/startup/mmu-tlb1.S",
+		"src/lib/libbsp/powerpc/qoriq/startup/mmu.c",
+		"src/lib/libbsp/powerpc/qoriq/timer/timer.c",
+		"src/lib/libbsp/powerpc/shared/src/bsp-start-zero.S",
+		"src/lib/libbsp/powerpc/shared/src/ppc-exc-handler-table.c",
+		"src/lib/libbsp/powerpc/shared/src/tictac.c",
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/shared/startup/bspidle.c",
+		"src/lib/libbsp/powerpc/shared/uboot_dump_bdinfo.c",
+		"src/lib/libbsp/powerpc/shared/uboot_getenv.c",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/bsp-uboot-board-info.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/tod.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+	source = [
+		"src/lib/libbsp/powerpc/qoriq/console/console-config.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+    ]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+#	source = [
+#		"src/lib/libcpu/shared/src/cache_manager.c"
+#	]
+#	ctx.bsp.source(
+#		source,
+#		features="src_include src_include_libcpu"
+#	)
+
+
+
+
+def virtex(ctx):
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_ppc403_clock(ctx)
+	libcpu_ppc403_timer(ctx)
+	libcpu_ppc403_tty_drv(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S"])
+
+	source_networking = [
+		"src/lib/libbsp/powerpc/virtex/network/xiltemac.c",
+	]
+	ctx.bsp.networking(
+		source_networking,
+		features="src_include",
+		defines=["__INSIDE_RTEMS_BSD_TCPIP_STACK__", "__BSD_VISIBLE"]
+	)
+
+	source += [
+		"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+		"src/lib/libbsp/powerpc/virtex/console/consolelite.c",
+		"src/lib/libbsp/powerpc/virtex/dlentry/dlentry.S",
+		"src/lib/libbsp/powerpc/virtex/irq/irq_init.c",
+		"src/lib/libbsp/powerpc/virtex/opbintctrl/opbintctrl.c",
+		"src/lib/libbsp/powerpc/virtex/startup/bspstart.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/bspreset_fatal.c",
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+def virtex4(ctx):
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_ppc403_clock(ctx)
+	libcpu_ppc403_timer(ctx)
+	libcpu_ppc403_tty_drv(ctx)
+
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S"])
+
+	source = [
+"src/lib/libbsp/powerpc/shared/src/memcpy.c",
+"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+"src/lib/libbsp/powerpc/shared/startup/zerobss.c",
+"src/lib/libbsp/powerpc/virtex4/irq/irq_init.c",
+"src/lib/libbsp/powerpc/virtex4/mmu/mmu.c",
+"src/lib/libbsp/powerpc/virtex4/startup/bspclean.c",
+"src/lib/libbsp/powerpc/virtex4/startup/bspstart.c",
+"src/lib/libbsp/powerpc/virtex4/startup/dummy_console.c",
+"src/lib/libbsp/powerpc/virtex4/startup/start.S",
+"src/lib/libbsp/shared/bootcard.c",
+"src/lib/libbsp/shared/bspgetworkarea.c",
+"src/lib/libbsp/shared/bsplibc.c",
+"src/lib/libbsp/shared/bsppost.c",
+"src/lib/libbsp/shared/dummy_printk_support.c",
+"src/lib/libbsp/shared/gnatinstallhandler.c",
+"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def virtex5(ctx):
+	libcpu_rtems_cpu(ctx)
+	libcpu_exc_bspsupport(ctx)
+	libcpu_cache(ctx)
+	libcpu_cpu_ident(ctx)
+	libcpu_ppc403_clock(ctx)
+	libcpu_ppc403_timer(ctx)
+#	libcpu_ppc403_tty_drv(ctx)
+
+	ctx.bsp.start(["src/lib/libbsp/powerpc/shared/start/rtems_crti.S"])
+
+	source = [
+"src/lib/libbsp/powerpc/shared/clock/p_clock.c",
+"src/lib/libbsp/powerpc/shared/src/memcpy.c",
+"src/lib/libbsp/powerpc/shared/start/rtems_crti.S",
+"src/lib/libbsp/powerpc/shared/startup/zerobss.c",
+"src/lib/libbsp/powerpc/virtex5/irq/irq_init.c",
+"src/lib/libbsp/powerpc/virtex5/mmu/mmu.c",
+"src/lib/libbsp/powerpc/virtex5/startup/bspclean.c",
+"src/lib/libbsp/powerpc/virtex5/startup/bspstart.c",
+"src/lib/libbsp/powerpc/virtex5/startup/dummy_console.c",
+"src/lib/libbsp/powerpc/virtex5/startup/start.S",
+"src/lib/libbsp/shared/bootcard.c",
+"src/lib/libbsp/shared/bspgetworkarea.c",
+"src/lib/libbsp/shared/bsplibc.c",
+"src/lib/libbsp/shared/bsppost.c",
+"src/lib/libbsp/shared/dummy_printk_support.c",
+"src/lib/libbsp/shared/gnatinstallhandler.c",
+"src/lib/libbsp/shared/sbrk.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+def build(ctx):
+	source = []
+
+
+	source += [
+		"src/lib/libbsp/shared/bootcard.c",
+  		"src/lib/libbsp/shared/bsplibc.c",
+  		"src/lib/libbsp/shared/bsppost.c",
+	]
+
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	map = {
+		"beatnik":				beatnik,
+		"ep1a":					ep1a,
+		"br_uid":				gen83xx_shared,
+		"brs5l":				gen5200_shared,
+		"brs6l":				gen5200_shared,
+		"dp2":					gen5200_shared,
+		"icecube":				gen5200_shared,
+		"pm520_cr825":			gen5200_shared,
+		"pm520_ze30":			gen5200_shared,
+		"hsc_cm01":				gen83xx_shared,
+		"mpc8309som":			gen83xx_shared,
+		"mpc8313erdb":			gen83xx_shared,
+		"mpc8349eamds":			gen83xx_shared,
+		"haleakala":			haleakala,
+		"mbx821_001":			mbx8xx_shared,
+		"mbx821_002":			mbx8xx_shared,
+		"mbx821_002b":			mbx8xx_shared,
+		"mbx860_001b":			mbx8xx_shared,
+		"mbx860_002":			mbx8xx_shared,
+		"mbx860_005b":			mbx8xx_shared,
+		"mbx860_1b":			mbx8xx_shared,
+		"mcp750":				motorola_powerpc_shared,
+		"mtx603e":				motorola_powerpc_shared,
+		"mvme2100":				motorola_powerpc_shared,
+		"mvme2307":				motorola_powerpc_shared,
+		"qemuprep":				motorola_powerpc_shared,
+		"qemuprep-altivec":		motorola_powerpc_shared,
+		"gwlcfm":				mpc55xxevb_shared,
+		"mpc5566evb":			mpc55xxevb_shared,
+		"mpc5566evb_spe":		mpc55xxevb_shared,
+		"mpc5643l_dpu":			mpc55xxevb_shared,
+		"mpc5643l_evb":			mpc55xxevb_shared,
+		"mpc5674f_ecu508_app":	mpc55xxevb_shared,
+		"mpc5674f_ecu508_boot":	mpc55xxevb_shared,
+		"mpc5674f_rsm6":		mpc55xxevb_shared,
+		"mpc5674fevb":			mpc55xxevb_shared,
+		"mpc5674fevb_spe":		mpc55xxevb_shared,
+		"phycore_mpc5554":		mpc55xxevb_shared,
+		"mpc8260ads":			mpc8260ads,
+		"mvme3100":				mvme3100,
+		"mvme5500":				mvme5500,
+		"psim":					psim,
+		"qemuppc":				qemuppc,
+		"score603e":			score603e,
+		"ss555":				ss555,
+		"t32mppc":				t32mppc,
+		"pghplus":				tqm8xx_shared,
+		"qoriq_core_0":			qoriq_shared,
+		"qoriq_core_1":			qoriq_shared,
+		"qoriq_p1020rdb":		qoriq_shared,
+		"tqm8xx_stk8xx":		tqm8xx_shared,
+		"virtex":				virtex,
+		"virtex4":				virtex4,
+		"virtex5":				virtex5,
+	}
+
+	if not ctx.env.RTEMS_BSP in map:
+		ctx.fatal("wscript_powerpc(): Internal Error: Unknown BSP: %s" % ctx.env.RTEMS_BSP)
+
+	map[ctx.env.RTEMS_BSP](ctx)

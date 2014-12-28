@@ -1,0 +1,21 @@
+def build(ctx):
+	srcnode = ctx.srcnode.abspath()
+
+	def test(target, source):
+		ctx.rtems_test(
+			"smptests_%s" % target,
+			source,
+			features	= "test_include",
+			use			= "test_support_locked_print"
+		)
+
+
+	test("smp01", ["smp01/init.c", "smp01/tasks.c"])
+	test("smp02", ["smp02/init.c", "smp02/tasks.c"])
+	test("smp03", ["smp03/init.c", "smp03/tasks.c"])
+	test("smp04", ["smp04/init.c"])
+	test("smp05", ["smp05/init.c"])
+	test("smp06", ["smp06/init.c"])
+	test("smp07", ["smp07/init.c"])
+	test("smp08", ["smp08/init.c", "smp08/tasks.c"])
+	test("smp09", ["smp09/init.c"])
