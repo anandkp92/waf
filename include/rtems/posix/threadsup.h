@@ -23,7 +23,7 @@
 #include <rtems/score/threadq.h>
 #include <rtems/score/watchdog.h>
 
-#include <pthread.h>
+#include <rtems/posix/pthread.h>
 #include <signal.h>
 
 /**
