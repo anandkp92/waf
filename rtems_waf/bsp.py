@@ -1,10 +1,18 @@
+
 list_bsp = {
 	"arm": [
+		"altcycv_devkit",
+		"altcycv_devkit_smp",
 		"arm1136jfs",
 		"arm1136js",
 		"arm7tdmi",
 		"arm920",
 		"armcortexa9",
+		"bbxm",
+		"beagleboardorig",
+		"beagleboardxm",
+		"beagleboneblack",
+		"beaglebonewhite",
 		"csb336",
 		"csb337",
 		"csb637",
@@ -16,6 +24,10 @@ list_bsp = {
 		"lm3s3749",
 		"lm3s6965",
 		"lm3s6965_qemu",
+		"lm4f120",
+		"lpc1768_mbed",
+		"lpc1768_mbed_ahb_ram",
+		"lpc1768_mbed_ahb_ram_eth",
 		"lpc17xx_ea_ram",
 		"lpc17xx_ea_rom_int",
 		"lpc17xx_plx800_ram",
@@ -32,14 +44,24 @@ list_bsp = {
 		"lpc32xx_mzx_stage_1",
 		"lpc32xx_mzx_stage_2",
 		"lpc32xx_phycore",
+		"lpc40xx_ea_ram",
+		"lpc40xx_ea_rom_int",
 		"nds",
 		"raspberrypi",
 		"realview_pbx_a9_qemu",
+		"realview_pbx_a9_qemu_smp",
 		"rtl22xx",
 		"rtl22xx_t",
 		"smdk2410",
+		"stm32f105rc",
 		"stm32f4",
+		"tms570ls3137_hdk",
+		"tms570ls3137_hdk_intram",
+		"tms570ls3137_hdk_sdram",
 		"xilinx_zynq_a9_qemu",
+		"xilinx_zynq_zc702",
+		"xilinx_zynq_zc706",
+		"xilinx_zynq_zedboard",
 	],
 
 	"avr": [
@@ -126,6 +148,11 @@ list_bsp = {
 		"nios2_iss",
 	],
 
+	"or1k": [
+		"or1ksim",
+		"sim",
+	],
+
 	"powerpc": [
 		"beatnik",
 		"br_uid",
@@ -149,6 +176,7 @@ list_bsp = {
 		"mpc5566evb_spe",
 		"mpc5643l_dpu",
 		"mpc5643l_evb",
+		"mpc5668g",
 		"mpc5674f_ecu508_app",
 		"mpc5674f_ecu508_boot",
 		"mpc5674f_rsm6",
@@ -197,6 +225,7 @@ list_bsp = {
 		"erc32",
 		"leon2",
 		"leon3",
+		"ngmp",
 		"sis",
 	],
 
