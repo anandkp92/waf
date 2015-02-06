@@ -18,7 +18,7 @@
 #include "config.h"
 #endif
 
-#include <pthread.h>
+#include <rtems/posix/pthread.h>
 
 #include <rtems/score/thread.h>
 #include <rtems/score/threaddispatch.h>
