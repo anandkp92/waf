@@ -157,7 +157,7 @@ def rtems_cmd_config(ctx):
 			for bsp in sorted(list_bsp[arch]):
 				descr = cfg.bsp_get_detail(arch, bsp)
 				print("  %-20s %s" % (bsp, descr))
-			print()
+			print("")
 		return
 
 	if ctx.options.force is False and exists("config.cfg"):
