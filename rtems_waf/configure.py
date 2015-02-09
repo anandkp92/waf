@@ -7,13 +7,18 @@ from waflib.Utils import subprocess
 #		__RTEMS_SIZEOF_VOID_P__
 
 
-# BSP hacks that need to be addressed / resolved.
+# XXX: BSP hacks that need to be addressed / resolved.
 def bsp_hack(ctx, bsp):
 	if bsp == "m68k/mvme167":
 		# PowerPC unfortunatly uses macros to define this instead of an integer.
 		# We need to choose one or the other.
 		ctx.define('CONSOLE_MINOR', 1)
 		ctx.define('PRINTK_MINOR', 1)
+
+	# I have no idea why it was done this way.
+	if bsp.startswith("arm/xilinx_zynq_") and ctx.env.ENABLE_SMP:
+		ctx.env.ZYNQ_CPUS = 2
+
 
 
 # general

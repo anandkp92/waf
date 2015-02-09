@@ -176,11 +176,10 @@ def build(ctx):
 		install_path = ctx.env.LIBDIR
 	)
 
-
 	# First file is always installed as "linkcmds"
 	# XXX: This needs to be removed eventually by fixing the filenames.
 	if ctx.env.LINKCMDS:
-		ctx.copy(
+		ctx.copy_or_subst(
 			ctx.env.LINKCMDS[0],
 			"linkcmds",
 			"linkcmds_linkcmds"
@@ -188,8 +187,10 @@ def build(ctx):
 
 	for file in ctx.env.LINKCMDS[1:]:
 		base = basename(file)
-		ctx.copy(
+		ctx.copy_or_subst(
 			file,
 			base,
 			"linkcmds_base"
 		)
+
+

@@ -1211,23 +1211,27 @@ def stm32f4(ctx):
 
 
 
-def xilinx_zynq_a9_qemu(ctx):
+def xilinx_zynq_shared(ctx):
 	source = []
 
 	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
 
 	source = [
-		"src/lib/libbsp/arm/shared/abort/simple_abort.c",
 		"src/lib/libbsp/arm/shared/arm-a9mpcore-clock-config.c",
+		"src/lib/libbsp/arm/shared/arm-a9mpcore-smp.c",
 		"src/lib/libbsp/arm/shared/arm-cp15-set-exception-handler.c",
 		"src/lib/libbsp/arm/shared/arm-cp15-set-ttb-entries.c",
 		"src/lib/libbsp/arm/shared/arm-gic-irq.c",
+		"src/lib/libbsp/arm/shared/start/start.S",
 		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
 		"src/lib/libbsp/arm/xilinx-zynq/console/console-config.c",
 		"src/lib/libbsp/arm/xilinx-zynq/console/zynq-uart.c",
+		"src/lib/libbsp/arm/xilinx-zynq/i2c/cadence-i2c.c",
 		"src/lib/libbsp/arm/xilinx-zynq/startup/bspreset.c",
+		"src/lib/libbsp/arm/xilinx-zynq/startup/bspsmp.c",
 		"src/lib/libbsp/arm/xilinx-zynq/startup/bspstart.c",
 		"src/lib/libbsp/arm/xilinx-zynq/startup/bspstarthooks.c",
+		"src/lib/libbsp/arm/xilinx-zynq/startup/bspstartmmu.c",
 		"src/lib/libbsp/shared/bootcard.c",
 		"src/lib/libbsp/shared/bspclean.c",
 		"src/lib/libbsp/shared/bspgetworkarea.c",
@@ -1235,6 +1239,7 @@ def xilinx_zynq_a9_qemu(ctx):
 		"src/lib/libbsp/shared/bsppost.c",
 		"src/lib/libbsp/shared/bsppredriverhook.c",
 		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/cpucounterdiff.c",
 		"src/lib/libbsp/shared/gnatinstallhandler.c",
 		"src/lib/libbsp/shared/sbrk.c",
 		"src/lib/libbsp/shared/src/irq-default-handler.c",
@@ -1258,7 +1263,9 @@ def xilinx_zynq_a9_qemu(ctx):
 	]
 	ctx.bsp.source(
 		source,
-		features="src_include src_include_libcpu"
+#		features="src_include src_include_libcpu"
+		features="src_include",
+        includes = ["%s/c/src/lib/libbsp/arm/shared/arm-l2c-310" % ctx.srcnode.abspath()]
 	)
 
 	source = [
@@ -1273,6 +1280,13 @@ def xilinx_zynq_a9_qemu(ctx):
 		features="src_include src_include_bsp"
 	)
 
+
+def xilinx_zynq_a9_qemu(ctx):
+	xilinx_zynq_shared(ctx)
+
+
+def xilinx_zynq_zc706(ctx):
+	xilinx_zynq_shared(ctx)
 
 
 
@@ -1332,6 +1346,7 @@ def build(ctx):
 		"smdk2410":					smdk2410,
 		"stm32f4":					stm32f4,
 		"xilinx_zynq_a9_qemu":		xilinx_zynq_a9_qemu,
+		"xilinx_zynq_zc706":		xilinx_zynq_zc706
 	}
 
 	if not ctx.env.RTEMS_BSP in map:

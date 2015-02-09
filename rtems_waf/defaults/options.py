@@ -2220,6 +2220,7 @@ class MPC55XX_CONSOLE_MINOR(Integer):
 
 class MPC55XX_BOARD_MPC5674F_RSM6(Boolean):
 	value = True
+	quote = False
 	undef = True
 	descr = "if defined, use custom settings for RSM6 board"
 
@@ -2245,3 +2246,82 @@ class MPC83XX_BOARD_MPC8309SOM(Boolean):
 	value = True
 	undef = True
 	descr = "if defined, then use settings for the MPC8309SOM board"
+
+
+class ZYNQ_RAM_ORIGIN(String):
+	value = "0x00400000"
+	undef = True
+	descr = "Normal RAM region origin"
+
+class ZYNQ_RAM_MMU(String):
+	value = "%(ZYNQ_RAM_ORIGIN)s"
+	quote = False
+	undef = True
+	descr = "MMU region origin"
+
+class ZYNQ_RAM_MMU_LENGTH(String):
+	value = "16k"
+	undef = True
+	descr = "MMU region length"
+
+class ZYNQ_RAM_ORIGIN_AVAILABLE(String):
+	value = "%(ZYNQ_RAM_ORIGIN)s + 0x00004000"
+	undef = True
+	descr = "Origin of available RAM"
+
+class ZYNQ_RAM_LENGTH_AVAILABLE(String):
+	value = "%(BSP_ZYNQ_RAM_LENGTH)s - 1M - 16k"
+	undef = True
+	descr = "Length of available RAM"
+
+class ZYNQ_RAM_INT_0_ORIGIN(String):
+	value = "0x00000000"
+	undef = True
+	descr = "Internal 0 RAM region origin"
+
+class ZYNQ_RAM_INT_0_LENGTH(String):
+	value = "64k + 64k + 64k"
+	undef = True
+	descr = "Internal 0 RAM region length"
+
+class ZYNQ_RAM_INT_1_ORIGIN(String):
+	value = "0xFFFF0000"
+	undef = True
+	descr = "Internal 1 RAM region origin"
+
+class ZYNQ_RAM_INT_1_LENGTH(String):
+	value = "64k - 512"
+	undef = True
+	descr = "Internal 1 RAM region length"
+
+class BSP_ZYNQ_RAM_LENGTH(String):
+	value = "256M"
+	quote = False
+	undef = True
+	descr = "Override a BSP's default RAM length"
+
+class ZYNQ_RAM_NOCACHE_LENGTH(String):
+	value = "1M"
+	quote = False
+	undef = True
+	descr = "Length of nocache RAM region"
+
+class ZYNQ_CLOCK_CPU_1X(String):
+	value = "111111111U"
+	quote = False
+	undef = True
+	descr = "Zynq cpu_1x clock frequency in Hz"
+
+class ZYNQ_CLOCK_UART(String):
+	value = "50000000UL"
+	quote = False
+	undef = True
+	descr = "Zynq UART clock frequency in Hz"
+
+
+class ZYNQ_CPUS(Integer):
+	value = 1
+	quote = False
+	undef = True
+	descr = "Number of active cores"
+

@@ -243,7 +243,8 @@ def build(ctx):
 		"src/cachealignedalloc.c",
 		"src/pwdgrp.c",
 		"src/getgrent.c",
-		"src/getgrnam.c"
+		"src/getgrnam.c",
+		"src/cachecoherentalloc.c"
 	]
 
 

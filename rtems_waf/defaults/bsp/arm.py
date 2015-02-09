@@ -591,8 +591,84 @@ class xilinx_zynq_a9_qemu(Base):
 
 	def build(self, c):
 		c.CFLAGS		= ['-march=armv7-a', '-mthumb', '-mfpu=neon', '-mfloat-abi=hard', '-mtune=cortex-a9']
-		c.LINKCMDS		= ['src/lib/libbsp/arm/xilinx-zynq/startup/linkcmds', 'src/lib/libbsp/arm/shared/startup/linkcmds.base', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv4', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv7m']
+		c.LINKCMDS		= ['src/lib/libbsp/arm/xilinx-zynq/startup/linkcmds.in', 'src/lib/libbsp/arm/shared/startup/linkcmds.base', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv4', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv7m']
 
 	def header(self, c):
 		c.BSP_START_RESET_VECTOR		= ""
 		c.BSP_ARM_A9MPCORE_PERIPHCLK	= "100000000U"
+
+
+class xilinx_zynq_shared(Base):
+
+	def build(self, c):
+		c.CFLAGS		= ['-march=armv7-a', '-mthumb', '-mfpu=neon', '-mfloat-abi=hard', '-mtune=cortex-a9']
+		c.LINKCMDS		= ['src/lib/libbsp/arm/xilinx-zynq/startup/linkcmds.in', 'src/lib/libbsp/arm/shared/startup/linkcmds.base', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv4', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv7m']
+		c.ZYNQ_RAM_ORIGIN				= Default
+		c.ZYNQ_RAM_MMU					= Default
+		c.ZYNQ_RAM_MMU_LENGTH			= Default
+		c.ZYNQ_RAM_ORIGIN_AVAILABLE		= Default
+		c.ZYNQ_RAM_LENGTH_AVAILABLE		= Default
+		c.ZYNQ_RAM_INT_0_ORIGIN			= Default
+		c.ZYNQ_RAM_INT_0_LENGTH			= Default
+		c.ZYNQ_RAM_INT_1_ORIGIN			= Default
+		c.ZYNQ_RAM_INT_1_LENGTH			= Default
+		c.ZYNQ_CPUS						= Default
+		c.ZYNQ_RAM_NOCACHE_LENGTH		= Default
+		c.CLOCK_DRIVER_USE_FAST_IDLE	= Default
+
+
+	def header(self, c):
+		c.BSP_START_RESET_VECTOR		= Default
+		c.BSP_DATA_CACHE_ENABLED		= Default
+		c.BSP_INSTRUCTION_CACHE_ENABLED	= Default
+		c.BSP_ARM_A9MPCORE_PERIPHCLK	= Default
+		c.ZYNQ_CLOCK_UART				= Default
+		c.ZYNQ_CLOCK_CPU_1X				= Default
+	
+
+class xilinx_zynq_a9_qemu(xilinx_zynq_shared):
+	name = "arm/xilinx_zynq_a9_qemu"
+
+	def build(self, c):
+		c.CLOCK_DRIVER_USE_FAST_IDLE	= True
+		c.BSP_ZYNQ_RAM_LENGTH			= Default
+		c.ZYNQ_RAM_ORIGIN				= "0x00000000"
+		c.ZYNQ_RAM_MMU					= "0x0fffc000"
+		c.ZYNQ_RAM_ORIGIN_AVAILABLE		= "%(ZYNQ_RAM_ORIGIN)s"
+		c.ZYNQ_RAM_LENGTH_AVAILABLE		= "%(BSP_ZYNQ_RAM_LENGTH)s - 16k"
+
+	def header(self, c):
+		c.BSP_DATA_CACHE_ENABLED = False
+
+
+class xilinx_zynq_zc702(xilinx_zynq_shared):
+	name = "arm/xilinx_zynq_zc702"
+
+	def build(self, c):
+		c.BSP_ARM_A9MPCORE_PERIPHCLK	= "333333333U"
+		c.ZYNQ_RAM_ORIGIN				= "0x00100000"
+
+	def header(self, c):
+		c.ZYNQ_CLOCK_UART				= "50000000UL"
+		c.BSP_ZYNQ_RAM_LENGTH			= "1024M"
+
+
+class xilinx_zynq_zc706(xilinx_zynq_shared):
+	name = "arm/xilinx_zynq_zc706"
+
+	def build(self, c):
+		c.BSP_ZYNQ_RAM_LENGTH			= "1024M"
+		c.ZYNQ_RAM_LENGTH_AVAILABLE		= "%(BSP_ZYNQ_RAM_LENGTH)s - 4M - 16k"
+
+
+class xilinx_zynq_zedboard(xilinx_zynq_shared):
+	name = "arm/xilinx_zynq_zedboard"
+
+	def build(self, c):
+		c.BSP_ZYNQ_RAM_LENGTH			= "512M"
+		c.ZYNQ_RAM_ORIGIN				= "0x00100000"
+
+	def header(self, c):
+		c.BSP_ARM_A9MPCORE_PERIPHCLK	= "666666667U"
+		c.ZYNQ_CLOCK_UART				= "50000000UL"
+

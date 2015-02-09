@@ -260,7 +260,8 @@ def build(ctx):
 		"src/coretodsecondssinceepoch.c",
 		"src/coretodadjust.c",
 		"src/schedulersimplechangepriority.c",
-		"src/schedulerdefaultupdate.c"
+		"src/schedulerdefaultupdate.c",
+		"src/timespecgetasnanoseconds.c"
 	]
 
 	if ctx.env.RTEMS_ARCH == "arm":
@@ -275,7 +276,7 @@ def build(ctx):
 		]
 
 		#XXX: There needs to be a different solution for this..
-		if ctx.env.RTEMS_BSP in ["lm3s3749", "lm3s6965", "lm3s6965_qemu", "lpc17xx_ea_rom_int", "lpc17xx_plx800_ram", "lpc17xx_plx800_rom_int", "lpc17xx_ea_ram", "stm32f4", "xilinx_zynq_a9_qemu"]:
+		if ctx.env.RTEMS_BSP in ["lm3s3749", "lm3s6965", "lm3s6965_qemu", "lpc17xx_ea_rom_int", "lpc17xx_plx800_ram", "lpc17xx_plx800_rom_int", "lpc17xx_ea_ram", "stm32f4", "xilinx_zynq_a9_qemu", "xilinx_zynq_zc706"]:
 			source += [
 				"cpu/arm/armv7m-context-initialize.c",
 				"cpu/arm/armv7m-context-restore.c",
@@ -293,10 +294,10 @@ def build(ctx):
 				"cpu/arm/armv7m-isr-level-set.c",
 				"cpu/arm/armv7m-isr-vector-install.c",
 				"cpu/arm/armv7m-multitasking-start-stop.c",
-				"cpu/arm/armv7m-thread-idle.c",
+				"cpu/arm/armv7-thread-idle.c"
 			]
 
-		if ctx.env.RTEMS_BSP in ["lpc24xx_plx800_rom_int", "lpc24xx_plx800_ram", "lpc17xx_ea_rom_int", "lpc17xx_plx800_ram", "lpc17xx_plx800_rom_int", "lpc17xx_ea_ram", "raspberrypi", "realview_pbx_a9_qemu", "stm32f4", "xilinx_zynq_a9_qemu", "lpc2362", "lpc23xx_tli800", "lpc24xx_ea", "lpc24xx_ncs_ram", "lpc24xx_ncs_rom_ext", "lpc24xx_ncs_rom_int", "lpc32xx_mzx", "lpc32xx_mzx_stage_1", "lpc32xx_mzx_stage_2", "lpc32xx_phycore"]:
+		if ctx.env.RTEMS_BSP in ["lpc24xx_plx800_rom_int", "lpc24xx_plx800_ram", "lpc17xx_ea_rom_int", "lpc17xx_plx800_ram", "lpc17xx_plx800_rom_int", "lpc17xx_ea_ram", "raspberrypi", "realview_pbx_a9_qemu", "stm32f4", "xilinx_zynq_a9_qemu", "lpc2362", "lpc23xx_tli800", "lpc24xx_ea", "lpc24xx_ncs_ram", "lpc24xx_ncs_rom_ext", "lpc24xx_ncs_rom_int", "lpc32xx_mzx", "lpc32xx_mzx_stage_1", "lpc32xx_mzx_stage_2", "lpc32xx_phycore", "xilinx_zynq_zc706"]:
 			source += [
 				"cpu/arm/armv4-exception-default.S"
 			]

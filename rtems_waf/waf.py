@@ -101,12 +101,34 @@ def rtems_program(ctx, target_name, source, **kwarg):
 
 @conf
 def copy(ctx, source, target, name):
-	ctx(
-		rule='cp ${SRC} ${TGT}', # XXX: Make something that works on windows.
-		source=source,
-		target=target,
-		name=name
-	)
+		ctx(
+			rule='cp ${SRC} ${TGT}', # XXX: Make something that works on windows.
+			source=source,
+			target=target,
+			name=name
+		)
+
+@conf
+def copy_or_subst(ctx, source, target, name):
+	if source.endswith(".in"):
+		# This is required as not all 'linkcmd' files are named as such see the
+		# bottom of c/wscript  It can be removed when the names are normalised
+		# XXX: fix 'linkcmd' names.
+
+		if target.endswith(".in"):
+			target = target[:-3]
+
+		ctx(
+			features	= 'subst',
+			source		= source,
+			target		=  target,
+			encoding	= 'ascii', # for python3.
+			name		= name,
+#			is_copy		= True
+		)
+	else:
+		ctx.copy(source, target, name)
+
 
 #################
 # Configure Steps
