@@ -245,7 +245,8 @@ class BuildConfig(object):
 		self._parse_bsp(self.list_bsp)
 
 		# Load user configuration
-		self._cfg_user_load()
+		if not list_bsp:
+			self._cfg_user_load()
 
 		# Make sure BSP= is always set.
 		self.option_set("general", "BSP", " " .join(self.list_bsp))
