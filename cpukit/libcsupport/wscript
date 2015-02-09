@@ -77,7 +77,8 @@ def build(ctx):
 		"src/termios_baud2num.c",
 		"src/termios_num2baud.c",
 		"src/termios_setinitialbaud.c",
-		"src/termios_baudtable.c"
+		"src/termios_baudtable.c",
+		"src/termios_setbestbaud.c"
 	]
 
 	# SYSTEM_CALL_C_FILES

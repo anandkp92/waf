@@ -53,7 +53,7 @@ class leon3(Base):
 
 	def build(self, c):
 		c.CFLAGS		= ['-mcpu=cypress']
-		c.LINKCMDS		= ['src/lib/libbsp/sparc/leon3/startup/linkcmds',
+		c.LINKCMDS		= ['src/lib/libbsp/sparc/leon3/startup/linkcmds.leon3',
 					   'src/lib/libbsp/sparc/shared/startup/linkcmds.base']
 
 	def header(self, c):
