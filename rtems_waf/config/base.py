@@ -405,7 +405,6 @@ class BuildConfig(object):
 		if version_info < (3,) and type(o) is unicode: #2to3
 			o = str(o)
 
-		print section, opt
 		opt.set(o)
 
 
