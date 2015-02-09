@@ -266,9 +266,9 @@ class Integer(Option):
 		return str(self.value)
 
 	def _set(self, value):
+		value = int(value) #XXX: configparser doesn't convert this anymore, sigh.
 		self.validate(value)
-		v = int(value) #XXX: Is this even needed?  an artifact?
-		self.value = v
+		self.value = value
 
 	def _set_config_header(self, ctx):
 		ctx.define(self.name, self.value, quote=self.quote)

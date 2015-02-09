@@ -219,6 +219,7 @@ class BuildConfig(object):
 	def __init__(self, list_bsp=[]):
 		self.cfg_default = [cfg_general(), cfg_host(), cfg_bsp()]	#: Default BSP configuration.
 		self.cfg = list(self.cfg_default)							#: BSP config.
+		self.list_bsp = []
 
 		if list_bsp:
 			self.list_bsp = sorted(list_bsp)
@@ -226,14 +227,28 @@ class BuildConfig(object):
 			fatal("Missing config.cfg")
 		else:
 			# Load on-disk config.
-			self._cfg_user_load()
+			self.cfg_user = ConfigParser()
+			self.cfg_user.read(self.file_config)
+
+			# Set BSP list.
+			# XXX: Far too complicated due to chicken-and-egg issue.
+			#      This will be refactored in the future.
+			tmp = cfg_general()
+			opt = tmp.option_build["BSP"]
+			o = self.cfg_user.get("general", "BSP")
+			if version_info < (3,) and type(o) is unicode: #2to3
+				o = str(o)
+			opt.set(o)
+			self.list_bsp = opt.value
 
 		# Parse BSPs
 		self._parse_bsp(self.list_bsp)
 
+		# Load user configuration
+		self._cfg_user_load()
+
 		# Make sure BSP= is always set.
 		self.option_set("general", "BSP", " " .join(self.list_bsp))
-
 
 
 	def _parse_bsp(self, list_bsp):
@@ -289,10 +304,12 @@ class BuildConfig(object):
 
 		for option in cfg.option_build:
 			opt = cfg.option_build[option]
+#			self._set_cfg_user(cfg_name, opt)
 			opt.set_config_build(ctx)
 
 		for option in cfg.option_header:
 			opt = cfg.option_header[option]
+#			self._set_cfg_user(cfg_name, opt)
 			opt.set_config_header(ctx)
 
 
@@ -343,38 +360,54 @@ class BuildConfig(object):
 
 	def _cfg_user_load(self):
 		"""Load user config from disk."""
-		cfg = ConfigParser()
-		cfg.read(self.file_config)
-
 		for cfg_bsp in self.cfg:
 			section = cfg_bsp.name
 
-			if not cfg.has_section(section):
+			if not self.cfg_user.has_section(section):
 				fatal("Missing section: [%s]" % section)
 
 			for option in cfg_bsp.option_build:
 				opt = cfg_bsp.option_build[option]
 
-				o = cfg.get(section, opt.name)
+				o = self.cfg_user.get(section, opt.name)
 
 				# configpaser does not convert values anymore.
 				if o in ["True", "False"]:
-					o = cfg.getboolean(section, opt.name)
+					o = self.cfg_user.getboolean(section, opt.name)
 
 				# We do not support unicode internally
 				if version_info < (3,) and type(o) is unicode: #2to3
 					o = str(o)
 
-				opt.set(o)
+				self._set_cfg_user(section, opt)
 
-				# Set the list of bsps from the config.
-				if option == "BSP" and section == "general":
-					self.list_bsp = sorted(opt.value)
+#				opt.set(o)
 
 			for option in cfg_bsp.option_header:
 				opt = cfg_bsp.option_header[option]
-				o = cfg.get(section, opt.name)
-				opt.set(o)
+				self._set_cfg_user(section, opt)
+#				o = self.cfg_user.get(section, opt.name)
+#				opt.set(o)
+
+
+	def _set_cfg_user(self, section, opt):
+		if not self.cfg_user.has_section(section):
+			fatal("Missing section: [%s]" % section)
+
+		o = self.cfg_user.get(section, opt.name)
+
+		# configpaser does not convert values anymore.
+		if o in ["True", "False"]:
+			o = self.cfg_user.getboolean(section, opt.name)
+
+		# We do not support unicode internally
+		if version_info < (3,) and type(o) is unicode: #2to3
+			o = str(o)
+
+		print section, opt
+		opt.set(o)
+
+
 
 
 
