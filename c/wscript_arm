@@ -1290,6 +1290,78 @@ def xilinx_zynq_zc706(ctx):
 
 
 
+
+
+
+
+def beagle_shared(ctx):
+	source = []
+
+	ctx.bsp.start(["src/lib/libbsp/arm/shared/start/start.S"])
+
+	source = [
+		"src/lib/libbsp/arm/beagle/clock.c",
+		"src/lib/libbsp/arm/beagle/console/console-config.c",
+		"src/lib/libbsp/arm/beagle/irq.c",
+		"src/lib/libbsp/arm/beagle/misc/i2c.c",
+		"src/lib/libbsp/arm/beagle/startup/bspreset.c",
+		"src/lib/libbsp/arm/beagle/startup/bspstart.c",
+		"src/lib/libbsp/arm/beagle/startup/bspstarthooks.c",
+		"src/lib/libbsp/arm/beagle/startup/bspstartmmu.c",
+		"src/lib/libbsp/arm/shared/arm-cp15-set-exception-handler.c",
+		"src/lib/libbsp/arm/shared/start/start.S",
+		"src/lib/libbsp/arm/shared/startup/bsp-start-memcpy.S",
+		"src/lib/libbsp/shared/bootcard.c",
+		"src/lib/libbsp/shared/bspclean.c",
+		"src/lib/libbsp/shared/bspgetworkarea.c",
+		"src/lib/libbsp/shared/bsplibc.c",
+		"src/lib/libbsp/shared/bsppost.c",
+		"src/lib/libbsp/shared/bsppredriverhook.c",
+		"src/lib/libbsp/shared/bsppretaskinghook.c",
+		"src/lib/libbsp/shared/cpucounterdiff.c",
+		"src/lib/libbsp/shared/cpucounterread.c",
+		"src/lib/libbsp/shared/gnatinstallhandler.c",
+		"src/lib/libbsp/shared/sbrk.c",
+		"src/lib/libbsp/shared/src/irq-default-handler.c",
+		"src/lib/libbsp/shared/src/irq-generic.c",
+		"src/lib/libbsp/shared/src/irq-info.c",
+		"src/lib/libbsp/shared/src/irq-legacy.c",
+		"src/lib/libbsp/shared/src/irq-server.c",
+		"src/lib/libbsp/shared/src/irq-shell.c",
+		"src/lib/libbsp/shared/src/stackalloc.c",
+		"src/lib/libbsp/shared/timerstub.c",
+	]
+
+	ctx.bsp.source(
+		source,
+		features="src_include"
+	)
+
+
+	source = [
+		"src/lib/libcpu/shared/src/cache_manager.c"
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include",
+        includes = ["%s/c/src/lib/libcpu/arm/shared/include" % ctx.srcnode.abspath()]
+	)
+
+	source = [
+		"src/lib/libbsp/shared/console.c",
+		"src/lib/libbsp/shared/console_control.c",
+		"src/lib/libbsp/shared/console_read.c",
+		"src/lib/libbsp/shared/console_select.c",
+		"src/lib/libbsp/shared/console_write.c",
+	]
+	ctx.bsp.source(
+		source,
+		features="src_include src_include_bsp"
+	)
+
+
+
+
 def build(ctx):
 	source = []
 
@@ -1346,7 +1418,11 @@ def build(ctx):
 		"smdk2410":					smdk2410,
 		"stm32f4":					stm32f4,
 		"xilinx_zynq_a9_qemu":		xilinx_zynq_a9_qemu,
-		"xilinx_zynq_zc706":		xilinx_zynq_zc706
+		"xilinx_zynq_zc706":		xilinx_zynq_zc706,
+		"beagleboardorig":			beagle_shared,
+		"beagleboardxm":			beagle_shared,
+		"beaglebonewhite":			beagle_shared,
+		"beagleboneblack":			beagle_shared
 	}
 
 	if not ctx.env.RTEMS_BSP in map:

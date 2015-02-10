@@ -2325,3 +2325,27 @@ class ZYNQ_CPUS(Integer):
 	undef = True
 	descr = "Number of active cores"
 
+
+class IS_DM3730(Boolean):
+	value = False
+	undef = True
+	descr = "true if SOC is DM3730"
+
+
+class IS_AM335X(Boolean):
+	value = False
+	undef = True
+	descr = "true if SOC is AM335X"
+
+
+class CONSOLE_POLLED(Boolean):
+	value = False
+	undef = True
+	descr = "Polled console i/o."
+
+
+class CONSOLE_BAUD(Integer):
+	value = 115200
+	undef = True
+	descr = "initial baud for console UART"
+

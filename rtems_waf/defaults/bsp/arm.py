@@ -672,3 +672,40 @@ class xilinx_zynq_zedboard(xilinx_zynq_shared):
 		c.BSP_ARM_A9MPCORE_PERIPHCLK	= "666666667U"
 		c.ZYNQ_CLOCK_UART				= "50000000UL"
 
+
+class beagle_shared(Base):
+	def build(self, c):
+		c.CFLAGS		= ['-mcpu=cortex-a8']
+		c.LINKCMDS		= ['src/lib/libbsp/arm/beagle/startup/linkcmds.beagle', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv4', 'src/lib/libbsp/arm/shared/startup/linkcmds.base']
+
+	def header(self, c):
+		c.CONSOLE_POLLED		= Default
+		c.CONSOLE_BAUD			= Default
+
+class beagleboardorig(beagle_shared):
+	name = "arm/beagleboardorig"
+
+	def header(self, c):
+		c.IS_DM3730				= True
+
+
+class beagleboardxm(beagle_shared):
+	name = "arm/beagleboardxm"
+
+	def header(self, c):
+		c.IS_DM3730				= True
+
+
+class beaglebonewhite(beagle_shared):
+	name = "arm/beaglebonewhite"
+
+	def header(self, c):
+		c.IS_AM335X				= True
+
+
+class beagleboneblack(beagle_shared):
+	name = "arm/beagleboneblack"
+
+	def header(self, c):
+		c.IS_AM335X				= True
+
