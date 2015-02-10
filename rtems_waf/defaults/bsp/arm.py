@@ -709,3 +709,12 @@ class beagleboneblack(beagle_shared):
 	def header(self, c):
 		c.IS_AM335X				= True
 
+
+class raspberrypi(Base):
+	name = "arm/raspberrypi"
+
+	def build(self, c):
+		c.CFLAGS		= ['-mcpu=arm1176jzf-s']
+		c.LINKCMDS		= ['src/lib/libbsp/arm/beagle/startup/linkcmds.beagle', 'src/lib/libbsp/arm/shared/startup/linkcmds.armv4', 'src/lib/libbsp/arm/shared/startup/linkcmds.base']
+
+
