@@ -4,7 +4,6 @@
 def libcpu_cache(ctx):
 	source = [
 		"src/lib/libcpu/m68k/shared/cache/cache.c",
-		"src/lib/libcpu/shared/src/cache_aligned_malloc.c",
 		"src/lib/libcpu/shared/src/cache_manager.c"
 	]
 
@@ -135,7 +134,8 @@ def libcpu_mcf5235_cachepd(ctx):
 
 	ctx.bsp.source(
 		source,
-		features="src_include"
+		features="src_include",
+		includes = ["%s/c/src/lib/libcpu/m68k/shared/cache" % ctx.srcnode.abspath()]
 	)
 
 def libcpu_mcf532x_cachepd(ctx):
@@ -622,7 +622,7 @@ def mcf5235(ctx):
 		"src/lib/libbsp/shared/bootcard.c",
 		"src/lib/libbsp/shared/bspclean.c",
 		"src/lib/libbsp/shared/bspgetworkarea.c",
-		"src/lib/libbsp/shared/bspinit.c",
+#		"src/lib/libbsp/shared/bspinit.c",
 		"src/lib/libbsp/shared/bsplibc.c",
 		"src/lib/libbsp/shared/bsppost.c",
 		"src/lib/libbsp/shared/bsppredriverhook.c",
@@ -630,7 +630,8 @@ def mcf5235(ctx):
 		"src/lib/libbsp/shared/bspreset_loop.c",
 		"src/lib/libbsp/shared/gnatinstallhandler.c",
 		"src/lib/libbsp/shared/sbrk.c",
-		"src/lib/libcpu/m68k/shared/misc/m68kidle.c"
+		"src/lib/libcpu/m68k/shared/misc/m68kidle.c",
+		"src/lib/libbsp/m68k/mcf5235/startup/copyvectors.c",
 	]
 
 	ctx.bsp.source(
