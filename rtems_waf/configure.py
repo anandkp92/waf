@@ -111,6 +111,7 @@ def config_h_libcpu(ctx):
 	ctx.define('SIZEOF_VOID_P', 4)
 	ctx.define('SIZEOF_OFF_T', 8)
 	ctx.define('SIZEOF_TIME_T', 4) # XXX: hack for cpukit/libmisc/uuid/gen_uuid.c
+	ctx.define('SIZEOF_BLKSIZE_T', 4) # XXX: hack for tests
 #	ctx.check_size("off_t")
 #	ctx.check_size("void *", define_name="SIZEOF_VOID_P")
 
