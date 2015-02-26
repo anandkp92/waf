@@ -101,12 +101,13 @@ def rtems_program(ctx, target_name, source, **kwarg):
 
 @conf
 def copy(ctx, source, target, name):
-		ctx(
-			rule='cp ${SRC} ${TGT}', # XXX: Make something that works on windows.
-			source=source,
-			target=target,
-			name=name
-		)
+	ctx(
+		features        = 'subst',
+		source          = source,
+		target          = target,
+		is_copy         = True,
+		name            = name,
+	)
 
 @conf
 def copy_or_subst(ctx, source, target, name):
