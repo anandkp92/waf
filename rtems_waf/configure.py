@@ -156,9 +156,7 @@ def depend_version(ctx):
 
 	ctx.start_msg("Checking Binutils version")
 	cmd = ctx.env.BIN_RTEMS_LD + ["-v"]
-	p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=None)
-	stdout, stderr = p.communicate()
-	ctx.env.LD_VERSION = stdout.decode("utf-8").split(" ")[4].replace("\n", "")
+	ctx.env.LD_VERSION = ctx.cmd_and_log(cmd, quiet=0).strip().split(" ")[-1]
 	ctx.end_msg(ctx.env.LD_VERSION)
 
 
