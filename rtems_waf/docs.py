@@ -127,3 +127,4 @@ def rtems_cmd_docs(ctx):
 
 	fp.write(footer())
 
+	print("Wrote options.html")
