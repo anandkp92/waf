@@ -167,16 +167,13 @@ def check_size(ctx, field, mandatory=False, define_name=None):
 		msg         = "Checking size of %s" % field
 	)
 
-
-# XXX: It prints "yes" even if it doesn't exist.
 @conf
 def check_define(ctx, define, header, mandatory=False):
 	ctx.check(
 		mandatory   = mandatory,
-		fragment    = '''#include <%s>\n int main () {\n #ifdef %s\n return 0;\n #endif\n return 1; }\n''' % (header, define),
+		fragment    = '''#include <%s>\n int main () {\n #ifndef %s\n #error "missing define"\n #endif\n return 0; }\n''' % (header, define),
 		define_name = "HAVE_%s" % define.upper(),
-		features    = "c cprogram",
-		execute     = True,
+		features    = "c",
 		msg         = "Checking for define %s in %s" % (define, header)
 	)
 

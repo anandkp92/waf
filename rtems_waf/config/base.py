@@ -1,6 +1,6 @@
 try:
 	from configparser import ConfigParser, NoOptionError
-except:
+except ImportError:
 	from ConfigParser import ConfigParser, NoOptionError
 
 from os.path import exists
