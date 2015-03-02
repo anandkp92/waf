@@ -205,7 +205,7 @@ class cfg_bsp(Config):
 		c.LINK_START			= Default
 		c.LINK_END				= Default
 		c.LINK_LINK				= Default
-
+		c.ENABLE_SYSTEM_DEP		= Default
 
 
 

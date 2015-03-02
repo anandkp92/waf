@@ -148,6 +148,9 @@ def configure(ctx):
 
 
 def build(ctx):
+	if ctx.env.ENABLE_SYSTEM_DEP:
+		c_preproc.go_absolute=True
+
 	if ctx.env.CONFIG_TIMESTAMP != get_file_mtime("config.cfg"):
 		ctx.fatal("config.cfg has changed please re-run 'waf configure'")
 

@@ -201,7 +201,6 @@ def build_config(ctx):
 
 
 def cmd_configure(ctx, config):
-
 	ctx.load('waf', tooldir='rtems_waf')
 
 	from rtems_waf.config import BuildConfig
@@ -310,6 +309,11 @@ def cmd_configure(ctx, config):
 	# Always start with a pristeen env while looping.
 	env_orig = ctx.env
 	for bsp in ctx.env.BSP:
+
+#		if ctx.env.ENABLE_SYSTEM_DEP:
+#			from waflib.Tools import c_preproc
+#			c_preproc.go_absolute=True
+
 		msg("")
 		msg("--- Configuring %s ---" % bsp)
 		ctx.setenv(bsp, env_orig.derive())

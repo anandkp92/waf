@@ -2349,3 +2349,8 @@ class CONSOLE_BAUD(Integer):
 	undef = True
 	descr = "initial baud for console UART"
 
+
+class ENABLE_SYSTEM_DEP(Boolean):
+	value	= False
+	undef	= True
+	descr	= "Enable dependencies on system headers, only useful if you are developing toolchains.  This will slow down the build"
