@@ -30,6 +30,12 @@ if config["rtems_version_revision"]:
 		VERSION = "%s.%d" % (VERSION, config["rtems_version_patch"])
 
 APPNAME='rtems'
+class Dist(Scripting.Dist):
+	algo = 'tar.bz2' # tar.gz, tar.bz2, tar.xz or zip
+	def get_excl(self):
+		# do not ship config.cfg in the archive
+		return Scripting.Dist.get_excl(self) + ' config.cfg'
+
 
 pprint.__doc__ = None # Make sure waf doesn't see this as a command.
 
