@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# encoding: ascii
+
 # RTEMS version, this is the only editable portion of this file.
 config = {}
 config["rtems_version_major"] = 4
@@ -7,8 +10,7 @@ config["rtems_version_patch"] = 0
 
 # --------- DO NOT EDIT BELOW THIS LINE -----------
 from sys import argv
-#from waflib.Task import Task
-from waflib import Task
+from waflib import Task, Scripting, Configure, Utils
 from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallContext, StepContext, ListContext
 from waflib.Context import Context
 from waflib.Tools import c_preproc
@@ -20,6 +22,7 @@ from os.path import exists
 
 pprint.__doc__ = None # Make sure waf doesn't see this as a command.
 
+Configure.autoconfig = 'clobber' # Apply the original configure command-line arguments
 Context.repeat_hack = False
 
 top = '.'
@@ -128,6 +131,8 @@ for command, func, descr in commands:
 			__doc__ = descr
 		cmd = command
 		fun = func
+		if command in 'install uninstall build clean list step docs bsp info':
+			execute = Scripting.autoconfigure(Context.execute)
 
 
 def buildlog(ctx):
@@ -144,15 +149,22 @@ checkconfig.__doc__ = None # Make sure waf doesn't see this as a command.
 
 def configure(ctx):
 	from rtems_waf.configure import cmd_configure
+	node = ctx.path.find_node('config.cfg')
+	if not node:
+		ctx.fatal('Run "waf config" first, for example: waf config --bsp sparc/sis --path-tools ~/development/rtems/4.11/bin')
+	# hash the config.cfg file too so that changes in the configure() function will trigger
+	# a re-configuration with the original command-line
+	ctx.files.append(node.abspath())
+	ctx.hash = Utils.h_list((ctx.hash, node.read('rb')))
+	# using the standard ctx.recurse() would add the dependency automatically
+	node = ctx.path.find_node('rtems_waf/configure.py')
+	ctx.files.append(node.abspath())
+	ctx.hash = Utils.h_list((ctx.hash, node.read('rb')))
 	cmd_configure(ctx, config)
-
 
 def build(ctx):
 	if ctx.env.ENABLE_SYSTEM_DEP:
 		c_preproc.go_absolute=True
-
-	if ctx.env.CONFIG_TIMESTAMP != get_file_mtime("config.cfg"):
-		ctx.fatal("config.cfg has changed please re-run 'waf configure'")
 
 	ctx.load('waf', tooldir='rtems_waf')
 
