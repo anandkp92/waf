@@ -20,6 +20,15 @@ from rtems_waf.switch import options
 from rtems_waf.tools import get_file_mtime
 from os.path import exists
 
+# RTEMS Version for waf
+VERSION='%d.%d' % (config["rtems_version_major"], config["rtems_version_minor"])
+if config["rtems_version_revision"]:
+	VERSION = "%s.%d" % (VERSION, config["rtems_version_revision"])
+	if config["rtems_version_patch"]: # There can't be a patch version without a revision.
+		VERSION = "%s.%d" % (VERSION, config["rtems_version_patch"])
+
+APPNAME='rtems'
+
 pprint.__doc__ = None # Make sure waf doesn't see this as a command.
 
 Configure.autoconfig = 'clobber' # Apply the original configure command-line arguments
