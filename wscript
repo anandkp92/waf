@@ -3,9 +3,9 @@
 
 # RTEMS version, this is the only editable portion of this file.
 config = {}
-config["rtems_version_major"] = 4
-config["rtems_version_minor"] = 11 # Moved to 4.11 for testing it's actually 4.10
-config["rtems_version_revision"] = 99
+config["rtems_version_major"] = 5
+config["rtems_version_minor"] = 0
+config["rtems_version_revision"] = 0
 config["rtems_version_patch"] = 0
 
 # --------- DO NOT EDIT BELOW THIS LINE -----------
