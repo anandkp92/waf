@@ -370,6 +370,9 @@ class BuildConfig(object):
 			for option in cfg_bsp.option_build:
 				opt = cfg_bsp.option_build[option]
 
+				if not self.cfg_user.has_option(section, opt.name):
+					fatal("Missing Option in config: %s" % opt.name)
+
 				o = self.cfg_user.get(section, opt.name)
 
 				# configpaser does not convert values anymore.
