@@ -331,6 +331,7 @@ def cmd_configure(ctx, config):
 		# Miscellanous setup.
 		ctx.env.RTEMS_VERSION = "%d.%d.%d.%d" % (config["rtems_version_major"], config["rtems_version_minor"], config["rtems_version_revision"], config["rtems_version_patch"])
 		ctx.env.RTEMS_VERSION_DATA = "%d.%d" % (config["rtems_version_major"], config["rtems_version_minor"])
+		ctx.env.RTEMS_TOOL_VERSION = config["rtems_tool_version"]
 		ctx.env.append_value('CFLAGS', '-DHAVE_CONFIG_H')
 		ctx.env.append_value('CFLAGS', '-D__rtems_%s_%s__' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_BSP.replace("-", "_")))
 		ctx.env.LIBDIR = "%s/lib/rtems/%s/%s-%s/" % (ctx.env.PREFIX, ctx.env.RTEMS_VERSION_DATA, ctx.env.RTEMS_ARCH, ctx.env.RTEMS_BSP)
@@ -349,14 +350,14 @@ def cmd_configure(ctx, config):
 
 
 		# Tools.
-		ctx.find_program('%s-rtems%s-ar' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_AR', path_list=ctx.env.PATH_TOOLS)
-		ctx.find_program('%s-rtems%s-as' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_AS', path_list=ctx.env.PATH_TOOLS)
-		ctx.find_program('%s-rtems%s-g++' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_CPP', path_list=ctx.env.PATH_TOOLS, mandatory=False)
-		ctx.find_program('%s-rtems%s-gcc' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_CC', path_list=ctx.env.PATH_TOOLS)
-		ctx.find_program('%s-rtems%s-ld' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_LD', path_list=ctx.env.PATH_TOOLS)
-		ctx.find_program('%s-rtems%s-nm' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_NM', path_list=ctx.env.PATH_TOOLS)
-		ctx.find_program('%s-rtems%s-ranlib' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_RANLIB', path_list=ctx.env.PATH_TOOLS)
-		ctx.find_program('%s-rtems%s-strip' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_VERSION_DATA), var='BIN_RTEMS_STRIP', path_list=ctx.env.PATH_TOOLS)
+		ctx.find_program('%s-rtems%s-ar' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_AR', path_list=ctx.env.PATH_TOOLS)
+		ctx.find_program('%s-rtems%s-as' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_AS', path_list=ctx.env.PATH_TOOLS)
+		ctx.find_program('%s-rtems%s-g++' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_CPP', path_list=ctx.env.PATH_TOOLS, mandatory=False)
+		ctx.find_program('%s-rtems%s-gcc' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_CC', path_list=ctx.env.PATH_TOOLS)
+		ctx.find_program('%s-rtems%s-ld' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_LD', path_list=ctx.env.PATH_TOOLS)
+		ctx.find_program('%s-rtems%s-nm' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_NM', path_list=ctx.env.PATH_TOOLS)
+		ctx.find_program('%s-rtems%s-ranlib' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_RANLIB', path_list=ctx.env.PATH_TOOLS)
+		ctx.find_program('%s-rtems%s-strip' % (ctx.env.RTEMS_ARCH, ctx.env.RTEMS_TOOL_VERSION), var='BIN_RTEMS_STRIP', path_list=ctx.env.PATH_TOOLS)
 		ctx.env.AR = ctx.env.BIN_RTEMS_AR
 		ctx.env.AS = ctx.env.BIN_RTEMS_AS
 		ctx.env.CC = ctx.env.BIN_RTEMS_CC

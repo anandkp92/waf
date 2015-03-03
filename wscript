@@ -8,6 +8,8 @@ config["rtems_version_minor"] = 0
 config["rtems_version_revision"] = 0
 config["rtems_version_patch"] = 0
 
+config["rtems_tool_version"] = "4.11"
+
 # --------- DO NOT EDIT BELOW THIS LINE -----------
 from sys import argv
 from waflib import Task, Scripting, Configure, Utils
