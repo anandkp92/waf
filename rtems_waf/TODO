@@ -10,7 +10,9 @@ Configure
 ~~~~~~~~~
  * SIZEOF_MODE_T, SIZEOF_VOID_P, BLKSIZE_T... need to be dynamically
    calculated in rtems_waf/configure.py
-
+ * Better warnings if an option or section is missing in config.cfg after
+   updating when a new option has been added and 'waf config' has not been
+   run.
 
 
 General
