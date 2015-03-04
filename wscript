@@ -14,7 +14,7 @@ config["rtems_tool_version"] = "4.11"
 from sys import argv
 from waflib import Task, Scripting, Configure, Utils
 from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallContext, StepContext, ListContext
-from waflib.Context import Context
+from waflib import Context
 from waflib.Tools import c_preproc
 from waflib.Logs import pprint
 from rtems_waf.builder import libcpu, libbsp
@@ -40,7 +40,7 @@ class Dist(Scripting.Dist):
 pprint.__doc__ = None # Make sure waf doesn't see this as a command.
 
 Configure.autoconfig = 'clobber' # Apply the original configure command-line arguments
-Context.repeat_hack = False
+Context.Context.repeat_hack = False
 
 top = '.'
 out = 'build'
@@ -53,33 +53,26 @@ if exists("%s/build/c4che/host_cache.py" % top):
 	cset.load("build/c4che/host_cache.py")
 	config["variants"] = cset.BSP
 
-
 # Init commands manually to iterate over the variants.
 def init_handler(ctx):
-	if ctx.cmd == "init_handler" or ctx.cmd == "build":
-		context = BuildContext
-	elif ctx.cmd == "install":
-		context = InstallContext
-	elif ctx.cmd == "clean":
-		context = CleanContext
-	elif ctx.cmd == "uninstall":
-		ctx.fatal("This command is not available.")
-	elif ctx.cmd == "list":
-		context = ListContext
-	elif ctx.cmd == "step":
-		context = StepContext
-	else:
-		ctx.fatal("init_handler(): Internal error.")
+	cmd = ctx.cmd
+	if cmd == 'init_handler':
+		cmd = 'build'
 
-	# By default we want to itterate over each variant.
+	def make_context(name):
+		for x in Context.classes:
+			if x.cmd == name and x.fun != 'init_handler':
+				return x()
+		ctx.fatal('No class for %r' % cmd)
+
+	# By default we want to iterate over each variant.
 	for v in ["host"] + config["variants"]:
-		cls = type(context)(v, (context,), {'cmd': ctx.cmd, 'variant': v})
-		bld = cls()
+		obj = make_context(cmd)
+		obj.variant = v
 		if hasattr(ctx, 'targets'):
-			bld.targets = ctx.targets
-		pprint("YELLOW", "--- %sing %s ---" % (ctx.cmd, v))
-		bld.execute()
-
+			obj.targets = ctx.targets
+		pprint("YELLOW", "--- %sing %s ---" % (cmd, v))
+		obj.execute()
 
 # Add target-specific commands.
 variant_cmd = (
@@ -97,6 +90,7 @@ for variant in ["host"] + config["variants"]:
 		host = 0
 	else:
 		v = variant.split("/")[1]
+	# the reason for creating these subclasses is just for __doc__ below...
 	for cmd, cls in variant_cmd:
 		class tmp(cls):
 			__doc__ = "%s %s BSP" % (cmd, v)
@@ -141,13 +135,13 @@ commands = (
 )
 
 for command, func, descr in commands:
-	class tmp(Context):
+	class tmp(Context.Context):
 		if descr:
 			__doc__ = descr
 		cmd = command
 		fun = func
 		if command in 'install uninstall build clean list step docs bsp info':
-			execute = Scripting.autoconfigure(Context.execute)
+			execute = Scripting.autoconfigure(Context.Context.execute)
 
 
 def buildlog(ctx):
@@ -190,17 +184,17 @@ def build(ctx):
 	# Dump build log in JSON.
 	if ctx.cmd == "build" \
 		and ctx.env.BUILD_JSON \
-		and not Context.repeat_hack:
+		and not ctx.repeat_hack:
 
 		from rtems_waf.debug import logger_json_create, exec_command_json, exec_command_json_extra
-		Context.repeat_hack = True
+		ctx.repeat_hack = True
 
 		# Make sure any previous handlers are closed so logs are written.
-		if hasattr(Context, "logger_json"):
-			Context.logger_json.handlers[0].close()
+		if hasattr(ctx, "logger_json"):
+			ctx.logger_json.handlers[0].close()
 
-		Context.logger_json = logger_json_create(ctx)
-		Context.exec_command = exec_command_json
+		ctx.logger_json = logger_json_create(ctx)
+		ctx.exec_command = exec_command_json
 
 		# Send extra information from the parent task.
 		cls_task = Task.classes["Task"]
@@ -218,7 +212,7 @@ def build(ctx):
 
 		# Reset things back so a new log is created for the BSP.
 		if ctx.cmd == "build" and ctx.env.BUILD_JSON:
-			Context.repeat_hack = False
+			ctx.repeat_hack = False
 		return
 
 	# Everything will break if you remove these lines below.
