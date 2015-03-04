@@ -73,7 +73,7 @@ def init_handler(ctx):
 
 	# By default we want to itterate over each variant.
 	for v in ["host"] + config["variants"]:
-		cls = type(context)(v, (context,), {'cmd': ctx.cmd, 'variant': v, 'counter': {}, 'cpu': None})
+		cls = type(context)(v, (context,), {'cmd': ctx.cmd, 'variant': v})
 		bld = cls()
 		if hasattr(ctx, 'targets'):
 			bld.targets = ctx.targets
@@ -102,8 +102,6 @@ for variant in ["host"] + config["variants"]:
 			__doc__ = "%s %s BSP" % (cmd, v)
 			cmd = "%s_%s" % (cmd, v)
 			variant = variant
-			counter = {}
-			cpu = None
 
 # These will stay local functions to avoid importing the subcommands
 # upon every invocation which will happen during regular development.
