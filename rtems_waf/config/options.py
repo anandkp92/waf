@@ -62,8 +62,10 @@ class Option(object):
 
 		# Tag sanity check.
 		if not hasattr(self, "tag"):
-#			raise Exception("At least one tag is required") # XXX: enable when all options have been set
-			print "%s: Missing tag!  At least one is required." % self.name
+#		if not hasattr(self, "tag") or self.tag == [""]: # XXX: temp until all tags have been added
+			raise Exception("At least one tag is required")
+		elif self.tag == [""]: # XXX: temp until all tags have been added
+			print "%s: Missing tag!" % self.name
 		elif type(self.tag) is not list:
 			raise Exception("%s.tag: must be a list()." % self.name)
 		elif not set(self.tag).issubset(tag_map):
