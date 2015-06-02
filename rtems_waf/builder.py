@@ -16,12 +16,17 @@ class rtems_base(object):
 	def _get_id(self, name):
 		name_id = "auto_%s" % name
 
-		if name_id not in self.ctx.counter:
-			self.ctx.counter[name_id] = 0
+		try:
+			counter = self.ctx.counter
+		except AttributeError:
+			counter = self.ctx.counter = {}
+
+		if name_id not in counter:
+			counter[name_id] = 0
 			return "%s_0" % name_id
 		else:
-			self.ctx.counter[name_id] += 1
-			return "%s_%d" % (name_id, self.ctx.counter[name_id])
+			counter[name_id] += 1
+			return "%s_%d" % (name_id, counter[name_id])
 
 
 	def _obj_add(self, name, source, **kwarg):
