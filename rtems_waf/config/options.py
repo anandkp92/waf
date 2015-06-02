@@ -8,6 +8,12 @@ wrapper.initial_indent = "# "
 wrapper.subsequent_indent = "# "
 
 
+tag_map = {
+	"general": "General settings",
+	"build":   "Build options",
+	"network": "Network option",
+	"storage": "Storage option"
+}
 
 class OptionMeta(type):
 	"""Self register options."""
@@ -36,6 +42,10 @@ class Option(object):
 		.. py:attribute:: quote=False
 
 			Whether to quote the value in the header.
+
+		.. py:attribute:: tag=list
+
+			List of tags for this option.  At least one is required.
 	"""
 
 	def __init__(self, value=None):
@@ -49,6 +59,21 @@ class Option(object):
 		# Whether to quote the value
 		if not hasattr(self, "quote"):
 			self.quote = False
+
+		# Tag sanity check.
+		if not hasattr(self, "tag"):
+#			raise Exception("At least one tag is required") # XXX: enable when all options have been set
+			print "%s: Missing tag!  At least one is required." % self.name
+		elif type(self.tag) is not list:
+			raise Exception("%s.tag: must be a list()." % self.name)
+		elif not set(self.tag).issubset(tag_map):
+			missing = [x for x in self.tag if x not in tag_map]
+			raise Exception("Tag(s) %s do not exist." % missing)
+		else:
+			duplicates = set([x for x in self.tag if self.tag.count(x) > 1])
+			if duplicates:
+				raise Exception("%s: duplicate tags: %s" % (self.name, duplicates))
+
 
 		# Value limit
 		if not hasattr(self, "limit"):

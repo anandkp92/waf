@@ -28,6 +28,7 @@ If defined, disable features which are not supported on skyeye.
 
 
 class BSP(StringList):
+	tag = ["general"]
 	value	= []
 	undef	= True
 	descr	= "List of bsps to build, comma delimited."
