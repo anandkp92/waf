@@ -61,20 +61,17 @@ class Option(object):
 			self.quote = False
 
 		# Tag sanity check.
-		if not hasattr(self, "tag"):
-#		if not hasattr(self, "tag") or self.tag == [""]: # XXX: temp until all tags have been added
-			raise Exception("At least one tag is required")
-		elif self.tag == [""]: # XXX: temp until all tags have been added
-			print "%s: Missing tag!" % self.name
+		if not hasattr(self, "tag") or not self.tag:
+			self._fatal("At least one tag is required")
 		elif type(self.tag) is not list:
-			raise Exception("%s.tag: must be a list()." % self.name)
+			self._fatal("%s.tag: must be a list().")
 		elif not set(self.tag).issubset(tag_map):
 			missing = [x for x in self.tag if x not in tag_map]
-			raise Exception("Tag(s) %s do not exist." % missing)
+			self._fatal("Tag(s) %s do not exist." % missing)
 		else:
 			duplicates = set([x for x in self.tag if self.tag.count(x) > 1])
 			if duplicates:
-				raise Exception("%s: duplicate tags: %s" % (self.name, duplicates))
+				self._fatal("duplicate tags: %s" % ", ".join(duplicates))
 
 
 		# Value limit
@@ -119,8 +116,7 @@ class Option(object):
 
 	def _fatal(self, str):
 		"""Fatal error"""
-		print("Fatal->%s.%s: %s" % (self.__class__.__bases__[0].__name__, self.__class__.__name__, str))
-		exit(1)
+		raise Exception("(%s)%s: %s" % (self.__class__.__bases__[0].__name__, self.__class__.__name__, str))
 
 
 	def config_get(self):
