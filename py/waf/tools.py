@@ -149,7 +149,7 @@ def rtems_cmd_config(ctx):
 	if ctx.options.list is True:
 		from .bsp import list_bsp
 
-		from rtems_waf.config import BuildConfig
+		from py.config import BuildConfig
 		cfg = BuildConfig()
 
 		for arch in sorted(list_bsp):
@@ -170,7 +170,7 @@ def rtems_cmd_config(ctx):
 	if not bsp_list:
 		ctx.fatal("You must specify a single or comma separated list of BSPs using --bsp")
 
-	from rtems_waf.config import BuildConfig
+	from py.config import BuildConfig
 	cfg = BuildConfig(bsp_list)
 	cfg.option_set("general", "PATH_TOOLS", ctx.options.path_tools or "")
 	cfg.option_set("general", "PREFIX", ctx.options.prefix or "")

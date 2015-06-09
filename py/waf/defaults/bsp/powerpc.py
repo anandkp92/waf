@@ -1,4 +1,4 @@
-from rtems_waf.config import Default, Config, Disable
+from py.config import Default, Config, Disable
 
 class Base(Config):
 	arch = name = "powerpc"

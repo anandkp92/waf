@@ -5,7 +5,7 @@ from waflib.Logs import pprint
 #from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallContext
 #from waflib import Build, Scripting
 #from waflib.Tools import c_preproc
-#from rtems_waf import gccdeps
+#from py.tools import gccdeps
 #from waflib import Logs
 #import ConfigParser
 

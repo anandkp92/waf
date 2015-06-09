@@ -1,4 +1,4 @@
-from rtems_waf.config import Default, Config
+from py.config import Default, Config
 
 class Base(Config):
 	arch = name = "nios2"

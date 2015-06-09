@@ -17,9 +17,9 @@ from waflib.Build import BuildContext, CleanContext, InstallContext, UninstallCo
 from waflib import Context, Errors
 from waflib.Tools import c_preproc
 from waflib.Logs import pprint
-from rtems_waf.builder import libcpu, libbsp
-from rtems_waf.switch import options
-from rtems_waf.tools import get_file_mtime
+from py.waf.builder import libcpu, libbsp
+from py.waf.switch import options
+from py.waf.tools import get_file_mtime
 from os.path import exists
 
 # RTEMS Version for waf
@@ -116,23 +116,23 @@ BuildContext.get_targets = get_targets
 # These will stay local functions to avoid importing the subcommands
 # upon every invocation which will happen during regular development.
 def cmd_config(ctx):
-	from rtems_waf.tools import rtems_cmd_config
+	from py.waf.tools import rtems_cmd_config
 	rtems_cmd_config(ctx)
 
 def cmd_docs(ctx):
-	from rtems_waf.docs import rtems_cmd_docs
+	from py.waf.docs import rtems_cmd_docs
 	rtems_cmd_docs(ctx)
 
 def cmd_bsp(ctx):
-	from rtems_waf.tools import rtems_cmd_bsp
+	from py.waf.tools import rtems_cmd_bsp
 	rtems_cmd_bsp(ctx)
 
 def cmd_hello(ctx):
-	from rtems_waf.hello import rtems_cmd_hello
+	from py.waf.hello import rtems_cmd_hello
 	rtems_cmd_hello(ctx)
 
 def cmd_info(ctx):
-	from rtems_waf.info import rtems_cmd_info
+	from py.waf.info import rtems_cmd_info
 	rtems_cmd_info(ctx)
 
 # List of commands to override / add
@@ -167,13 +167,13 @@ buildlog.__doc__ = "Available only when --build-json and --build-config are used
 
 # Check sanity of default.cfg
 def checkconfig(ctx):
-	from rtems_waf.tools import rtems_check_config
+	from py.waf.tools import rtems_check_config
 	rtems_check_config(ctx)
 checkconfig.__doc__ = None # Make sure waf doesn't see this as a command.
 
 
 def configure(ctx):
-	from rtems_waf.configure import cmd_configure
+	from py.waf.configure import cmd_configure
 	node = ctx.path.find_node('config.cfg')
 	if not node:
 		ctx.fatal('Run "waf config" first, for example: waf config --bsp sparc/sis --path-tools ~/development/rtems/4.11/bin')
@@ -182,7 +182,7 @@ def configure(ctx):
 	ctx.files.append(node.abspath())
 	ctx.hash = Utils.h_list((ctx.hash, node.read('rb')))
 	# using the standard ctx.recurse() would add the dependency automatically
-	node = ctx.path.find_node('rtems_waf/configure.py')
+	node = ctx.path.find_node('py/waf/configure.py')
 	ctx.files.append(node.abspath())
 	ctx.hash = Utils.h_list((ctx.hash, node.read('rb')))
 	cmd_configure(ctx, config)
@@ -191,9 +191,9 @@ def build(ctx):
 	if ctx.env.ENABLE_SYSTEM_DEP:
 		c_preproc.go_absolute=True
 
-	ctx.load('waf', tooldir='rtems_waf')
+	ctx.load('waf', tooldir='py/waf/')
 
-	from rtems_waf.waf import rtems_stlib_command
+	from py.waf.waf import rtems_stlib_command
 	class cstlib(Task.classes['cstlib']):
 		exec_command = rtems_stlib_command
 
@@ -202,7 +202,7 @@ def build(ctx):
 		and ctx.env.BUILD_JSON \
 		and not ctx.repeat_hack:
 
-		from rtems_waf.debug import logger_json_create, exec_command_json, exec_command_json_extra
+		from py.waf.debug import logger_json_create, exec_command_json, exec_command_json_extra
 		ctx.repeat_hack = True
 
 		# Make sure any previous handlers are closed so logs are written.

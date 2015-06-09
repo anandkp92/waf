@@ -201,9 +201,9 @@ def build_config(ctx):
 
 
 def cmd_configure(ctx, config):
-	ctx.load('waf', tooldir='rtems_waf')
+	ctx.load('waf', tooldir='py/waf/')
 
-	from rtems_waf.config import BuildConfig
+	from py.config import BuildConfig
 	cfg = BuildConfig()
 
 
@@ -387,7 +387,7 @@ def cmd_configure(ctx, config):
 		write_header("%s/include/rtems/score/cpuopts.h" % bsp)
 
 		ctx.start_msg('Generating GCC spec file')
-		from rtems_waf.tools import generate_gcc_spec_file
+		from py.waf.tools import generate_gcc_spec_file
 		spec_file = generate_gcc_spec_file(ctx, devel=True)
 		ctx.end_msg(spec_file)
 
@@ -417,8 +417,8 @@ def cmd_configure(ctx, config):
 
 	msg("")
 	ctx.start_msg('Generating rtems-config')
-	from rtems_waf.tools import generate_rtems_config
-	generate_rtems_config(ctx, "rtems_waf/rtems_config.py", "rtems-config", devel=True)
+	from py.waf.tools import generate_rtems_config
+	generate_rtems_config(ctx, "py/waf/rtems_config.py", "rtems-config", devel=True)
 	ctx.end_msg("Done")
 
 

@@ -1,6 +1,6 @@
 from textwrap import TextWrapper
 from .base import options_map
-from rtems_waf.compat import add_metaclass # 2to3
+from py.waf.compat import add_metaclass # 2to3
 
 wrapper = TextWrapper()
 wrapper.width = 75

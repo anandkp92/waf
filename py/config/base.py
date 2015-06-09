@@ -5,7 +5,7 @@ except ImportError:
 
 from os.path import exists
 #from __init__ import options_map, Default, features_list, config_list
-from rtems_waf.compat import add_metaclass #2to3
+from py.waf.compat import add_metaclass #2to3
 from sys import version_info
 
 Default = None			# Default value.
@@ -418,4 +418,4 @@ class BuildConfig(object):
 # This needs to be here to avoid recursive deps, it's more convenient to
 # have the features in a seperate file.
 #import feature
-#import rtems_waf.defaults.bsp
+#import py.waf.defaults.bsp

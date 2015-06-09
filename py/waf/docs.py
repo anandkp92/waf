@@ -1,5 +1,5 @@
 from bsp import list_bsp
-from rtems_waf.config.base import config_list
+from py.config.base import config_list
 
 
 def header():

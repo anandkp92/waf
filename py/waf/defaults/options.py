@@ -1,4 +1,4 @@
-from rtems_waf.config.options import Boolean, Integer, String, StringList
+from py.config.options import Boolean, Integer, String, StringList
 
 
 class ALLOW_IRQ_NESTING(Boolean):
