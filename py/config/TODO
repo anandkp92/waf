@@ -1,0 +1,2 @@
+* __init__.py imports 'defaults' from py.waf.  This is not allowed as
+  RTEMS Config cannot be connected to the build.
