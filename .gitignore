@@ -2,4 +2,5 @@
 /build
 /config.cfg
 /rtems-config
-/rtems_waf/*.pyc
+/py/*.pyc
+/py/*/*.pyc
