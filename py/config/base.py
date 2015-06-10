@@ -4,15 +4,11 @@ except ImportError:
 	from ConfigParser import ConfigParser, NoOptionError
 
 from os.path import exists
-#from __init__ import options_map, Default, features_list, config_list
-from py.waf.compat import add_metaclass #2to3
 from sys import version_info
 
 Default = None			# Default value.
 Disable = "-DISABLED-"	# Disable this option
-options_map = {}		# Global options map.
 features_list = []		# Global features list.
-config_list = []		# Global config list.
 
 
 def fatal(str):
@@ -23,8 +19,9 @@ def fatal(str):
 class Value(object):
 	"""Holds an option value internally.  This acts in a similar fashion to a dictionary."""
 
-	def __init__(self):
+	def __init__(self, rc):
 		self.__dict__["options"] = {}
+		self.__dict__["rc"] = rc
 
 	def __setattr__(self, key, value):
 		"""Set a value, this either fetches the option or sets it if it already exists."""
@@ -52,14 +49,14 @@ class Value(object):
 			return
 
 		if option not in self.options:
-			if option not in options_map:
+			if option not in self.rc.default:
 				fatal("Missing default option: %s" % option)
-			opt = options_map[option]	# Get option class
-			i = opt(value)				# Create option with value
-			self.options[i.name] = i	# Set in dictionary
+			opt = self.rc.default[option]	# Get option class
+			i = opt(value)						# Create option with value
+			self.options[i.name] = i			# Set in dictionary
 		else:
 			i = self.options[option]
-			i.set(value)				# Set value
+			i.set(value)						# Set value
 
 	def __str__(self):
 		"""String representation of a value object."""
@@ -71,26 +68,15 @@ class Value(object):
 
 
 
-# Self register configs.
-class ConfigMeta(type):
-	"""Automatically register configs classes."""
-	def __new__(cls, name, bases, dct):
-		new = type.__new__(cls, name, bases, dct)
-		if hasattr(new, "is_feature") and new.is_feature is True: # XXX: Find a better way to differentiate.
-			features_list.append(new)
-		elif hasattr(new, "name"):
-			config_list.append(new)
-		return new
-
-@add_metaclass(ConfigMeta)
 class Config(object):
 	feature = () 							#: Feature list (XXX: Why is this required?)
 	feature_default = ("gcc", "debug")		#: Default features.
 
-	def __init__(self):
+	def __init__(self, rc):
+		self.rc = rc
 		self.base = False					#: Whether this is a base config or not.
-		self.option_header = Value()		#: Internal header options
-		self.option_build = Value()			#: Internal build options
+		self.option_header = Value(rc)		#: Internal header options
+		self.option_build = Value(rc)			#: Internal build options
 
 		# Iterate over base classes in reverse order so the 'latest'
 		# defined option is taken.
@@ -216,10 +202,11 @@ class BuildConfig(object):
 	"""
 	file_config = "config.cfg"	#: Default config file name.
 
-	def __init__(self, list_bsp=[]):
-		self.cfg_default = [cfg_general(), cfg_host(), cfg_bsp()]	#: Default BSP configuration.
+	def __init__(self, rc, list_bsp=[]):
+		self.cfg_default = [cfg_general(rc), cfg_host(rc), cfg_bsp(rc)]	#: Default BSP configuration.
 		self.cfg = list(self.cfg_default)							#: BSP config.
 		self.list_bsp = []
+		self.rc = rc
 
 		if list_bsp:
 			self.list_bsp = sorted(list_bsp)
@@ -233,7 +220,7 @@ class BuildConfig(object):
 			# Set BSP list.
 			# XXX: Far too complicated due to chicken-and-egg issue.
 			#      This will be refactored in the future.
-			tmp = cfg_general()
+			tmp = cfg_general(self.rc)
 			opt = tmp.option_build["BSP"]
 			o = self.cfg_user.get("general", "BSP")
 			if version_info < (3,) and type(o) is unicode: #2to3
@@ -262,17 +249,17 @@ class BuildConfig(object):
 		# Make this simplier
 		bsp_map = {}
 		for b in self.list_bsp:
-			bsp = [x for x in config_list if x.name == b][0]
-			bsp_arch = [x for x in config_list if x.name == bsp.arch][0]
+			bsp = [x for x in self.rc.config if x.name == b][0]
+			bsp_arch = [x for x in self.rc.config if x.name == bsp.arch][0]
 			bsp_map.setdefault((bsp_arch.name, bsp_arch), []).append(bsp)
 
 		# Save for usage in config_set
 		self.bsp_map = bsp_map
 
 		for bsp_name, bsp_arch in sorted(bsp_map):
-			self.cfg.append(bsp_arch())
+			self.cfg.append(bsp_arch(self.rc))
 			for bsp in bsp_map[(bsp_name, bsp_arch)]:
-				self.cfg.append(bsp())
+				self.cfg.append(bsp(self.rc))
 
 
 	def save(self):
@@ -317,7 +304,7 @@ class BuildConfig(object):
 	def bsp_get_detail(self, arch, bsp):
 		cfg = None
 
-		for c in config_list:
+		for c in self.rc.config:
 			if c.name == "%s/%s" % (arch, bsp):
 				cfg = c
 				break

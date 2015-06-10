@@ -170,8 +170,12 @@ def rtems_cmd_config(ctx):
 	if not bsp_list:
 		ctx.fatal("You must specify a single or comma separated list of BSPs using --bsp")
 
-	from py.config import BuildConfig
-	cfg = BuildConfig(bsp_list)
+	from py.config import BuildConfig, RTEMSConfig
+	from py.config.tool import get_option_class, get_config_class
+	from py.waf import defaults
+
+	rc = RTEMSConfig(get_option_class(defaults), get_config_class(defaults.bsp))
+	cfg = BuildConfig(rc, bsp_list)
 	cfg.option_set("general", "PATH_TOOLS", ctx.options.path_tools or "")
 	cfg.option_set("general", "PREFIX", ctx.options.prefix or "")
 	cfg.save()

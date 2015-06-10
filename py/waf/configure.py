@@ -203,9 +203,12 @@ def build_config(ctx):
 def cmd_configure(ctx, config):
 	ctx.load('waf', tooldir='py/waf/')
 
-	from py.config import BuildConfig
-	cfg = BuildConfig()
+	from py.config.tool import get_option_class, get_config_class
+	from py.config import BuildConfig, RTEMSConfig
+	from py.waf import defaults
 
+	rc = RTEMSConfig(get_option_class(defaults), get_config_class(defaults.bsp))
+	cfg = BuildConfig(rc)
 
 	# Misc funcs
 	def yesno(val):
