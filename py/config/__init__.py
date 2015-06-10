@@ -2,11 +2,10 @@ from .base import BuildConfig, Config, Default, Feature, Disable
 from .feature import *
 from .options import *
 
-from py.waf import defaults # XXX: This needs to be removed as no dependencies from config -> waf are allowed.
+class RTEMSConfig(object):
+	options_map = {}       # Global options map.
+	features_list = []     # Global features list.
+	config_list = []       # Global config list.
 
-
-#XXX: Fix
-# Test to make sure options are sane.
-#for option in options_map:
-#	a = options_map[option]()
-
+	def __init__(self, defaults):
+		self.defaults = defaults
