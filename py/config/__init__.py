@@ -9,11 +9,22 @@ tag_map = {
 
 
 
+
 class RTEMSConfig(object):
-	options_map = {}       # Dictionary of options.
-	features_list = []     # List of features.
-	config_list = []       # List of configs.
 
 	def __init__(self, default, config):
-		self.default = default
-		self.config = config
+		self.default = default	# Dictionary of options.
+		self.config = config	# List of configs.
+#		self.config = feature	# List of features.
+
+	# Return sorted list of options
+	def options_get(self, category=False):
+
+		if category:
+			tmp = {}
+			for name, option in self.default.items():
+				if not set(category).isdisjoint(option.tag):
+					tmp[name] = option
+			return [v for (k, v) in sorted(tmp.items())]
+
+		return [v for (k, v) in sorted(self.default.items())]
