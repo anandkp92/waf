@@ -1,3 +1,4 @@
+from .__init__ import tag_map
 from textwrap import TextWrapper
 
 wrapper = TextWrapper()
@@ -5,13 +6,6 @@ wrapper.width = 75
 wrapper.initial_indent = "# "
 wrapper.subsequent_indent = "# "
 
-
-tag_map = {
-	"general": "General settings",
-	"build":   "Build options",
-	"network": "Network option",
-	"storage": "Storage option"
-}
 
 class Option(object):
 	"""
