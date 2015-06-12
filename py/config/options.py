@@ -1,4 +1,4 @@
-from .__init__ import tag_map
+from .tag import tag_map
 from textwrap import TextWrapper
 
 wrapper = TextWrapper()

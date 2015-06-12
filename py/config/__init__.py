@@ -1,14 +1,6 @@
 from .base import BuildConfig, Config, Default, Feature, Disable
-
-tag_map = {
-	"general": "General settings",
-	"build":   "Build options",
-	"network": "Network option",
-	"storage": "Storage option"
-}
-
-
-
+from .options import Option, Boolean, String, StringList, Integer
+from .tag import tag_map
 
 class RTEMSConfig(object):
 
