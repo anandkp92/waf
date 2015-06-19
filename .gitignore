@@ -4,3 +4,4 @@
 /rtems-config
 /py/*.pyc
 /py/*/*.pyc
+/gui/*.pyc

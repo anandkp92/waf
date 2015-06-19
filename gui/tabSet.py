@@ -1,11 +1,15 @@
 import wx
 
 class tabSet(wx.Notebook):
-        def __init__(self, parent, no_of_tabs):
+        def __init__(self, parent, num):
 		##TODO: name properly
-                outerNB = noteSet(parent, name = "outer", no_of_tabs = no_of_tabs, style=wx.NB_TOP, size = (400, 400))
+		s1 = (400,400)
+		n1 = "outer"
+                outerNB = noteSet(parent, name=n1, no_of_tabs=num, style=wx.NB_TOP, size=s1)
                 for i in range(0,len(outerNB.tabs)):
-                        innerNB = noteSet(outerNB.tabs[i], name = "outer"+str(i+1)+" inner", no_of_tabs = no_of_tabs+1, style = wx.NB_LEFT, size = (300,300))
+			n2="outer"+str(i+1)+"inner"
+			s2 = (300,300)
+                        innerNB = noteSet(outerNB.tabs[i], name=n2, no_of_tabs=num+1, style=wx.NB_LEFT,size=s2)
 
 class noteSet(wx.Notebook):
         def __init__(self, parent, name, no_of_tabs, style, size):
