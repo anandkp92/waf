@@ -3,9 +3,7 @@ import tabSet as ts
 class View(wx.Frame):
 	def __init__(self, parent, title, no_of_tabs):
                 wx.Frame.__init__(self, parent, title = title, size = (512, 512))
-		##== tab layout ==##
 		self.nb = ts.tabSet(self, no_of_tabs)
-		##== setting up menus ==##
 		self.mb  = menubar()
 		self.SetMenuBar(self.mb)
 
@@ -13,7 +11,6 @@ class menubar(wx.MenuBar):
 	def __init__(self):
 		wx.MenuBar.__init__(self)
 
-		##== set up File, View and Tools menu  ==##
 		fileMenu = wx.Menu()
                 self.new_cfg = fileMenu.Append(wx.ID_NEW, '&New')
                 self.open_cfg = fileMenu.Append(wx.ID_OPEN, '&Open')
