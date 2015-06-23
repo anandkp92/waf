@@ -1,12 +1,22 @@
 from .base import BuildConfig, Config, Default, Feature, Disable
-from .feature import *
-from .options import *
+from .options import Option, Boolean, String, StringList, Integer
+from .tag import tag_map
 
-from py.waf import defaults # XXX: This needs to be removed as no dependencies from config -> waf are allowed.
+class RTEMSConfig(object):
 
+	def __init__(self, default, config):
+		self.default = default	# Dictionary of options.
+		self.config = config	# List of configs.
+#		self.config = feature	# List of features.
 
-#XXX: Fix
-# Test to make sure options are sane.
-#for option in options_map:
-#	a = options_map[option]()
+	# Return sorted list of options
+	def options_get(self, category=False):
 
+		if category:
+			tmp = {}
+			for name, option in self.default.items():
+				if not set(category).isdisjoint(option.tag):
+					tmp[name] = option
+			return [v for (k, v) in sorted(tmp.items())]
+
+		return [v for (k, v) in sorted(self.default.items())]

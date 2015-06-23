@@ -1,6 +1,5 @@
+from .tag import tag_map
 from textwrap import TextWrapper
-from .base import options_map
-from py.waf.compat import add_metaclass # 2to3
 
 wrapper = TextWrapper()
 wrapper.width = 75
@@ -8,25 +7,6 @@ wrapper.initial_indent = "# "
 wrapper.subsequent_indent = "# "
 
 
-tag_map = {
-	"general": "General settings",
-	"build":   "Build options",
-	"network": "Network option",
-	"storage": "Storage option"
-}
-
-class OptionMeta(type):
-	"""Self register options."""
-	skip = ("Option", "Boolean", "String", "StringList", "Integer")
-	def __new__(cls, name, bases, dct):
-		new = type.__new__(cls, name, bases, dct)
-		if name not in cls.skip:
-			if name in options_map:
-				raise Exception("Duplicate option: %s" % name)
-			options_map[name] = new
-		return new
-
-@add_metaclass(OptionMeta)
 class Option(object):
 	"""
 		Base class for all Options
