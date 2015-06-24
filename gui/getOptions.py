@@ -7,10 +7,16 @@ from py.config import RTEMSConfig
 
 class MyFrame(wx.Frame):
 	def __init__(self, parent):
-		wx.Frame.__init__(self, parent)
+		screenSize = wx.DisplaySize()
+		screenWidth = screenSize[0]
+		screenHeight = screenSize[1]
+
+		#Create a frame
+		wx.Frame.__init__(self, parent, style=wx.DEFAULT_FRAME_STYLE | wx.RESIZE_BORDER)
 		g = getOptions()
 		option_class = g.run()
 		c = createPanels(self, option_class)
+
 		box = c.run()
 
 		self.SetAutoLayout(True)
@@ -26,22 +32,34 @@ class createPanels:
 	def run(self):
 		for opt in self.option_class:
 			n = opt.__name__
-			p = BasePanel(self.parent, n)
+			d = opt.descr
+			if hasattr(opt, 'value'):
+				v = opt.value
+			else:
+				v = "must set value"
+			p = BasePanel(self.parent, n, d, v)
 			self.panels.append(p)
 		box = wx.BoxSizer(wx.VERTICAL)
 		for p in self.panels:
-		        box.Add(p)#, 2, wx.EXPAND)
+		        box.Add(p, wx.EXPAND)
 
-	        #self.SetAutoLayout(True)
-	        #self.SetSizer(box)
-	        #self.Layout()
-		
 		return box
 
 class BasePanel(wx.Panel):
-	def __init__(self, parent, name):
+	def __init__(self, parent, name, desc, value):
 		wx.Panel.__init__(self, parent=parent, id = wx.ID_ANY)
-		wx.StaticText(self, -1, label = name)
+		item1 = wx.StaticText(self, -1, label = name)
+		item2 = wx.StaticText(self, -1, label = "Default : %s"%(str('True')))
+		item3 = wx.StaticText(self, -1, label = "Desc : %s"%desc)
+		item4 = wx.StaticText(self, -1, label = "Value : %s"%value)
+		grid = wx.GridSizer(5, 1)
+		grid.Add(item1, wx.EXPAND)
+		grid.Add(item2, wx.EXPAND)
+		grid.Add(item3, wx.EXPAND)
+		grid.Add(item4, wx.EXPAND)
+		self.SetAutoLayout(True)
+		self.SetSizer(grid)
+		self.Layout()
 
 class getOptions:
 	def __init__(self):
