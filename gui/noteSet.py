@@ -22,9 +22,11 @@ class noteSet:
 class createPanels:
 	def __init__(self, parent, option_class):
 		self.parent = parent
-		self.base = wx.Panel(self.parent, size = (1000,1000), name = "Config")
+		self.base = wx.ScrolledWindow(self.parent, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.VSCROLL)
+		self.base.SetScrollRate(5, 5)
 		self.panels = []
 		self.option_class = option_class
+
 	def getPanel(self):
 		for opt in self.option_class:
 			n = opt.__name__
@@ -38,11 +40,12 @@ class createPanels:
 			else:
 				p = BasePanel(self.base, n, d, v)
 			self.panels.append(p)
-		box = wx.BoxSizer(wx.VERTICAL)
+		sizer_box = wx.BoxSizer(wx.VERTICAL)
 		for p in self.panels:
-		        box.Add(p)#, wx.EXPAND)
+		        sizer_box.Add(p, wx.EXPAND)
 
-		self.base.SetSizer(box)
+		sizer_box.Fit(self.base)
+		self.base.SetSizer(sizer_box)
 		return self.base
 
 class BasePanel(wx.Panel):
