@@ -53,7 +53,7 @@ class createScrolledWindows:
 class BaseScrolledWindow(wx.ScrolledWindow):
 	def __init__(self, parent, name, desc, value):
 
-		wx.ScrolledWindow.__init__(self, parent=parent, id = wx.ID_ANY, style=wx.SUNKEN_BORDER)
+		wx.ScrolledWindow.__init__(self, parent=parent, id = wx.ID_ANY, style=wx.BORDER_SIMPLE)
 
 		self.value = value
  		self.item1 = wx.StaticText(self, -1, label = name)
