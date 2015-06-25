@@ -4,9 +4,7 @@ class View(wx.Frame):
 	def __init__(self, parent, title):
 		wx.Frame.__init__(self, parent, title="options", pos = wx.DefaultPosition, size = wx.Size(600,400), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
 		self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
-		s1 = (1000,1000)
-		n1 = "outer"
-		self.outerNB = noteSet.noteSet(self, name=n1, style=wx.NB_TOP, size=s1)
+		self.outerNB = noteSet.noteSet(self, name="outer", style=wx.NB_TOP, size=wx.DefaultSize)
 		self.mb  = menubar()
 		self.SetMenuBar(self.mb)
 
