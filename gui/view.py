@@ -1,17 +1,19 @@
 import wx
-import tabSet as ts
+import noteSet
 class View(wx.Frame):
-	def __init__(self, parent, title, no_of_tabs):
-                wx.Frame.__init__(self, parent, title = title, size = (512, 512))
-		self.nb = ts.tabSet(self, no_of_tabs)
-		self.mb  = menubar()
-		self.SetMenuBar(self.mb)
+        def __init__(self, parent, title):
+		wx.Frame.__init__(self, parent, style=wx.DEFAULT_FRAME_STYLE | wx.RESIZE_BORDER, size = (1024,1024))
+		s1 = (1000,1000)
+                n1 = "outer"
+                self.outerNB = noteSet.noteSet(self, name=n1, style=wx.NB_TOP, size=s1)
+                self.mb  = menubar()
+                self.SetMenuBar(self.mb)
 
 class menubar(wx.MenuBar):
-	def __init__(self):
-		wx.MenuBar.__init__(self)
+        def __init__(self):
+                wx.MenuBar.__init__(self)
 
-		fileMenu = wx.Menu()
+                fileMenu = wx.Menu()
                 self.new_cfg = fileMenu.Append(wx.ID_NEW, '&New')
                 self.open_cfg = fileMenu.Append(wx.ID_OPEN, '&Open')
                 self.save_cfg = fileMenu.Append(wx.ID_SAVE, '&Save')
@@ -31,3 +33,4 @@ class menubar(wx.MenuBar):
                 self.Append(fileMenu, '&File')
                 self.Append(viewMenu, '&View')
                 self.Append(toolsMenu, '&Tools')
+

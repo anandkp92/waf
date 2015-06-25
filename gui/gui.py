@@ -6,8 +6,8 @@ import os
 import view
 
 class Controller:
-	def __init__(self, app, no_of_tabs):
-		self.view = view.View(None, 'RTEMS Config', no_of_tabs)
+	def __init__(self, app):
+		self.view = view.View(None, 'RTEMS Config')
 		
 		self.view.mb.Bind(wx.EVT_MENU, self.quit_event, self.view.mb.qmi)
 		self.view.mb.Bind(wx.EVT_MENU, self.new_event, self.view.mb.new_cfg)
@@ -46,7 +46,8 @@ class Controller:
                         dlg.Destroy()
 	
 if __name__ == '__main__':
-	no_of_tabs = 3
+	#no_of_tabs = 3
 	app = wx.App(False)
-	controller = Controller(app, no_of_tabs)
+	controller = Controller(app)
 	app.MainLoop()
+
