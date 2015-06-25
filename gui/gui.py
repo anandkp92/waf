@@ -56,7 +56,6 @@ class Controller:
                         dlg.Destroy()
 	
 if __name__ == '__main__':
-	#no_of_tabs = 3
 	app = wx.App(False)
 	controller = Controller(app)
 	app.MainLoop()

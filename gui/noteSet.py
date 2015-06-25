@@ -23,7 +23,7 @@ class createScrolledWindows:
 	def __init__(self, parent, option_class):
 		self.parent = parent
 		self.base = wx.ScrolledWindow(self.parent, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.VSCROLL)
-		self.base.SetScrollRate(5, 5)
+		self.base.SetScrollRate(1, 1)
 		self.scrolledwindows = []
 		self.option_class = option_class
 
@@ -35,7 +35,11 @@ class createScrolledWindows:
 				v = opt.value
 			else:
 				v = "must set value"
-			p = BaseScrolledWindow(self.base, n, d, v)
+			if opt.__base__.__name__ == 'Boolean':
+                                p = GBoolean(self.base, n, d, v)
+                        else:
+                                p = BaseScrolledWindow(self.base, n, d, v)
+
 			self.scrolledwindows.append(p)
 		sizer_box = wx.BoxSizer(wx.VERTICAL)
 		for p in self.scrolledwindows:
@@ -49,14 +53,61 @@ class BaseScrolledWindow(wx.ScrolledWindow):
 	def __init__(self, parent, name, desc, value):
 
 		wx.ScrolledWindow.__init__(self, parent=parent, id = wx.ID_ANY)
-		item1 = wx.StaticText(self, -1, label = name)
-		item2 = wx.StaticText(self, -1, label = "Default : %s"%(str('True')))
-		item3 = wx.StaticText(self, -1, label = "Desc : %s"%desc)
-		item4 = wx.StaticText(self, -1, label = "Value : %s"%value)
-		grid = wx.GridSizer(5, 1)
-		grid.Add(item1, wx.EXPAND)
-		grid.Add(item2, wx.EXPAND)
-		grid.Add(item3, wx.EXPAND)
-		grid.Add(item4, wx.EXPAND)
-		self.SetSizer(grid)
+
+		self.value = value
+ 		self.item1 = wx.StaticText(self, -1, label = name)
+                self.item2 = wx.StaticText(self, -1, label = "About : %s"%desc)
+                self.item3 = wx.StaticText(self, -1, label = "Default Value : %s"%self.value)
+                self.item4 = wx.Button(self, -1, "Reset")
+
+                self.item4.Disable()
+                self.grid = wx.GridSizer(5, 1)
+
+                self.grid.Add(self.item1, 1, wx.EXPAND)
+                self.grid.Add(self.item2, 1, wx.EXPAND)
+                self.grid.Add(self.item3, 1,wx.EXPAND)
+                self.grid.Add(self.item4, wx.EXPAND)
+                self.SetSizer(self.grid)
+
+class GBoolean(BaseScrolledWindow):
+        def __init__(self, parent, name, desc, value):
+                BaseScrolledWindow.__init__(self, parent, name, desc, value)
+		self.smallPanel = wx.Panel(self)
+                self.grid2 = wx.GridSizer(1,2)
+                self.rbTrue = wx.RadioButton(self.smallPanel, id=wx.ID_ANY, label = "True", style=wx.RB_GROUP)
+                self.rbFalse = wx.RadioButton(self.smallPanel, id=wx.ID_ANY, label = "False")
+                
+                self.Bind(wx.EVT_RADIOBUTTON, self.radio_event, self.rbTrue)
+                self.Bind(wx.EVT_RADIOBUTTON, self.radio_event, self.rbFalse)
+		self.Bind(wx.EVT_BUTTON, self.OnButtonClicked, self.item4)
+
+                if self.value == True:
+                        self.rbTrue.SetValue(True)
+                else:
+                        self.rbFalse.SetValue(True)
+                
+                self.grid2.Add(self.rbTrue, wx.EXPAND)
+                self.grid2.Add(self.rbFalse, wx.EXPAND)
+                self.smallPanel.SetSizer(self.grid2)
+
+                self.grid.Add(self.smallPanel)
+                self.SetSizer(self.grid)
+        
+        def radio_event(self, event):
+		radioSelected = event.GetEventObject()
+		if self.value != True and self.value != False:
+			self.item4.Disable()
+		elif radioSelected.GetLabel() != str(self.value):
+			self.item4.Enable()
+		elif radioSelected.GetLabel() == str(self.value):
+			self.item4.Disable()
+
+	def OnButtonClicked(self, event):
+		if self.value == True:
+			self.rbTrue.SetValue(True)
+			self.rbFalse.SetValue(False)
+		elif self.value == False:
+			self.rbFalse.SetValue(True)
+			self.rbTrue.SetValue(False)
+		event.GetEventObject().Disable()
 
