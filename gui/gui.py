@@ -1,6 +1,16 @@
 #! /usr/bin/env python
 # encoding: UTF-8
 
+from os import getcwd
+from sys import path
+cwd = getcwd()
+
+from os.path import exists
+if not exists("py"):
+	path.insert(0, cwd[0:cwd.rfind('/')])
+else:
+	path.insert(0, cwd)
+
 import wx
 import os
 import view
