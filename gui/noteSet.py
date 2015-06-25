@@ -58,8 +58,8 @@ class BaseScrolledWindow(wx.ScrolledWindow):
 		self.value = value
  		self.item1 = wx.StaticText(self, -1, label = name)
 		self.item1.SetFont(wx.Font(14, wx.SWISS, wx.NORMAL, wx.BOLD))
-                self.item2 = wx.StaticText(self, -1, label = "About : %s"%desc)
-                self.item3 = wx.StaticText(self, -1, label = "Default Value : %s"%self.value)
+                self.item2 = wx.StaticText(self, -1, label = "Description : %s" % desc)
+                self.item3 = wx.StaticText(self, -1, label = "Default Value : %s" % self.value)
                 self.item4 = wx.Button(self, -1, "Reset")
 
                 self.item4.Disable()
