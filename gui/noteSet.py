@@ -61,19 +61,20 @@ class BaseScrolledWindow(wx.ScrolledWindow):
                 self.item4 = wx.Button(self, -1, "Reset")
 
                 self.item4.Disable()
-                self.grid = wx.GridSizer(5, 1)
+  		#self.grid = wx.GridSizer(5, 1)
+		self.grid = wx.BoxSizer(wx.VERTICAL)
 
-                self.grid.Add(self.item1, 1, wx.EXPAND)
-                self.grid.Add(self.item2, 1, wx.EXPAND)
-                self.grid.Add(self.item3, 1,wx.EXPAND)
-                self.grid.Add(self.item4, wx.EXPAND)
+                self.grid.Add(self.item1, 0.5, wx.EXPAND)
+                self.grid.Add(self.item2, 0.5, wx.EXPAND)
+                self.grid.Add(self.item3, 0.5, wx.EXPAND)
+                self.grid.Add(self.item4)#, wx.EXPAND)
                 self.SetSizer(self.grid)
 
 class GBoolean(BaseScrolledWindow):
         def __init__(self, parent, name, desc, value):
                 BaseScrolledWindow.__init__(self, parent, name, desc, value)
 		self.smallPanel = wx.Panel(self)
-                self.grid2 = wx.GridSizer(1,2)
+                self.grid2 = wx.BoxSizer(wx.HORIZONTAL)
                 self.rbTrue = wx.RadioButton(self.smallPanel, id=wx.ID_ANY, label = "True", style=wx.RB_GROUP)
                 self.rbFalse = wx.RadioButton(self.smallPanel, id=wx.ID_ANY, label = "False")
                 
@@ -86,11 +87,11 @@ class GBoolean(BaseScrolledWindow):
                 else:
                         self.rbFalse.SetValue(True)
                 
-                self.grid2.Add(self.rbTrue, wx.EXPAND)
-                self.grid2.Add(self.rbFalse, wx.EXPAND)
+                self.grid2.Add(self.rbTrue, 0.5, wx.EXPAND)
+                self.grid2.Add(self.rbFalse, 0.5, wx.EXPAND)
                 self.smallPanel.SetSizer(self.grid2)
 
-                self.grid.Add(self.smallPanel)
+                self.grid.Add(self.smallPanel, 0.5, wx.EXPAND)
                 self.SetSizer(self.grid)
         
         def radio_event(self, event):
