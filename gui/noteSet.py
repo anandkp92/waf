@@ -37,6 +37,8 @@ class createScrolledWindows:
 				v = "must set value"
 			if opt.__base__.__name__ == 'Boolean':
 				p = GBoolean(self.base, n, d, v)
+			elif opt.__base__.__name__ == 'Integer':
+				p = GInteger(self.base, n, d, v)
 			else:
 				p = BaseScrolledWindow(self.base, n, d, v)
 
@@ -63,13 +65,12 @@ class BaseScrolledWindow(wx.ScrolledWindow):
 		self.item4 = wx.Button(self, -1, "Reset")
 
 		self.item4.Disable()
-  		#self.grid = wx.GridSizer(5, 1)
 		self.boxSizer = wx.BoxSizer(wx.VERTICAL)
 
 		self.boxSizer.Add(self.item1, 0.5, wx.EXPAND)
 		self.boxSizer.Add(self.item2, 0.5, wx.EXPAND)
 		self.boxSizer.Add(self.item3, 0.5, wx.EXPAND)
-		self.boxSizer.Add(self.item4)#, wx.EXPAND)
+		self.boxSizer.Add(self.item4, wx.EXPAND)
 		self.SetSizer(self.boxSizer)
 
 class GBoolean(BaseScrolledWindow):
@@ -89,11 +90,11 @@ class GBoolean(BaseScrolledWindow):
 		else:
 			self.rbFalse.SetValue(True)
 		
-		self.boxSizer2.Add(self.rbTrue, 0.25)#, wx.EXPAND)
-		self.boxSizer2.Add(self.rbFalse, 0.25)#, wx.EXPAND)
+		self.boxSizer2.Add(self.rbTrue, 0.25, wx.EXPAND)
+		self.boxSizer2.Add(self.rbFalse, 0.25, wx.EXPAND)
 		self.smallPanel.SetSizer(self.boxSizer2)
 
-		self.boxSizer.Add(self.smallPanel, 0.25)#, wx.EXPAND)
+		self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
 		self.SetSizer(self.boxSizer)
 	
 	def radio_event(self, event):
@@ -112,5 +113,34 @@ class GBoolean(BaseScrolledWindow):
 		elif self.value == False:
 			self.rbFalse.SetValue(True)
 			self.rbTrue.SetValue(False)
+		event.GetEventObject().Disable()
+
+class GInteger(BaseScrolledWindow):
+	def __init__(self, parent, name, desc, value):
+		BaseScrolledWindow.__init__(self, parent, name, desc, value)
+                self.smallPanel = wx.Panel(self)
+                self.boxSizer2 = wx.BoxSizer(wx.HORIZONTAL)
+		
+		M = 200000000
+		self.spinInteger=wx.SpinCtrl(self.smallPanel,id=wx.ID_ANY, value=str(self.value), max=M,style=wx.SP_ARROW_KEYS)
+
+                self.Bind(wx.EVT_SPINCTRL, self.OnSpin, self.spinInteger)
+                self.Bind(wx.EVT_BUTTON, self.OnButtonClicked, self.item4)
+
+                self.boxSizer2.Add(self.spinInteger, 0.25, wx.EXPAND)
+                self.smallPanel.SetSizer(self.boxSizer2)
+
+                self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
+                self.SetSizer(self.boxSizer)
+
+	def OnSpin(self, event):
+		obj = event.GetEventObject()
+		if obj.GetValue() == self.value:
+			self.item4.Disable()
+		else:
+			self.item4.Enable()
+	
+	def OnButtonClicked(self, event):
+		self.spinInteger.SetValue(self.value)
 		event.GetEventObject().Disable()
 
