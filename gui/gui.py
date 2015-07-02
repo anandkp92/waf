@@ -39,10 +39,14 @@ class Controller:
 		if dlg.ShowModal() == wx.ID_OK:
 			self.filename = dlg.GetFilename()
 			self.dirname = dlg.GetDirectory()
-			f = open(os.path.join(self.dirname, self.filename), 'r')
-			self.control.SetValue(f.read())
-			f.close()
-			dlg.Destroy()
+			try:
+				f = open(os.path.join(self.dirname, self.filename), 'r')
+				self.control.SetValue(f.read())
+				dlg.Destroy()
+			except IOError:
+				print "File Error"
+			finally:				
+				f.close()
 
         def save_event(self,e):
                 self.dirname = ''
@@ -50,10 +54,14 @@ class Controller:
                 if dlg.ShowModal() == wx.ID_OK:
                         self.filename = dlg.GetFilename()
                         self.dirname = dlg.GetDirectory()
-                        f = open(os.path.join(self.dirname, self.filename), 'w')
-                        self.control.SetValue(f.read())
-                        f.close()
-                        dlg.Destroy()
+			try:
+	                        f = open(os.path.join(self.dirname, self.filename), 'w')
+	                        self.control.SetValue(f.read())
+	                        dlg.Destroy()
+			except IOError:
+				print "File Error"
+			finally:
+				f.close()
 	
 if __name__ == '__main__':
 	app = wx.App(False)
