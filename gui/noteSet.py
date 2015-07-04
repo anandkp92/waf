@@ -1,24 +1,29 @@
+#! /usr/bin/env python
+# encoding: UTF-8
+
 import wx
 import getOptions
 
+'''create a set of tabs - according to the type of the options - Integer/Boolean/String/StringList as of now'''
 class noteSet:
 	def __init__(self, parent, name, style, size):
 		nb = wx.Notebook(parent = parent, style = style, size = size)
 		self.tabs = []
-		self.names = []
-		self.p = []
+		#self.names = []
+		#self.p = []
 
 		g = getOptions.getOptions()
 		option_class = g.run()
 		types = g.getTypes(option_class)
-		types = g.getTypes(option_class)
 		
+		'''create tab for each type of option and add it to the set of tabs'''
 		for t in types:
-			options = g.getTypeOptions(option_class, t)
-			opt = createScrolledWindows(nb, options)
+			type_specific_options = g.getTypeOptions(option_class, t)
+			opt = createScrolledWindows(nb, type_specific_options)
 			option_scrolledwindow = opt.getScrolledWindow()
 			nb.AddPage(option_scrolledwindow, t)
 
+'''create each tab - for each type of option [eg. Integer, Boolean etc.] as a scrolled window'''
 class createScrolledWindows:
 	def __init__(self, parent, option_class):
 		self.parent = parent
@@ -52,9 +57,9 @@ class createScrolledWindows:
 		self.base.SetSizer(sizer_box)
 		return self.base
 
+'''Base Panel for all options (irrespective of type) - creates scrollable window with common attributes and reset button'''
 class BaseScrolledWindow(wx.ScrolledWindow):
 	def __init__(self, parent, name, desc, value):
-
 		wx.ScrolledWindow.__init__(self, parent=parent, id = wx.ID_ANY, style=wx.BORDER_SIMPLE)
 
 		self.value = value
@@ -73,6 +78,7 @@ class BaseScrolledWindow(wx.ScrolledWindow):
 		self.boxSizer.Add(self.item4, wx.EXPAND)
 		self.SetSizer(self.boxSizer)
 
+'''Panel to include Boolean options over Base Panel - Radio Buttons for True/False and event handlers'''
 class GBoolean(BaseScrolledWindow):
 	def __init__(self, parent, name, desc, value):
 		BaseScrolledWindow.__init__(self, parent, name, desc, value)
@@ -85,6 +91,7 @@ class GBoolean(BaseScrolledWindow):
 		self.Bind(wx.EVT_RADIOBUTTON, self.radio_event, self.rbFalse)
 		self.Bind(wx.EVT_BUTTON, self.OnButtonClicked, self.item4)
 
+		'''Initially Set value to the Default Value'''
 		if self.value == True:
 			self.rbTrue.SetValue(True)
 		else:
@@ -97,6 +104,7 @@ class GBoolean(BaseScrolledWindow):
 		self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
 		self.SetSizer(self.boxSizer)
 	
+	'''If currently chosen value is not the default value, enable Reset button, else disable it'''
 	def radio_event(self, event):
 		radioSelected = event.GetEventObject()
 		if self.value != True and self.value != False:
@@ -106,6 +114,7 @@ class GBoolean(BaseScrolledWindow):
 		elif radioSelected.GetLabel() == str(self.value):
 			self.item4.Disable()
 
+	'''change value chosen to default value on Reset Button Click'''
 	def OnButtonClicked(self, event):
 		if self.value == True:
 			self.rbTrue.SetValue(True)
@@ -115,12 +124,15 @@ class GBoolean(BaseScrolledWindow):
 			self.rbTrue.SetValue(False)
 		event.GetEventObject().Disable()
 
+'''Panel to include Integer options over Base Panel - Spin Control for entering integers and event handlers'''
 class GInteger(BaseScrolledWindow):
 	def __init__(self, parent, name, desc, value):
 		BaseScrolledWindow.__init__(self, parent, name, desc, value)
                 self.smallPanel = wx.Panel(self)
                 self.boxSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 		
+		'''Maximum default value currently for Integer options is 128000000 (pll output clock frequency)'''
+		#TODO: set the appropriate Max and Min value for the SpinCtrl
 		M = 200000000
 		self.spinInteger=wx.SpinCtrl(self.smallPanel,id=wx.ID_ANY, value=str(self.value), max=M,style=wx.SP_ARROW_KEYS)
 
@@ -133,13 +145,15 @@ class GInteger(BaseScrolledWindow):
                 self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
                 self.SetSizer(self.boxSizer)
 
+	'''If chosen value is not the default value, enable Reset button, else disable it'''
 	def OnSpin(self, event):
 		obj = event.GetEventObject()
 		if obj.GetValue() == self.value:
 			self.item4.Disable()
 		else:
 			self.item4.Enable()
-	
+
+	'''change value chosen to default value on Reset Button Click'''
 	def OnButtonClicked(self, event):
 		self.spinInteger.SetValue(self.value)
 		event.GetEventObject().Disable()
