@@ -44,6 +44,8 @@ class createScrolledWindows:
 				p = GBoolean(self.base, n, d, v)
 			elif opt.__base__.__name__ == 'Integer':
 				p = GInteger(self.base, n, d, v)
+			elif opt.__base__.__name__ == 'String':
+				p = GString(self.base, n, d, v)
 			else:
 				p = BaseScrolledWindow(self.base, n, d, v)
 
@@ -158,3 +160,39 @@ class GInteger(BaseScrolledWindow):
 		self.spinInteger.SetValue(self.value)
 		event.GetEventObject().Disable()
 
+'''Panel to include String options over Base Panel - Text Control for entering strings and event handlers'''
+class GString(BaseScrolledWindow):
+	def __init__(self, parent, name, desc, value):
+		BaseScrolledWindow.__init__(self, parent, name, desc, value)
+
+		if self.value == "":
+			self.value = "set value"
+
+                self.smallPanel = wx.Panel(self)
+                self.boxSizer2 = wx.BoxSizer(wx.HORIZONTAL)
+		
+		self.textbox=wx.TextCtrl(self.smallPanel,id=wx.ID_ANY, value=str(self.value))
+
+                self.boxSizer2.Add(self.textbox, 0.25, wx.EXPAND)
+                self.smallPanel.SetSizer(self.boxSizer2)
+
+                self.Bind(wx.EVT_TEXT, self.OnTextEntered, self.textbox)
+                self.Bind(wx.EVT_BUTTON, self.OnButtonClicked, self.item4)
+
+                self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
+                self.SetSizer(self.boxSizer)
+
+	'''If chosen value is not the default value, enable Reset button, else disable it'''
+	def OnTextEntered(self, event):
+		obj = event.GetEventObject()
+		if self.value == "set value":
+			self.item4.Disable()
+		elif obj.Value == self.value:
+			self.item4.Disable()
+		else:
+			self.item4.Enable()
+
+	'''change value chosen to default value on Reset Button Click'''
+	def OnButtonClicked(self, event):
+		self.textbox.SetValue(self.value)
+		event.GetEventObject().Disable()
