@@ -134,8 +134,8 @@ class GInteger(BaseScrolledWindow):
                 self.boxSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 		
 		'''Maximum default value currently for Integer options is 128000000 (pll output clock frequency)'''
-		#TODO: set the appropriate Max and Min value for the SpinCtrl
-		M = 200000000
+		#M is currently set to largest default value present
+		M = 128000000
 		self.spinInteger=wx.SpinCtrl(self.smallPanel,id=wx.ID_ANY, value=str(self.value), max=M,style=wx.SP_ARROW_KEYS)
 
                 self.Bind(wx.EVT_SPINCTRL, self.OnSpin, self.spinInteger)
