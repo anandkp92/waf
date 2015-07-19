@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # encoding: UTF-8
-'''This is the starting file. Run this to execute the gui'''
+
+'''This is the starting file. Run this to execute the gui.'''
 
 from os import getcwd
 from sys import path
@@ -21,10 +22,10 @@ class Controller:
 	def __init__(self, app):
 		self.view = view.View(None, 'RTEMS Config')
 		
-		self.view.mb.Bind(wx.EVT_MENU, self.quit_event, self.view.mb.qmi)
-		self.view.mb.Bind(wx.EVT_MENU, self.new_event, self.view.mb.new_cfg)
-		self.view.mb.Bind(wx.EVT_MENU, self.open_event, self.view.mb.open_cfg)
-		self.view.mb.Bind(wx.EVT_MENU, self.save_event, self.view.mb.save_cfg)
+		self.view.Bind(wx.EVT_MENU, self.quit_event, self.view.qmi)
+		self.view.Bind(wx.EVT_MENU, self.new_event, self.view.new_cfg)
+		self.view.Bind(wx.EVT_MENU, self.open_event, self.view.open_cfg)
+		self.view.Bind(wx.EVT_MENU, self.save_event, self.view.save_cfg)
 		self.view.Show(True)
 
 	'''event handler upon clicking Quit'''

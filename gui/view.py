@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # encoding: UTF-8
 
+'''This file creates the looks of the gui - the menu, tab set'''
+
 import wx
 import noteSet
 
@@ -10,13 +12,12 @@ class View(wx.Frame):
 		wx.Frame.__init__(self, parent, title="RTEMS Config", pos = wx.DefaultPosition, size = wx.Size(600,400), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
 		self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
 		self.outerNB = noteSet.noteSet(self, name="outer", style=wx.NB_TOP, size=wx.DefaultSize)
-		self.mb  = menubar()
+		self.mb  = self.menubar()
 		self.SetMenuBar(self.mb)
 
-'''menu and menu items in menubar'''
-class menubar(wx.MenuBar):
-	def __init__(self):
-		wx.MenuBar.__init__(self)
+	'''menu and menu items in menubar'''
+	def menubar(self):
+		menu = wx.MenuBar()
 
 		fileMenu = wx.Menu()
 		self.new_cfg = fileMenu.Append(wx.ID_NEW, '&New')
@@ -35,7 +36,8 @@ class menubar(wx.MenuBar):
 		toolsMenu.Append(wx.ID_ANY, '&Build')
 		toolsMenu.AppendSeparator()
 
-		self.Append(fileMenu, '&File')
-		self.Append(viewMenu, '&View')
-		self.Append(toolsMenu, '&Tools')
-
+		menu.Append(fileMenu, '&File')
+		menu.Append(viewMenu, '&View')
+		menu.Append(toolsMenu, '&Tools')
+	
+		return menu

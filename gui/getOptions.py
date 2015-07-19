@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # encoding: UTF-8
 
+'''This file defines functions to get required options, option types and list of options of a particular type'''
+
 import wx 
 from py.waf import defaults 
 from py.config.tool import get_option_class, get_config_class 
