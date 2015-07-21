@@ -26,7 +26,7 @@ class noteSet:
 			nb2 = wx.Notebook(parent = nb, style = wx.NB_LEFT, size = size)
 
 			for t in types:
-				type_specific_options = g.getTypeOptions(option_class, t)
+				type_specific_options = g.getTypeOptions(tag_specific_options, t)
 				opt = self.createScrolledWindows(nb2,type_specific_options)
 				option_scrolledwindow = self.getScrolledWindow()
 				nb2.AddPage(option_scrolledwindow, t)
