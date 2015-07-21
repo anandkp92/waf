@@ -17,13 +17,21 @@ class noteSet:
 
 		g = getOptions.getOptions()
 		option_class = g.run()
-		types = g.getTypes(option_class)
-		
-		for t in types:
-			type_specific_options = g.getTypeOptions(option_class, t)
-			opt = self.createScrolledWindows(nb,type_specific_options)
-			option_scrolledwindow = self.getScrolledWindow()
-			nb.AddPage(option_scrolledwindow, t)
+		tags = g.getTags(option_class)
+
+		for tg in tags:
+			tag_specific_options = g.getTagOptions(option_class, tg)
+			types = g.getTypes(tag_specific_options)
+			#p = self.createScrolledWindows(nb, 
+			nb2 = wx.Notebook(parent = nb, style = wx.NB_LEFT, size = size)
+
+			for t in types:
+				type_specific_options = g.getTypeOptions(option_class, t)
+				opt = self.createScrolledWindows(nb2,type_specific_options)
+				option_scrolledwindow = self.getScrolledWindow()
+				nb2.AddPage(option_scrolledwindow, t)
+			
+			nb.AddPage(nb2, tg)
 
 	def createScrolledWindows(self, parent, option_class):
 		'''create each tab - for each type of option [eg. Integer, Boolean etc.] as a scrolled window'''

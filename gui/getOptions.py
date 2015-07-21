@@ -38,3 +38,20 @@ class getOptions:
 				self.type_specific_options.append(opt)
 		return self.type_specific_options
 
+	def getTags(self, option_class):
+		'''get all group tags'''
+		self.tags = []
+		for opt in option_class:
+			for each_tag in opt.tag:
+				if each_tag not in self.tags:
+					self.tags.append(each_tag)
+		return self.tags
+	
+	def getTagOptions(self, option_class, tag):
+		'''get list of all options of a particular group'''
+		self.tag_specific_options = []
+		for opt in option_class:
+			for each_tag in opt.tag:
+				if each_tag == tag:
+					self.tag_specific_options.append(opt)
+		return self.tag_specific_options
