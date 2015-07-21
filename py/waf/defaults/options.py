@@ -1238,7 +1238,7 @@ class LPC32XX_OSCILLATOR_RTC(String):
 
 class LPC32XX_PERIPH_CLK(String):
 	value	= "13000000U"
-	tag   = ["geenral"]
+	tag   = ["general"]
 	undef	= True
 	descr	= "Peripheral clock in hz"
 
