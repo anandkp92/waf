@@ -6,8 +6,8 @@
 import wx
 import noteSet
 
-'''GUI view - with menu bar and tabs'''
 class View(wx.Frame):
+	'''GUI view - with menu bar and tabs'''
 	def __init__(self, parent, title):
 		wx.Frame.__init__(self, parent, title="RTEMS Config", pos = wx.DefaultPosition, size = wx.Size(600,400), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
 		self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
@@ -15,8 +15,8 @@ class View(wx.Frame):
 		self.mb  = self.menubar()
 		self.SetMenuBar(self.mb)
 
-	'''menu and menu items in menubar'''
 	def menubar(self):
+		'''menu and menu items in menubar'''
 		menu = wx.MenuBar()
 
 		fileMenu = wx.Menu()

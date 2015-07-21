@@ -28,18 +28,18 @@ class Controller:
 		self.view.Bind(wx.EVT_MENU, self.save_event, self.view.save_cfg)
 		self.view.Show(True)
 
-	'''event handler upon clicking Quit'''
 	def quit_event(self, e):
+		'''event handler upon clicking Quit'''
 		self.view.Close(True)
 
-	'''event handler upon clicking New'''
 	def new_event(self, e):
+		'''event handler upon clicking New'''
 		dlg = wx.MessageDialog(self.view, "Do you want to exit without Saving?", "Confirmation")
 		dlg.ShowModal()
 		dlg.Destroy()
 
-	'''event handler upon clicking Open'''
 	def open_event(self,e):
+		'''event handler upon clicking Open'''
         	self.dirname = ''
 		dlg = wx.FileDialog(self.view, "Choose a file", self.dirname, "", "*.*", wx.OPEN)
 		if dlg.ShowModal() == wx.ID_OK:
@@ -56,8 +56,8 @@ class Controller:
 			else:				
 				f.close()
 
-	'''event handler upon clicking Save'''
         def save_event(self,e):
+		'''event handler upon clicking Save'''
                 self.dirname = ''
                 dlg = wx.FileDialog(self.view, "Choose a file", self.dirname, "", "*.*", wx.SAVE)
                 if dlg.ShowModal() == wx.ID_OK:

@@ -2,8 +2,8 @@ import wx
 
 '''This file contains the Base Panel for displaying options with type specific additions'''
 
-'''Base Panel for all options (irrespective of type) - creates scrollable window with common attributes and reset button'''
 class BaseScrolledWindow(wx.ScrolledWindow):
+	'''Base Panel for all options (irrespective of type) - creates scrollable window with common attributes and reset button'''
 	def __init__(self, parent, name, desc, value):
 		wx.ScrolledWindow.__init__(self, parent=parent, id = wx.ID_ANY, style=wx.BORDER_SIMPLE)
 
@@ -23,8 +23,8 @@ class BaseScrolledWindow(wx.ScrolledWindow):
 		self.boxSizer.Add(self.item4, wx.EXPAND)
 		self.SetSizer(self.boxSizer)
 
-'''Panel to include Boolean options over Base Panel - Radio Buttons for True/False and event handlers'''
 class GBoolean(BaseScrolledWindow):
+	'''Panel to include Boolean options over Base Panel - Radio Buttons for True/False and event handlers'''
 	def __init__(self, parent, name, desc, value):
 		BaseScrolledWindow.__init__(self, parent, name, desc, value)
 		self.smallPanel = wx.Panel(self)
@@ -49,8 +49,8 @@ class GBoolean(BaseScrolledWindow):
 		self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
 		self.SetSizer(self.boxSizer)
 	
-	'''If currently chosen value is not the default value, enable Reset button, else disable it'''
 	def radio_event(self, event):
+		'''If currently chosen value is not the default value, enable Reset button, else disable the radio button'''
 		radioSelected = event.GetEventObject()
 		if self.value != True and self.value != False:
 			self.item4.Disable()
@@ -59,8 +59,8 @@ class GBoolean(BaseScrolledWindow):
 		elif radioSelected.GetLabel() == str(self.value):
 			self.item4.Disable()
 
-	'''change value chosen to default value on Reset Button Click'''
 	def OnButtonClicked(self, event):
+		'''change value chosen to default value on Reset Button Click'''
 		if self.value == True:
 			self.rbTrue.SetValue(True)
 			self.rbFalse.SetValue(False)
@@ -69,8 +69,8 @@ class GBoolean(BaseScrolledWindow):
 			self.rbTrue.SetValue(False)
 		event.GetEventObject().Disable()
 
-'''Panel to include Integer options over Base Panel - Spin Control for entering integers and event handlers'''
 class GInteger(BaseScrolledWindow):
+	'''Panel to include Integer options over Base Panel - Spin Control for entering integers and event handlers'''
 	def __init__(self, parent, name, desc, value):
 		BaseScrolledWindow.__init__(self, parent, name, desc, value)
                 self.smallPanel = wx.Panel(self)
@@ -90,43 +90,39 @@ class GInteger(BaseScrolledWindow):
                 self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
                 self.SetSizer(self.boxSizer)
 
-	'''If chosen value is not the default value, enable Reset button, else disable it'''
 	def OnSpin(self, event):
+		'''If chosen value is not the default value, enable Reset button, else disable it'''
 		obj = event.GetEventObject()
 		if obj.GetValue() == self.value:
 			self.item4.Disable()
 		else:
 			self.item4.Enable()
 
-	'''change value chosen to default value on Reset Button Click'''
 	def OnButtonClicked(self, event):
+		'''change value chosen to default value on Reset Button Click'''
 		self.spinInteger.SetValue(self.value)
 		event.GetEventObject().Disable()
 
-'''Panel to include String options over Base Panel - Text Control for entering strings and event handlers'''
 class GString(BaseScrolledWindow):
+	'''Panel to include String options over Base Panel - Text Control for entering strings and event handlers'''
 	def __init__(self, parent, name, desc, value):
 		BaseScrolledWindow.__init__(self, parent, name, desc, value)
 
 		if self.value == "":
 			self.value = "set value"
-
                 self.smallPanel = wx.Panel(self)
                 self.boxSizer2 = wx.BoxSizer(wx.HORIZONTAL)
-		
 		self.textbox=wx.TextCtrl(self.smallPanel,id=wx.ID_ANY, value=str(self.value))
 
                 self.boxSizer2.Add(self.textbox, 0.25, wx.EXPAND)
                 self.smallPanel.SetSizer(self.boxSizer2)
-
                 self.Bind(wx.EVT_TEXT, self.OnTextEntered, self.textbox)
                 self.Bind(wx.EVT_BUTTON, self.OnButtonClicked, self.item4)
-
                 self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
                 self.SetSizer(self.boxSizer)
 
-	'''If chosen value is not the default value, enable Reset button, else disable it'''
 	def OnTextEntered(self, event):
+		'''If chosen value is not the default value, enable Reset button, else disable it'''
 		obj = event.GetEventObject()
 		if self.value == "set value":
 			self.item4.Disable()
@@ -135,7 +131,23 @@ class GString(BaseScrolledWindow):
 		else:
 			self.item4.Enable()
 
-	'''change value chosen to default value on Reset Button Click'''
 	def OnButtonClicked(self, event):
+		'''change value chosen to default value on Reset Button Click'''
 		self.textbox.SetValue(self.value)
 		event.GetEventObject().Disable()
+
+class GStringList(BaseScrolledWindow):
+	def __init__(self, parent, name, desc, value):
+		BaseScrolledWindow.__init__(self, parent, name, desc, value)
+
+		if len(self.value) == 0:
+			self.value.append("set value")
+                self.smallPanel = wx.Panel(self)
+                self.boxSizer2 = wx.BoxSizer(wx.HORIZONTAL)
+		self.dropdown=wx.ComboBox(self.smallPanel,id=wx.ID_ANY, choices = self.value, style = wx.CB_READONLY)
+		self.dropdown.SetSelection(0)
+
+                self.boxSizer2.Add(self.dropdown, 0.25, wx.EXPAND)
+                self.smallPanel.SetSizer(self.boxSizer2)
+                self.boxSizer.Add(self.smallPanel, 0.25, wx.EXPAND)
+                self.SetSizer(self.boxSizer)
