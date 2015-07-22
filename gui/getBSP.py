@@ -5,6 +5,7 @@
 
 import wx
 import inspect
+import py.waf.defaults.bsp
 
 def get_bsp_classes(module):
         bsp_list = []
