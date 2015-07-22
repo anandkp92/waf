@@ -16,11 +16,14 @@ else:
 import wx
 import os
 import view
+import GBsp
+import noteSet
 
 class Controller:
-	'''instantiates the View class and configures the necessary event handlers'''
+	'''instantiates the View class, GBsp class and configures the necessary event handlers'''
 	def __init__(self, app):
 		self.view = view.View(None, 'RTEMS Config')
+		self.gbsp = GBsp.GBsp(self.view, self.view.size)
 		
 		self.view.Bind(wx.EVT_MENU, self.quit_event, self.view.qmi)
 		self.view.Bind(wx.EVT_MENU, self.new_event, self.view.new_cfg)

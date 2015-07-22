@@ -12,8 +12,6 @@ class noteSet:
 	def __init__(self, parent, name, style, size):
 		nb = wx.Notebook(parent = parent, style = style, size = size)
 		self.tabs = []
-		#self.names = []
-		#self.p = []
 
 		g = getOptions.getOptions()
 		option_class = g.run()
@@ -22,7 +20,6 @@ class noteSet:
 		for tg in tags:
 			tag_specific_options = g.getTagOptions(option_class, tg)
 			types = g.getTypes(tag_specific_options)
-			#p = self.createScrolledWindows(nb, 
 			nb2 = wx.Notebook(parent = nb, style = wx.NB_LEFT, size = size)
 
 			for t in types:

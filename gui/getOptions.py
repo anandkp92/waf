@@ -15,7 +15,7 @@ class getOptions:
 	def run(self):
 		'''get all option classes'''
 		options = get_option_class(defaults)	
-		configs = get_config_class(defaults.bsp)		
+		configs = get_config_class(defaults.bsp)
 		specific_options = RTEMSConfig(options, configs)
 		tags = []
 		for opt in specific_options.options_get():

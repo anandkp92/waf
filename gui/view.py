@@ -9,9 +9,10 @@ import noteSet
 class View(wx.Frame):
 	'''GUI view - with menu bar and tabs'''
 	def __init__(self, parent, title):
-		wx.Frame.__init__(self, parent, title="RTEMS Config", pos = wx.DefaultPosition, size = wx.Size(600,400), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
+		self.size = wx.Size(600,400)
+		wx.Frame.__init__(self, parent, title="RTEMS Config", pos = wx.DefaultPosition, size = self.size, style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
 		self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
-		self.outerNB = noteSet.noteSet(self, name="outer", style=wx.NB_TOP, size=wx.DefaultSize)
+		#self.outerNB = noteSet.noteSet(self, name="outer", style=wx.NB_TOP, size=wx.DefaultSize)
 		self.mb  = self.menubar()
 		self.SetMenuBar(self.mb)
 
