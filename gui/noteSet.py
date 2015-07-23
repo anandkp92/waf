@@ -9,26 +9,25 @@ import GOptions
 
 class noteSet:
 	'''create a set of tabs - according to the type of the options - Integer/Boolean/String/StringList as of now'''
-	def __init__(self, parent, name, style, size):
+	def __init__(self, parent, name, style, size, bsp_list):
 		nb = wx.Notebook(parent = parent, style = style, size = size)
+		self.bsp_list = bsp_list
 		self.tabs = []
 
 		g = getOptions.getOptions()
 		option_class = g.run()
+		option_class = sorted(option_class, key=self.getName)
 		tags = g.getTags(option_class)
 
-		for tg in tags:
-			tag_specific_options = g.getTagOptions(option_class, tg)
-			types = g.getTypes(tag_specific_options)
+		for bsp,bsp_class in self.bsp_list:
 			nb2 = wx.Notebook(parent = nb, style = wx.NB_LEFT, size = size)
-
-			for t in types:
-				type_specific_options = g.getTypeOptions(tag_specific_options, t)
-				opt = self.createScrolledWindows(nb2,type_specific_options)
+			for tg in tags:
+				tag_specific_options = g.getTagOptions(option_class, tg)
+				opt = self.createScrolledWindows(nb2,tag_specific_options)
 				option_scrolledwindow = self.getScrolledWindow()
-				nb2.AddPage(option_scrolledwindow, t)
+				nb2.AddPage(option_scrolledwindow, tg)
 			
-			nb.AddPage(nb2, tg)
+			nb.AddPage(nb2, bsp)
 
 	def createScrolledWindows(self, parent, option_class):
 		'''create each tab - for each type of option [eg. Integer, Boolean etc.] as a scrolled window'''
@@ -68,4 +67,5 @@ class noteSet:
 		self.base.SetSizer(sizer_box)
 		return self.base
 
-
+	def getName(self,obj):
+		return obj.__name__.lower()

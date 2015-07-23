@@ -23,10 +23,12 @@ class GBsp():
 		self.checkboxlist = []
 		self.bsp_count = 0
 		self.chosen_bsp = []
-
+		
+		i = 0
 		for bsp in self.bsp_list:
 			mod = bsp.__module__.split(".")[-1]
-			c = wx.CheckBox(parent = self.base, name = mod+"/"+bsp.__name__, label = mod+"/"+bsp.__name__)
+			c = wx.CheckBox(parent = self.base, name = str(i), label = mod+"/"+bsp.__name__)
+			i+=1
 			self.parent.Bind(wx.EVT_CHECKBOX, self.checkboxevent, c)
 			self.checkboxlist.append(c)
 
@@ -45,20 +47,22 @@ class GBsp():
 	def checkboxevent(self, event):
 		'''checkbox event handler'''
 		checkbox = event.GetEventObject()
+		i = int(checkbox.GetName())
+
 		if checkbox.IsChecked():
 			self.bsp_count+=1
-			self.chosen_bsp.append(checkbox.GetLabel())
+			self.chosen_bsp.append( (checkbox.GetLabel(), self.bsp_list[i]) )
 			self.submit.Enable()
 		else:
 			self.bsp_count-=1
-			self.chosen_bsp.remove(checkbox.GetLabel())
+			self.chosen_bsp.remove( (checkbox.GetLabel(), self.bsp_list[i]) )
 			if self.bsp_count == 0:	
 				self.submit.Disable()	
 
 	def submitOnClicked(self, event):
 		'''submit button event handler - displays chosen bsps for now'''
 		s = ""
-		for bsp in self.chosen_bsp:
+		for bsp, bsp_class in self.chosen_bsp:
 			s=s+bsp+"\n"
 		dlg = wx.MessageDialog(self.parent, "Chosen BSPs:\n"+s+"Confirm?", "Confirmation")
                 result = dlg.ShowModal()
@@ -66,6 +70,6 @@ class GBsp():
 			'''hide the bsp window and display the options window'''
 			#print "Pressed ok"
 			self.base.Show(False)
-			self.parent.outerNB = noteSet.noteSet(self.parent, name="outer", style=wx.NB_TOP, size = self.size)
+			self.parent.outerNB = noteSet.noteSet(self.parent, name="outer", style=wx.NB_TOP, size = self.size, bsp_list = self.chosen_bsp)
 		dlg.Destroy()
 
