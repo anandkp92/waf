@@ -12,10 +12,11 @@ class getOptions:
 	def __init__(self):
 		self.option_class = []
 
-	def run(self):
+	def run(self, bsp):
 		'''get all option classes'''
-		options = get_option_class(defaults)	
-		configs = get_config_class(defaults.bsp)
+		options = get_option_class(defaults)
+		#configs = get_config_class(defaults.bsp)
+		configs = get_config_class(bsp)
 		specific_options = RTEMSConfig(options, configs)
 		tags = []
 		for opt in specific_options.options_get():

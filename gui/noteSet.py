@@ -6,6 +6,8 @@
 import wx
 import getOptions
 import GOptions
+import py.waf.defaults
+import py.waf.defaults.bsp
 
 class noteSet:
 	'''create a set of tabs - according to the type of the options - Integer/Boolean/String/StringList as of now'''
@@ -15,11 +17,38 @@ class noteSet:
 		self.tabs = []
 
 		g = getOptions.getOptions()
-		option_class = g.run()
-		option_class = sorted(option_class, key=self.getName)
-		tags = g.getTags(option_class)
+		#option_class = g.run()
+		#option_class = sorted(option_class, key=self.getName)
+		#tags = g.getTags(option_class)
 
-		for bsp,bsp_class in self.bsp_list:
+		list = []
+		for bsp, bsp_class in self.bsp_list:
+			list.append(str(bsp))
+		print list
+
+		
+		'''begin: create config file'''
+		from py.config import BuildConfig, RTEMSConfig
+		from py.config.tool import get_option_class, get_config_class
+		from py.waf import defaults
+
+		rc = RTEMSConfig(get_option_class(defaults), get_config_class(defaults.bsp))
+		cfg = BuildConfig(rc, list)
+		cfg.save()
+		'''end: create config file'''
+		
+		for bsp, bsp_class in self.bsp_list:
+			print bsp_class.__module__ #py.waf.defaults.bsp.sparc
+			print bsp #sparc/sis
+			print bsp.split("/")[0] #sparc
+			print bsp_class #<class py.waf.defaults.bsp.sparc.sis>
+
+			###below already written
+			option_class = g.run(bsp_class.__module__)
+			option_class = sorted(option_class, key=self.getName)
+			print len(option_class)
+			tags = g.getTags(option_class)
+
 			nb2 = wx.Notebook(parent = nb, style = wx.NB_LEFT, size = size)
 			for tg in tags:
 				tag_specific_options = g.getTagOptions(option_class, tg)
@@ -68,4 +97,5 @@ class noteSet:
 		return self.base
 
 	def getName(self,obj):
+		'''function to return option name and convert to lower case for sorting'''
 		return obj.__name__.lower()
