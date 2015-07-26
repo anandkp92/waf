@@ -24,7 +24,7 @@ class noteSet:
 		list = []
 		for bsp, bsp_class in self.bsp_list:
 			list.append(str(bsp))
-		print list
+		#print list
 
 		
 		'''begin: create config file'''
@@ -34,19 +34,14 @@ class noteSet:
 
 		rc = RTEMSConfig(get_option_class(defaults), get_config_class(defaults.bsp))
 		cfg = BuildConfig(rc, list)
+
 		cfg.save()
 		'''end: create config file'''
 		
-		for bsp, bsp_class in self.bsp_list:
-			print bsp_class.__module__ #py.waf.defaults.bsp.sparc
-			print bsp #sparc/sis
-			print bsp.split("/")[0] #sparc
-			print bsp_class #<class py.waf.defaults.bsp.sparc.sis>
-
-			###below already written
-			option_class = g.run(bsp_class.__module__)
+		for bsp in cfg.cfg:
+			option_class = bsp.config_get_class_list()
+			#print option_class
 			option_class = sorted(option_class, key=self.getName)
-			print len(option_class)
 			tags = g.getTags(option_class)
 
 			nb2 = wx.Notebook(parent = nb, style = wx.NB_LEFT, size = size)
@@ -56,7 +51,7 @@ class noteSet:
 				option_scrolledwindow = self.getScrolledWindow()
 				nb2.AddPage(option_scrolledwindow, tg)
 			
-			nb.AddPage(nb2, bsp)
+			nb.AddPage(nb2, bsp.name)
 
 	def createScrolledWindows(self, parent, option_class):
 		'''create each tab - for each type of option [eg. Integer, Boolean etc.] as a scrolled window'''
