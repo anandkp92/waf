@@ -131,6 +131,23 @@ class Config(object):
 		str = add(self.option_build, str)
 		return str
 
+	def config_get_class_list(self):
+		"""Get the list of options of config.cfg for this config."""
+		#str = "[%s]\n" % self.name
+		dc = []
+		def add(d, dc):
+			for o in sorted(d):
+				opt = d[o]
+				#print opt.__class__
+				dc.append(opt.__class__)
+				#str += "%s" % opt.config_get()
+				#str += "\n\n"
+			return dc
+
+		dc = add(self.option_header, dc)
+		dc = add(self.option_build, dc)
+		return dc
+		
 
 
 
@@ -339,6 +356,13 @@ class BuildConfig(object):
 			cfg += bsp.config_get()
 		return cfg.strip()
 
+	def _cfg_get_dict(self):
+		"""Get config options dict."""
+		cfg = {}
+		for bsp in self.cfg:
+			cfg[bsp.name] = bsp.config_get_class_list()
+		return cfg
+		
 
 	#XXX: unused
 	def _cfg_add(self, str):
