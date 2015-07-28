@@ -8,37 +8,29 @@ import getOptions
 import GOptions
 import py.waf.defaults
 import py.waf.defaults.bsp
+from py.config import BuildConfig, RTEMSConfig
+from py.config.tool import get_option_class, get_config_class
+from py.waf import defaults
 
 class noteSet:
 	'''create a set of tabs - according to the type of the options - Integer/Boolean/String/StringList as of now'''
 	def __init__(self, parent, name, style, size, bsp_list):
-		nb = wx.Notebook(parent = parent, style = style, size = size)
+		self.parent = parent
+		nb = wx.Notebook(parent = self.parent, style = style, size = size)
 		self.bsp_list = bsp_list
 		self.tabs = []
+		self.option_gui_list = []
 
 		g = getOptions.getOptions()
-		#option_class = g.run()
-		#option_class = sorted(option_class, key=self.getName)
-		#tags = g.getTags(option_class)
 
 		list = []
 		for bsp, bsp_class in self.bsp_list:
 			list.append(str(bsp))
-		#print list
-
 		
-		'''begin: create config file'''
-		from py.config import BuildConfig, RTEMSConfig
-		from py.config.tool import get_option_class, get_config_class
-		from py.waf import defaults
+		self.rc = RTEMSConfig(get_option_class(defaults), get_config_class(defaults.bsp))
+		self.cfg = BuildConfig(self.rc, list)
 
-		rc = RTEMSConfig(get_option_class(defaults), get_config_class(defaults.bsp))
-		cfg = BuildConfig(rc, list)
-
-		cfg.save()
-		'''end: create config file'''
-		
-		for bsp in cfg.cfg:
+		for bsp in self.cfg.cfg:
 			option_class = bsp.config_get_class_list()
 			#print option_class
 			option_class = sorted(option_class, key=self.getName)
@@ -55,14 +47,14 @@ class noteSet:
 
 	def createScrolledWindows(self, parent, option_class):
 		'''create each tab - for each type of option [eg. Integer, Boolean etc.] as a scrolled window'''
-		self.parent = parent
-		self.base = wx.ScrolledWindow(self.parent, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.VSCROLL)
+		#self.parent = parent
+		self.base = wx.ScrolledWindow(parent, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.VSCROLL)
 		self.base.SetScrollRate(1, 1)
-		self.scrolledwindows = []
 		self.option_class = option_class
 
 	def getScrolledWindow(self):
-		'''instiate the gui object for the options according to the type'''
+		'''create gui object for the each option according to the type'''
+		scrolledwindows = []
 		for opt in self.option_class:
 			n = opt.__name__
 			d = opt.descr
@@ -81,11 +73,16 @@ class noteSet:
 			else:
 				p = GOptions.BaseScrolledWindow(self.base, n, d, v)
 
-			self.scrolledwindows.append(p)
+			scrolledwindows.append(p)
+			self.option_gui_list.append(p)
 		sizer_box = wx.BoxSizer(wx.VERTICAL)
-		for p in self.scrolledwindows:
-			sizer_box.Add(p, 0.25, wx.EXPAND)
+		for p in scrolledwindows:
+			sizer_box.Add(p, 0.25,  wx.EXPAND)
 			sizer_box.AddSpacer(20)
+
+		self.submit_button = wx.Button(self.base, label = "Submit")
+		sizer_box.Add(self.submit_button)
+		self.base.Bind(wx.EVT_BUTTON, self.submit_config, self.submit_button)
 
 		sizer_box.Fit(self.base)
 		self.base.SetSizer(sizer_box)
@@ -94,3 +91,33 @@ class noteSet:
 	def getName(self,obj):
 		'''function to return option name and convert to lower case for sorting'''
 		return obj.__name__.lower()
+
+	def submit_config(self, event):
+		'''submit the current options and values entered to create the config.cfg file'''
+
+		dlg = wx.MessageDialog(self.base, "Confirm submission of current option values?")
+                result = dlg.ShowModal()
+		if result == wx.ID_OK:
+			'''get value of the option from the gui based on type of option'''
+			for option_window in self.option_gui_list:
+				type = option_window.__class__.__name__
+				if type == 'GBoolean':
+					option_value = option_window.rbTrue.GetValue()
+				elif type == 'GInteger':
+					option_value = int(option_window.spinInteger.GetValue())
+				elif type == 'GString':
+					option_value = option_window.textbox.GetValue()
+				elif type == 'GStringList':
+					option_value = option_window.dropdown.GetValue()
+				else:
+					option_value = ""
+				option_name = option_window.item1.GetLabel()
+
+				### below function not responding ###
+				self.cfg.option_set(self.cfg, option_name, option_value)
+
+				print type, option_value, option_window.item1.GetLabel()
+			self.cfg.save()
+			self.parent.Close()
+                dlg.Destroy()
+
