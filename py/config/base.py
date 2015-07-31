@@ -347,6 +347,21 @@ class BuildConfig(object):
 					opt = config.option_build[o]
 					if opt.name == option:
 						opt.set(value)
+	def option_set_gui(self, cfg, option, value):
+		"""
+			Set an option within a config
+
+			:param cfg: Config to set.
+			:param option: Option name.
+			:param value: Value to set.
+		"""
+		for config in self.cfg_default:
+			#if config.name == cfg:#
+				# Only allow build options to be set for now.
+				for o in config.option_build:
+					opt = config.option_build[o]
+					if opt.name == option:
+						opt.set(value)
 
 	def _cfg_get(self):
 		"""Get config text."""
