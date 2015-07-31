@@ -94,7 +94,7 @@ class noteSet:
 
 	def submit_config(self, event):
 		'''submit the current options and values entered to create the config.cfg file'''
-
+		
 		dlg = wx.MessageDialog(self.base, "Confirm submission of current option values?")
                 result = dlg.ShowModal()
 		if result == wx.ID_OK:
@@ -106,18 +106,41 @@ class noteSet:
 				elif type == 'GInteger':
 					option_value = int(option_window.spinInteger.GetValue())
 				elif type == 'GString':
-					option_value = option_window.textbox.GetValue()
+					option_value = str(option_window.textbox.GetValue())
+					if option_value == "set value":
+						option_value = ""
 				elif type == 'GStringList':
-					option_value = option_window.dropdown.GetValue()
+					option_value = str(option_window.dropdown.GetValue())
+					if option_value == "set value":
+						option_value = ""
 				else:
 					option_value = ""
 				option_name = option_window.item1.GetLabel()
+				#print option_name
+				self.cfg.option_set_gui(self.cfg.cfg, option_name, option_value)
 
-				### below function not responding ###
-				self.cfg.option_set(self.cfg, option_name, option_value)
-
-				print type, option_value, option_window.item1.GetLabel()
+				print type, option_name, option_value
 			self.cfg.save()
 			self.parent.Close()
                 dlg.Destroy()
+	'''
+	def opt_set(self, cfg, option, value):
+		"""
+			Set an option within a config
 
+			:param cfg: Config to set.
+			:param option: Option name.
+			:param value: Value to set.
+		"""
+		#print option
+		for config in self.cfg.cfg_default:
+			#if config.name == cfg:
+				# Only allow build options to be set for now.
+			for o in config.option_build:
+				opt = config.option_build[o]
+				print "opt.name = ", opt.name
+				print "option = ", option
+				if opt.name == option:
+					print "setting opt.name to value = ", opt.name, value, '%'
+					opt.set(value)
+	'''
