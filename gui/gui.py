@@ -29,6 +29,7 @@ class Controller:
 		self.view.Bind(wx.EVT_MENU, self.new_event, self.view.new_cfg)
 		self.view.Bind(wx.EVT_MENU, self.open_event, self.view.open_cfg)
 		self.view.Bind(wx.EVT_MENU, self.save_event, self.view.save_cfg)
+		self.view.Bind(wx.EVT_MENU, self.view_bsp_event, self.view.view_bsp_list)
 		self.view.Show(True)
 
 	def quit_event(self, e):
@@ -76,6 +77,14 @@ class Controller:
 				errorDlg.Destroy()
 			else:
 				f.close()
+
+	def view_bsp_event(self, e):
+		s = ""
+		for bsp, bsp_class in self.gbsp.chosen_bsp:
+                        s=s+bsp+"\n"
+		dlg = wx.MessageDialog(self.view, "Chosen BSPs:\n"+s,"BSPS", wx.OK)
+                result = dlg.ShowModal()
+		dlg.Destroy()
 	
 if __name__ == '__main__':
 	app = wx.App(False)
