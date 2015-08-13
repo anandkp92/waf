@@ -18,6 +18,7 @@ import os
 import view
 import GBsp
 import noteSet
+from subprocess import Popen, PIPE
 
 class Controller:
 	'''instantiates the View class, GBsp class and configures the necessary event handlers'''
@@ -30,6 +31,10 @@ class Controller:
 		self.view.Bind(wx.EVT_MENU, self.open_event, self.view.open_cfg)
 		self.view.Bind(wx.EVT_MENU, self.save_event, self.view.save_cfg)
 		self.view.Bind(wx.EVT_MENU, self.view_bsp_event, self.view.view_bsp_list)
+		
+		'''change directory to parent directory'''
+		os.chdir("..")
+
 		self.view.Bind(wx.EVT_MENU, self.waf_configure_event, self.view.waf_configure)
 		self.view.Bind(wx.EVT_MENU, self.waf_build_event, self.view.waf_build)
 		self.view.Show(True)
@@ -89,40 +94,24 @@ class Controller:
 		dlg.Destroy()
 
 	def waf_configure_event(self, e):
-		import os
-		os.system("cd .. && waf configure > waf_cfg.log")
-		try:
-                               fp = open("../waf_cfg.log", 'r')
-                               op = fp.readlines()[-1]
-                               print op
-     			       dlg = wx.MessageDialog(self.view, op,"Result", wx.OK)
-                	       result = dlg.ShowModal()
-			       dlg.Destroy()
+		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE)
+		op, err = process.communicate()
+		if err == '':
+	   		dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
+		else:
+			dlg = wx.MessageDialog(self.view, err, "Error", wx.OK)
+                result = dlg.ShowModal()
+		dlg.Destroy()
 
-                except IOError as err:
-                               errorDlg = wx.MessageDialog(self.view, "Read Error: File cannot be opened/read from.\n%s"%err, "Error")
-                               errorDlg.ShowModal()
-                               errorDlg.Destroy()
-                else:
-                               fp.close()
-	
 	def waf_build_event(self, e):
-		import os
-		os.system("cd .. && waf build > waf_build.log")
-		try:
-                               fp = open("../waf_build.log", 'r')
-                               op = fp.readlines()[-1]
-                               print op
-                               dlg = wx.MessageDialog(self.view, op,"Result", wx.OK)
-                               result = dlg.ShowModal()
-                               dlg.Destroy()
-
-                except IOError as err:
-                               errorDlg = wx.MessageDialog(self.view, "Read Error: File cannot be opened/read from.\n%s"%err, "Error")
-                               errorDlg.ShowModal()
-                               errorDlg.Destroy()
+		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE)
+                op, err = process.communicate()
+		if err == '':
+                        dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
                 else:
-                               fp.close()
+                        dlg = wx.MessageDialog(self.view, err, "Error", wx.OK)
+                result = dlg.ShowModal()
+                dlg.Destroy()
 
 if __name__ == '__main__':
 	app = wx.App(False)
