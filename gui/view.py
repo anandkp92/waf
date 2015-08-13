@@ -33,8 +33,8 @@ class View(wx.Frame):
 		viewMenu.AppendSeparator()
 
 		toolsMenu = wx.Menu()
-		toolsMenu.Append(wx.ID_ANY, '&Configure')
-		toolsMenu.Append(wx.ID_ANY, '&Build')
+		self.waf_configure = toolsMenu.Append(wx.ID_ANY, '&Configure')
+		self.waf_build = toolsMenu.Append(wx.ID_ANY, '&Build')
 		toolsMenu.AppendSeparator()
 
 		menu.Append(fileMenu, '&File')

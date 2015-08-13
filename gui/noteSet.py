@@ -120,27 +120,11 @@ class noteSet:
 				self.cfg.option_set_gui(self.cfg.cfg, option_name, option_value)
 
 				print type, option_name, option_value
+			self.cfg.file_config = "../%s"%self.cfg.file_config
 			self.cfg.save()
-			self.parent.Close()
+			##TODO: verify this
+			cfgDlg = wx.MessageDialog(self.base, "config.cfg created!", "Success!", wx.OK)
+	                result = cfgDlg.ShowModal()
+         	        cfgDlg.Destroy()
+			#self.parent.Close()
                 dlg.Destroy()
-	'''
-	def opt_set(self, cfg, option, value):
-		"""
-			Set an option within a config
-
-			:param cfg: Config to set.
-			:param option: Option name.
-			:param value: Value to set.
-		"""
-		#print option
-		for config in self.cfg.cfg_default:
-			#if config.name == cfg:
-				# Only allow build options to be set for now.
-			for o in config.option_build:
-				opt = config.option_build[o]
-				print "opt.name = ", opt.name
-				print "option = ", option
-				if opt.name == option:
-					print "setting opt.name to value = ", opt.name, value, '%'
-					opt.set(value)
-	'''
