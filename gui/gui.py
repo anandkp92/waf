@@ -3,9 +3,9 @@
 
 '''This is the starting file. Run this to execute the gui.'''
 
-from os import getcwd
+import os
 from sys import path
-cwd = getcwd()
+cwd = os.getcwd()
 
 from os.path import exists
 if not exists("py"):
@@ -91,7 +91,8 @@ class Controller:
 		dlg.Destroy()
 
 	def waf_configure_event(self, e):
-		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd="../")
+		waf_dir = os.path.dirname(cwd)
+		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)
 		op, err = process.communicate()
 		if err == '':
 	   		dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
@@ -101,7 +102,8 @@ class Controller:
 		dlg.Destroy()
 
 	def waf_build_event(self, e):
-		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE, cwd="../")
+		waf_dir = os.path.dirname(cwd)
+		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)
                 op, err = process.communicate()
 		if err == '':
                         dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
