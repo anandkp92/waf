@@ -119,7 +119,7 @@ class noteSet:
 				#print option_name
 				self.cfg.option_set_gui(self.cfg.cfg, option_name, option_value)
 
-				print type, option_name, option_value
+				#print type, option_name, option_value
 			self.cfg.file_config = "../%s"%self.cfg.file_config
 			self.cfg.save()
 			##TODO: verify this

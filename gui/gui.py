@@ -92,23 +92,29 @@ class Controller:
 
 	def waf_configure_event(self, e):
 		waf_dir = os.path.dirname(cwd)
-		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)
+		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)		
 		op, err = process.communicate()
-		if err == '':
-	   		dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
+
+		if process.returncode == 0:
+			op = "waf configure successful! Details:\n" + op
+			dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
 		else:
+			err = "waf configure unsuccessful. Details:\n" + err
 			dlg = wx.MessageDialog(self.view, err, "Error", wx.OK)
-                result = dlg.ShowModal()
+	        result = dlg.ShowModal()
 		dlg.Destroy()
 
 	def waf_build_event(self, e):
 		waf_dir = os.path.dirname(cwd)
 		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)
                 op, err = process.communicate()
-		if err == '':
+
+		if process.returncode == 0:		
+			op = "waf build successful! Details:\n" + op
                         dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
                 else:
-                        dlg = wx.MessageDialog(self.view, err, "Error", wx.OK)
+			op = "waf build unsuccessful. Details:\n" + op
+                        dlg = wx.MessageDialog(self.view, op, "Error", wx.OK)
                 result = dlg.ShowModal()
                 dlg.Destroy()
 
