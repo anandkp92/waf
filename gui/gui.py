@@ -32,9 +32,6 @@ class Controller:
 		self.view.Bind(wx.EVT_MENU, self.save_event, self.view.save_cfg)
 		self.view.Bind(wx.EVT_MENU, self.view_bsp_event, self.view.view_bsp_list)
 		
-		'''change directory to parent directory'''
-		os.chdir("..")
-
 		self.view.Bind(wx.EVT_MENU, self.waf_configure_event, self.view.waf_configure)
 		self.view.Bind(wx.EVT_MENU, self.waf_build_event, self.view.waf_build)
 		self.view.Show(True)
@@ -94,7 +91,7 @@ class Controller:
 		dlg.Destroy()
 
 	def waf_configure_event(self, e):
-		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE)
+		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd="../")
 		op, err = process.communicate()
 		if err == '':
 	   		dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
@@ -104,7 +101,7 @@ class Controller:
 		dlg.Destroy()
 
 	def waf_build_event(self, e):
-		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE)
+		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE, cwd="../")
                 op, err = process.communicate()
 		if err == '':
                         dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
