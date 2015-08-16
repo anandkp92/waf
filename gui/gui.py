@@ -34,6 +34,10 @@ class Controller:
 		
 		self.view.Bind(wx.EVT_MENU, self.waf_configure_event, self.view.waf_configure)
 		self.view.Bind(wx.EVT_MENU, self.waf_build_event, self.view.waf_build)
+
+		self.view.Bind(wx.EVT_MENU, self.stop_configure_event, self.view.stop_configure)
+		self.view.Bind(wx.EVT_MENU, self.stop_build_event, self.view.stop_build)
+
 		self.view.Show(True)
 
 	def quit_event(self, e):
@@ -91,23 +95,37 @@ class Controller:
 		dlg.Destroy()
 
 	def waf_configure_event(self, e):
+		self.view.stop_configure.Enable(True)
+		
 		waf_dir = os.path.dirname(cwd)
-		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)		
-		op, err = process.communicate()
 
+		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)
+		op, err = process.communicate()
+		self.waf_config_pid = process.pid
+
+		self.view.stop_build.Enable(False)
+	
 		if process.returncode == 0:
 			op = "waf configure successful! Details:\n" + op
 			dlg = wx.MessageDialog(self.view, op ,"Success!", wx.OK)
 		else:
 			err = "waf configure unsuccessful. Details:\n" + err
 			dlg = wx.MessageDialog(self.view, err, "Error", wx.OK)
+		
+		self.view.stop_configure.Enable(False)
+
 	        result = dlg.ShowModal()
 		dlg.Destroy()
 
 	def waf_build_event(self, e):
+		self.view.stop_build.Enable(True)
+		
 		waf_dir = os.path.dirname(cwd)
 		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE, cwd=waf_dir)
                 op, err = process.communicate()
+		self.waf_build_pid = process.pid
+
+		self.view.stop_build.Enable(False)
 
 		if process.returncode == 0:		
 			op = "waf build successful! Details:\n" + op
@@ -117,6 +135,31 @@ class Controller:
                         dlg = wx.MessageDialog(self.view, op, "Error", wx.OK)
                 result = dlg.ShowModal()
                 dlg.Destroy()
+
+	def stop_configure_event(self, e):
+		try:
+			import signal
+			os.kill(self.waf_config_pid, signal.SIGKILL)
+			msg = "Killed the Process"
+		except OSError, err:
+			msg = "Error. Details: "+str(err)
+		dlg = wx.MessageDialog(self.view, msg,"Kill waf configure", wx.OK)
+	        result = dlg.ShowModal()
+        	dlg.Destroy()
+		self.view.stop_config.Enable(False)
+		
+
+	def stop_build_event(self, e):
+		try:
+			import signal
+			os.kill(self.waf_build_pid, signal.SIGKILL)
+			msg = "Killed the process"
+		except OSError, err:
+			msg = "Error. Details:\n"+str(err)
+		dlg = wx.MessageDialog(self.view, msg,"Kill waf build", wx.OK)
+	        result = dlg.ShowModal()
+        	dlg.Destroy()
+		self.view.stop_build.Enable(False)
 
 if __name__ == '__main__':
 	app = wx.App(False)

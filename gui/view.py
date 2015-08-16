@@ -37,8 +37,15 @@ class View(wx.Frame):
 		self.waf_build = toolsMenu.Append(wx.ID_ANY, '&Build')
 		toolsMenu.AppendSeparator()
 
+		stopMenu = wx.Menu()
+		self.stop_configure = stopMenu.Append(wx.ID_ANY, '&Stop Configure')
+		self.stop_build = stopMenu.Append(wx.ID_ANY, '&Stop Build')
+		self.stop_configure.Enable(False)
+		self.stop_build.Enable(False)
+
 		menu.Append(fileMenu, '&File')
 		menu.Append(viewMenu, '&View')
 		menu.Append(toolsMenu, '&Tools')
-	
+		menu.Append(stopMenu, '&Stop')
+		
 		return menu

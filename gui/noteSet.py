@@ -84,6 +84,11 @@ class noteSet:
 		sizer_box.Add(self.submit_button)
 		self.base.Bind(wx.EVT_BUTTON, self.submit_config, self.submit_button)
 
+		#self.stop_build_button = wx.Button(self.base, label = "Stop Build")
+		#sizer_box.Add(self.stop_build_button)
+		#self.base.Bind(wx.EVT_BUTTON, self.stop_build_event, self.stop_build_button)
+		#self.stop_build_button.Show(False)
+
 		sizer_box.Fit(self.base)
 		self.base.SetSizer(sizer_box)
 		return self.base
