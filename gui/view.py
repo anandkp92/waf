@@ -28,7 +28,7 @@ class View(wx.Frame):
 		self.qmi = fileMenu.Append(wx.ID_EXIT, '&Quit')
 
 		viewMenu = wx.Menu()
-		self.view_config_list = viewMenu.Append(wx.ID_VIEW_DETAILS, 'Config')
+		self.view_console = viewMenu.Append(wx.ID_ANY, '&Console')
 		self.view_bsp_list = viewMenu.Append(wx.ID_VIEW_LIST, 'BSP_List')
 		viewMenu.AppendSeparator()
 
