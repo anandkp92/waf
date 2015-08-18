@@ -70,8 +70,8 @@ class Controller:
 	#TODO: fix this
 	def onClearButton(self, e):
 		self.log = ''
-		#self.console_textbox.SetValue = ''
-		self.console_textbox.Refresh()
+		self.console_textbox.Clear()
+		#self.console_textbox.Refresh()
 
 	def quit_event(self, e):
 		'''event handler upon clicking Quit'''
@@ -133,21 +133,26 @@ class Controller:
 	def waf_configure_event(self, e):
 		self.view.stop_configure.Enable(True)
 		waf_dir = os.path.dirname(cwd)
-		self.log = self.log+ "\nwaf configure log:\n"
+		self.log = self.log+ "\n"
 		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
+
+		out_log = "\nwaf configure Output Stream:\n"
+		err_log = "\nwaf configure Error Stream:\n"
+		for line in iter(process.stdout.readline, b''):
+			out_log = out_log + line
+			for err in iter(process.stderr.readline, b''):
+				err_log = err_log + err
+				break
+
+			self.console_textbox.Refresh()
+			self.console_textbox.SetValue(self.log + out_log + err_log)
+		self.log = self.log + out_log + err_log
 		process.wait()
 		
 		if process.returncode == 0:
-			for line in iter(process.stdout.readline, b''):
-				self.log = self.log + line
-				self.console_textbox.SetValue(self.log)
 			op = "waf configure successful! Details, check console."
 			title = "Success"
 		else:
-			for line in iter(process.stderr.readline, b''):
-				self.log = self.log + line
-				self.console_textbox.SetValue(self.log)
-			process.stderr.close()
 			op = "waf configure unsuccessful. Details, check console."
 			title = "Error"
 		
@@ -163,20 +168,26 @@ class Controller:
 		self.view.stop_build.Enable(True)
 		
 		waf_dir = os.path.dirname(cwd)
-		self.log = self.log+ "\nwaf build log:\n"
+		self.log = self.log+ "\n"
 		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
+
+		out_log = "\nwaf build Output Stream:\n"
+		err_log = "\nwaf build Error Stream:\n"
+		for line in iter(process.stdout.readline, b''):
+			out_log = out_log + line
+			for err in iter(process.stderr.readline, b''):
+				err_log = err_log + err
+				break
+
+			self.console_textbox.Refresh()
+			self.console_textbox.SetValue(self.log + out_log + err_log)
+		self.log = self.log + out_log + err_log
 		process.wait()
 
 		if process.returncode == 0:
-                        for line in iter(process.stdout.readline, b''):
-                                self.log = self.log + line
-                                self.console_textbox.SetValue(self.log)
                         op = "waf build successful! Details, check console."
                         title = "Success"
                 else:
-                        for line in iter(process.stdout.readline, b''):
-                                self.log = self.log + line
-                                self.console_textbox.SetValue(self.log)
                         op = "waf build unsuccessful. Details, check console."
                         title = "Error"
 
