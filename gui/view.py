@@ -35,6 +35,8 @@ class View(wx.Frame):
 		toolsMenu = wx.Menu()
 		self.waf_configure = toolsMenu.Append(wx.ID_ANY, '&Configure')
 		self.waf_build = toolsMenu.Append(wx.ID_ANY, '&Build')
+		self.waf_clean = toolsMenu.Append(wx.ID_ANY, '&Clean')
+		self.waf_custom = toolsMenu.Append(wx.ID_ANY, '&Custom Target')
 		toolsMenu.AppendSeparator()
 
 		stopMenu = wx.Menu()

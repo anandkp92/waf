@@ -35,6 +35,8 @@ class Controller:
 
 		self.view.Bind(wx.EVT_MENU, self.waf_configure_event, self.view.waf_configure)
 		self.view.Bind(wx.EVT_MENU, self.waf_build_event, self.view.waf_build)
+		self.view.Bind(wx.EVT_MENU, self.waf_clean_event, self.view.waf_clean)
+		self.view.Bind(wx.EVT_MENU, self.waf_custom_event, self.view.waf_custom)
 
 		self.view.Bind(wx.EVT_MENU, self.stop_configure_event, self.view.stop_configure)
 		self.view.Bind(wx.EVT_MENU, self.stop_build_event, self.view.stop_build)
@@ -67,11 +69,9 @@ class Controller:
 	def onConsoleCloseWindow(self, e):
 		self.console.Show(False)
 	
-	#TODO: fix this
 	def onClearButton(self, e):
 		self.log = ''
 		self.console_textbox.Clear()
-		#self.console_textbox.Refresh()
 
 	def quit_event(self, e):
 		'''event handler upon clicking Quit'''
@@ -198,6 +198,77 @@ class Controller:
                 dlg.Destroy()
                 process.stdout.close()
                 process.stderr.close()
+
+	def waf_clean_event(self, e):
+		waf_dir = os.path.dirname(cwd)
+		self.log = self.log+ "\n"
+		process = Popen(["waf","clean"], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
+
+		out_log = "\nwaf clean Output Stream:\n"
+		err_log = "\nwaf clean Error Stream:\n"
+		for line in iter(process.stdout.readline, b''):
+			out_log = out_log + line
+			for err in iter(process.stderr.readline, b''):
+				err_log = err_log + err
+				break
+
+			self.console_textbox.Refresh()
+			self.console_textbox.SetValue(self.log + out_log + err_log)
+		self.log = self.log + out_log + err_log
+		process.wait()
+
+		if process.returncode == 0:
+                        op = "waf clean successful! Details, check console."
+                        title = "Success"
+                else:
+                        op = "waf clean unsuccessful. Details, check console."
+                        title = "Error"
+
+                dlg = wx.MessageDialog(self.view, op, title, wx.OK)
+                #self.waf_build_pid = process.pid
+                #self.view.stop_build.Enable(False)
+                result = dlg.ShowModal()
+                dlg.Destroy()
+                process.stdout.close()
+                process.stderr.close()
+		
+	def waf_custom_event(self, e):
+		dlg = wx.TextEntryDialog(self.view, "Enter waf target", "Custom Build")
+		dlg.ShowModal()
+		target = dlg.GetValue()
+		dlg.Destroy()
+
+		waf_dir = os.path.dirname(cwd)
+		self.log = self.log+ "\n"
+		process = Popen(["waf",target], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
+
+		out_log = "\nwaf "+target+" Output Stream:\n"
+		err_log = "\nwaf "+target+" Error Stream:\n"
+		for line in iter(process.stdout.readline, b''):
+			out_log = out_log + line
+			for err in iter(process.stderr.readline, b''):
+				err_log = err_log + err
+				break
+
+			self.console_textbox.Refresh()
+			self.console_textbox.SetValue(self.log + out_log + err_log)
+		self.log = self.log + out_log + err_log
+		process.wait()
+
+		if process.returncode == 0:
+                        op = "waf "+target+" successful! Details, check console."
+                        title = "Success"
+                else:
+                        op = "waf "+target+" unsuccessful. Details, check console."
+                        title = "Error"
+
+                dlg = wx.MessageDialog(self.view, op, title, wx.OK)
+                #self.waf_build_pid = process.pid
+                #self.view.stop_build.Enable(False)
+                result = dlg.ShowModal()
+                dlg.Destroy()
+                process.stdout.close()
+                process.stderr.close()		
 
 	def stop_configure_event(self, e):
 		try:
