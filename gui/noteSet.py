@@ -32,7 +32,6 @@ class noteSet:
 
 		for bsp in self.cfg.cfg:
 			option_class = bsp.config_get_class_list()
-			#print option_class
 			option_class = sorted(option_class, key=self.getName)
 			tags = g.getTags(option_class)
 
@@ -47,7 +46,6 @@ class noteSet:
 
 	def createScrolledWindows(self, parent, option_class):
 		'''create each tab - for each type of option [eg. Integer, Boolean etc.] as a scrolled window'''
-		#self.parent = parent
 		self.base = wx.ScrolledWindow(parent, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.VSCROLL)
 		self.base.SetScrollRate(1, 1)
 		self.option_class = option_class
@@ -84,11 +82,6 @@ class noteSet:
 		sizer_box.Add(self.submit_button)
 		self.base.Bind(wx.EVT_BUTTON, self.submit_config, self.submit_button)
 
-		#self.stop_build_button = wx.Button(self.base, label = "Stop Build")
-		#sizer_box.Add(self.stop_build_button)
-		#self.base.Bind(wx.EVT_BUTTON, self.stop_build_event, self.stop_build_button)
-		#self.stop_build_button.Show(False)
-
 		sizer_box.Fit(self.base)
 		self.base.SetSizer(sizer_box)
 		return self.base
@@ -121,15 +114,17 @@ class noteSet:
 				else:
 					option_value = ""
 				option_name = option_window.item1.GetLabel()
-				#print option_name
 				self.cfg.option_set_gui(self.cfg.cfg, option_name, option_value)
 
-				#print type, option_name, option_value
-			self.cfg.file_config = "../%s"%self.cfg.file_config
+			'''create config.cfg file in waf folder'''
+			import os
+			from sys import path
+			cwd = os.getcwd()
+			waf_dir = os.path.dirname(cwd)
+
+			self.cfg.file_config = "%s/%s"%(waf_dir,self.cfg.file_config)
 			self.cfg.save()
-			##TODO: verify this
 			cfgDlg = wx.MessageDialog(self.base, "config.cfg created!", "Success!", wx.OK)
 	                result = cfgDlg.ShowModal()
          	        cfgDlg.Destroy()
-			#self.parent.Close()
                 dlg.Destroy()

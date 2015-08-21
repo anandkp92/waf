@@ -1,3 +1,8 @@
+#! /usr/bin/env python
+# encoding: UTF-8
+
+'''class to test threaded printing for stderr and stdout outputs'''
+
 import sys
 import subprocess
 import random
@@ -32,6 +37,10 @@ def consume(command):
     process.stderr.close()
  
 def produce(items=10):
+    '''
+    Dummy function to randomly render a couple of lines
+    on standard output and standard error.
+    '''
     for i in range(items):
         output = random.choice([sys.stdout, sys.stderr])
         output.write('Line %d on %s\n' % (i, output))

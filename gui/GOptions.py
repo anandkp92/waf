@@ -137,6 +137,7 @@ class GString(BaseScrolledWindow):
 		event.GetEventObject().Disable()
 
 class GStringList(BaseScrolledWindow):
+	'''Panel to include StringList options over Base Panel - Text Control for entering strings and event handlers'''
 	def __init__(self, parent, name, desc, value):
 		BaseScrolledWindow.__init__(self, parent, name, desc, value)
 

@@ -44,6 +44,8 @@ class View(wx.Frame):
 		self.stop_build = stopMenu.Append(wx.ID_ANY, '&Stop Build')
 		self.stop_clean = stopMenu.Append(wx.ID_ANY, '&Stop Clean')
 		self.stop_custom = stopMenu.Append(wx.ID_ANY, '&Stop Custom Target')
+		
+		'''enable these menu items only when the process is running'''
 		self.stop_configure.Enable(False)
 		self.stop_build.Enable(False)
 		self.stop_clean.Enable(False)

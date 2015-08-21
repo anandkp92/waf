@@ -45,6 +45,7 @@ class Controller:
 		self.view.Bind(wx.EVT_MENU, self.stop_custom_event, self.view.stop_custom)
 		self.view.Bind(wx.EVT_CLOSE, self.onViewCloseWindow)
 
+		'''add a new frame - a console window where outputs from stdout and stderr are printed'''
 		self.console = NewWindow(None, -1)
 		consoleSizer = wx.BoxSizer(wx.VERTICAL)
 		
@@ -63,6 +64,7 @@ class Controller:
 		self.view.Show(True)
 
 	def onViewCloseWindow(self, e):
+		'''event handler when main gui's close button is pressed'''
 		dlg = wx.MessageDialog(self.view, "Are you sure you want to exit?","Confirmation", wx.OK | wx.CANCEL)
 		if dlg.ShowModal() == wx.ID_OK:	
 			self.view.Destroy()
@@ -70,9 +72,11 @@ class Controller:
 			sys.exit(0)
 
 	def onConsoleCloseWindow(self, e):
+		'''event handler when console's close button is pressed - hide it'''
 		self.console.Show(False)
 	
 	def onClearButton(self, e):
+		'''clear the console'''
 		self.log = ''
 		self.console_textbox.Clear()
 
@@ -123,6 +127,7 @@ class Controller:
 				f.close()
 
 	def view_bsp_event(self, e):
+		'''display the list of chosen bsps'''
 		s = ""
 		for bsp, bsp_class in self.gbsp.chosen_bsp:
                         s=s+bsp+"\n"
@@ -131,9 +136,11 @@ class Controller:
 		dlg.Destroy()
 
 	def view_console_event(self, e):
+		'''open the console frame'''
 		self.console.Show(True)
 
 	def waf_configure_event(self, e):
+		'''event handler for waf configure'''
 		self.view.stop_configure.Enable(True)
 		self.log = self.log+ "\n"
 
@@ -152,6 +159,8 @@ class Controller:
 		dlg.Destroy()
 
 	def waf_build_event(self, e):
+		'''event handler for waf build'''
+
 		self.view.stop_build.Enable(True)
 		self.log = self.log+ "\n"
 		
@@ -170,6 +179,8 @@ class Controller:
                 dlg.Destroy()
 
 	def waf_clean_event(self, e):
+		'''event handler for waf clean'''
+
 		self.view.stop_clean.Enable(True)
 		self.log = self.log+ "\n"
 
@@ -188,6 +199,8 @@ class Controller:
                 dlg.Destroy()
 		
 	def waf_custom_event(self, e):
+		'''event handler for waf custom target - user enters target through dialogbox'''
+
 		dlg = wx.TextEntryDialog(self.view, "Enter waf target", "Custom Build")
 		dlg.ShowModal()
 		self.custom_target = dlg.GetValue()
@@ -210,6 +223,8 @@ class Controller:
                 dlg.Destroy()
 
 	def stop_configure_event(self, e):
+		'''event handler for stopping waf configure'''
+
 		try:
 			import signal
 			os.kill(self.waf_configure_pid, signal.SIGKILL)
@@ -223,6 +238,8 @@ class Controller:
 		
 
 	def stop_build_event(self, e):
+		'''event handler for stopping waf build'''
+
 		try:
 			import signal
 			os.kill(self.waf_build_pid, signal.SIGKILL)
@@ -235,6 +252,8 @@ class Controller:
 		self.view.stop_build.Enable(False)
 		
 	def stop_clean_event(self, e):
+		'''event handler for stopping waf clean'''
+
 		try:
 			import signal
 			os.kill(self.waf_clean_pid, signal.SIGKILL)
@@ -247,6 +266,8 @@ class Controller:
 		self.view.stop_clean.Enable(False)		
 
 	def stop_custom_event(self, e):
+		'''event handler for stopping a waf custom target'''
+
 		try:
 			import signal
 			os.kill(self.waf_custom_pid, signal.SIGKILL)
@@ -259,6 +280,7 @@ class Controller:
 		self.view.stop_clean.Enable(False)
 
 	def threadedPrinting(self, cmd):
+		'''2 threads to print outputs from stdout and stderr as they come'''
 		waf_dir = os.path.dirname(cwd)
 
 	        process = Popen(cmd, stdout = PIPE, stderr = PIPE, cwd=waf_dir)
@@ -268,8 +290,8 @@ class Controller:
 	        stderr_reader = AsynchronousFileReader(process.stderr, "stderr", self.console_textbox)
 	        stderr_reader.start()
 
-		ppid = process.pid
-		
+		'''pid is important for stop events'''
+		ppid = process.pid		
 		if cmd[1] == "configure":
 			self.waf_configure_pid = ppid
 		elif cmd[1] == "build":
@@ -286,7 +308,6 @@ class Controller:
 		process.wait()
 
 		returncode = process.returncode
-		#print returncode
 	
 	        process.stdout.close()
         	process.stderr.close()
@@ -295,11 +316,13 @@ class Controller:
 
 
 class NewWindow(wx.Frame):
+	'''class to open new frame - used for console window'''
 	def __init__(self, parent, id):
 		wx.Frame.__init__(self, None, id, 'Console', size = (600,400))
 		self.Show(False)
 
 class AsynchronousFileReader(threading.Thread):
+	'''class to create thread to print stdout/stderr output to console for each of the waf targets'''
         def __init__(self, fd, name, txtbox):
                 threading.Thread.__init__(self)
                 self._fd = fd
