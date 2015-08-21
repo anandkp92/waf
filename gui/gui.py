@@ -18,6 +18,7 @@ import sys
 import view
 import GBsp
 import noteSet
+import threading
 from subprocess import Popen, PIPE
 
 class Controller:
@@ -40,6 +41,8 @@ class Controller:
 
 		self.view.Bind(wx.EVT_MENU, self.stop_configure_event, self.view.stop_configure)
 		self.view.Bind(wx.EVT_MENU, self.stop_build_event, self.view.stop_build)
+		self.view.Bind(wx.EVT_MENU, self.stop_clean_event, self.view.stop_clean)
+		self.view.Bind(wx.EVT_MENU, self.stop_custom_event, self.view.stop_custom)
 		self.view.Bind(wx.EVT_CLOSE, self.onViewCloseWindow)
 
 		self.console = NewWindow(None, -1)
@@ -132,24 +135,11 @@ class Controller:
 
 	def waf_configure_event(self, e):
 		self.view.stop_configure.Enable(True)
-		waf_dir = os.path.dirname(cwd)
 		self.log = self.log+ "\n"
-		process = Popen(["waf","configure"], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
 
-		out_log = "\nwaf configure Output Stream:\n"
-		err_log = "\nwaf configure Error Stream:\n"
-		for line in iter(process.stdout.readline, b''):
-			out_log = out_log + line
-			for err in iter(process.stderr.readline, b''):
-				err_log = err_log + err
-				break
+		returnCode = self.threadedPrinting(["waf","configure"])
 
-			self.console_textbox.Refresh()
-			self.console_textbox.SetValue(self.log + out_log + err_log)
-		self.log = self.log + out_log + err_log
-		process.wait()
-		
-		if process.returncode == 0:
+		if returnCode == 0:
 			op = "waf configure successful! Details, check console."
 			title = "Success"
 		else:
@@ -157,34 +147,17 @@ class Controller:
 			title = "Error"
 		
 		dlg = wx.MessageDialog(self.view, op, title, wx.OK)
-		self.waf_configure_pid = process.pid
 		self.view.stop_configure.Enable(False)
 	        result = dlg.ShowModal()
 		dlg.Destroy()
-		process.stdout.close()
-		process.stderr.close()
 
 	def waf_build_event(self, e):
 		self.view.stop_build.Enable(True)
-		
-		waf_dir = os.path.dirname(cwd)
 		self.log = self.log+ "\n"
-		process = Popen(["waf","build"], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
+		
+		returnCode = self.threadedPrinting(["waf","build"])
 
-		out_log = "\nwaf build Output Stream:\n"
-		err_log = "\nwaf build Error Stream:\n"
-		for line in iter(process.stdout.readline, b''):
-			out_log = out_log + line
-			for err in iter(process.stderr.readline, b''):
-				err_log = err_log + err
-				break
-
-			self.console_textbox.Refresh()
-			self.console_textbox.SetValue(self.log + out_log + err_log)
-		self.log = self.log + out_log + err_log
-		process.wait()
-
-		if process.returncode == 0:
+		if returnCode == 0:
                         op = "waf build successful! Details, check console."
                         title = "Success"
                 else:
@@ -192,32 +165,17 @@ class Controller:
                         title = "Error"
 
                 dlg = wx.MessageDialog(self.view, op, title, wx.OK)
-                self.waf_build_pid = process.pid
                 self.view.stop_build.Enable(False)
                 result = dlg.ShowModal()
                 dlg.Destroy()
-                process.stdout.close()
-                process.stderr.close()
 
 	def waf_clean_event(self, e):
-		waf_dir = os.path.dirname(cwd)
+		self.view.stop_clean.Enable(True)
 		self.log = self.log+ "\n"
-		process = Popen(["waf","clean"], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
 
-		out_log = "\nwaf clean Output Stream:\n"
-		err_log = "\nwaf clean Error Stream:\n"
-		for line in iter(process.stdout.readline, b''):
-			out_log = out_log + line
-			for err in iter(process.stderr.readline, b''):
-				err_log = err_log + err
-				break
+		returnCode = self.threadedPrinting(["waf","clean"])
 
-			self.console_textbox.Refresh()
-			self.console_textbox.SetValue(self.log + out_log + err_log)
-		self.log = self.log + out_log + err_log
-		process.wait()
-
-		if process.returncode == 0:
+		if returnCode == 0:
                         op = "waf clean successful! Details, check console."
                         title = "Success"
                 else:
@@ -225,50 +183,31 @@ class Controller:
                         title = "Error"
 
                 dlg = wx.MessageDialog(self.view, op, title, wx.OK)
-                #self.waf_build_pid = process.pid
-                #self.view.stop_build.Enable(False)
+                self.view.stop_clean.Enable(False)
                 result = dlg.ShowModal()
                 dlg.Destroy()
-                process.stdout.close()
-                process.stderr.close()
 		
 	def waf_custom_event(self, e):
 		dlg = wx.TextEntryDialog(self.view, "Enter waf target", "Custom Build")
 		dlg.ShowModal()
-		target = dlg.GetValue()
+		self.custom_target = dlg.GetValue()
 		dlg.Destroy()
-
-		waf_dir = os.path.dirname(cwd)
+		
+		self.view.stop_custom.Enable(True)
 		self.log = self.log+ "\n"
-		process = Popen(["waf",target], stdout = PIPE, stderr = PIPE, cwd=waf_dir, bufsize=1)
+		returnCode = self.threadedPrinting(["waf",self.custom_target])
 
-		out_log = "\nwaf "+target+" Output Stream:\n"
-		err_log = "\nwaf "+target+" Error Stream:\n"
-		for line in iter(process.stdout.readline, b''):
-			out_log = out_log + line
-			for err in iter(process.stderr.readline, b''):
-				err_log = err_log + err
-				break
-
-			self.console_textbox.Refresh()
-			self.console_textbox.SetValue(self.log + out_log + err_log)
-		self.log = self.log + out_log + err_log
-		process.wait()
-
-		if process.returncode == 0:
-                        op = "waf "+target+" successful! Details, check console."
+		if returnCode == 0:
+                        op = "waf "+self.custom_target+" successful! Details, check console."
                         title = "Success"
                 else:
-                        op = "waf "+target+" unsuccessful. Details, check console."
+                        op = "waf "+self.custom_target+" unsuccessful. Details, check console."
                         title = "Error"
 
                 dlg = wx.MessageDialog(self.view, op, title, wx.OK)
-                #self.waf_build_pid = process.pid
-                #self.view.stop_build.Enable(False)
+                self.view.stop_custom.Enable(False)
                 result = dlg.ShowModal()
                 dlg.Destroy()
-                process.stdout.close()
-                process.stderr.close()		
 
 	def stop_configure_event(self, e):
 		try:
@@ -294,11 +233,85 @@ class Controller:
 	        result = dlg.ShowModal()
         	dlg.Destroy()
 		self.view.stop_build.Enable(False)
+		
+	def stop_clean_event(self, e):
+		try:
+			import signal
+			os.kill(self.waf_clean_pid, signal.SIGKILL)
+			msg = "Killed the process"
+		except OSError, err:
+			msg = "Error. Details:\n"+str(err)
+		dlg = wx.MessageDialog(self.view, msg,"Kill waf clean", wx.OK)
+	        result = dlg.ShowModal()
+        	dlg.Destroy()
+		self.view.stop_clean.Enable(False)		
+
+	def stop_custom_event(self, e):
+		try:
+			import signal
+			os.kill(self.waf_custom_pid, signal.SIGKILL)
+			msg = "Killed the process"
+		except OSError, err:
+			msg = "Error. Details:\n"+str(err)
+		dlg = wx.MessageDialog(self.view, msg,"Kill waf "+self.custom_target, wx.OK)
+	        result = dlg.ShowModal()
+        	dlg.Destroy()
+		self.view.stop_clean.Enable(False)
+
+	def threadedPrinting(self, cmd):
+		waf_dir = os.path.dirname(cwd)
+
+	        process = Popen(cmd, stdout = PIPE, stderr = PIPE, cwd=waf_dir)
+
+	        stdout_reader = AsynchronousFileReader(process.stdout, "stdout", self.console_textbox)
+	        stdout_reader.start()
+	        stderr_reader = AsynchronousFileReader(process.stderr, "stderr", self.console_textbox)
+	        stderr_reader.start()
+
+		ppid = process.pid
+		
+		if cmd[1] == "configure":
+			self.waf_configure_pid = ppid
+		elif cmd[1] == "build":
+			self.waf_build_pid = ppid
+		elif cmd[1] == "clean":
+			self.waf_build_pid = ppid
+		else:
+			self.waf_custom_pid = ppid
+		
+	        stdout_reader.join()
+	        stderr_reader.join()
+
+		self.log = self.console_textbox.GetValue()
+		process.wait()
+
+		returncode = process.returncode
+		#print returncode
+	
+	        process.stdout.close()
+        	process.stderr.close()
+
+		return returncode
+
 
 class NewWindow(wx.Frame):
 	def __init__(self, parent, id):
 		wx.Frame.__init__(self, None, id, 'Console', size = (600,400))
 		self.Show(False)
+
+class AsynchronousFileReader(threading.Thread):
+        def __init__(self, fd, name, txtbox):
+                threading.Thread.__init__(self)
+                self._fd = fd
+                self._name = name
+                self.output = ''
+		self.txtbox = txtbox
+
+        def run(self):
+                for line in iter(self._fd.readline, ''):
+                        op = self._name + " : "+line
+			self.txtbox.SetValue(self.txtbox.GetValue() +op)
+                        self.output = self.output + op
 
 if __name__ == '__main__':
 	app = wx.App(False)

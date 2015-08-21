@@ -42,8 +42,12 @@ class View(wx.Frame):
 		stopMenu = wx.Menu()
 		self.stop_configure = stopMenu.Append(wx.ID_ANY, '&Stop Configure')
 		self.stop_build = stopMenu.Append(wx.ID_ANY, '&Stop Build')
+		self.stop_clean = stopMenu.Append(wx.ID_ANY, '&Stop Clean')
+		self.stop_custom = stopMenu.Append(wx.ID_ANY, '&Stop Custom Target')
 		self.stop_configure.Enable(False)
 		self.stop_build.Enable(False)
+		self.stop_clean.Enable(False)
+		self.stop_custom.Enable(False)
 
 		menu.Append(fileMenu, '&File')
 		menu.Append(viewMenu, '&View')
